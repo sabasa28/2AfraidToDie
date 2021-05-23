@@ -10,6 +10,15 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+#Wwise related
+.backup
+.cache
+*.akd
+*.validationcache
+*.wsettings
+*.wem
+*.prof
+
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
 
