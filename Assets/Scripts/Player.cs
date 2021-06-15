@@ -24,10 +24,13 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask walkableLayer = 0;
     Vector3 velocity;
 
+    Material mat;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         cc = GetComponent<CharacterController>();
+        mat = GetComponent<MeshRenderer>().material;
     }
 
     // Update is called once per frame
@@ -62,15 +65,21 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         RaycastHit hit;
-        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 0);
-        if (hit.collider!=null) GrabObject(hit.collider.gameObject);
-        Debug.Log(hit.collider!=null);
+        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 1 << LayerMask.NameToLayer("Interactable"));
+
+        if (hit.collider != null)
+        {
+            Interactable interactable = hit.collider.GetComponent<Interactable>();
+            if (interactable != null) GrabObject(interactable);
+        }
         Debug.DrawRay(cameraTransform.position,cameraTransform.forward*10.0f,Color.red);
+        
         
     }
 
-    private void GrabObject(GameObject objectGrabbed)
+    private void GrabObject(Interactable interactable)
     {
-        objectGrabbed.transform.parent = transform;
+        interactable.OnPlayerWatching();
+        interactable.transform.parent = cameraTransform;
     }
 }
