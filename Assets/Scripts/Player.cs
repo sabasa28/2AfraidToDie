@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     [SerializeField] float movementSpeed = 0.0f;
     [SerializeField] float cameraSpeed = 0.0f;
     float camRotX;
+    float lastCameraDirX;
+    float lastCameraDirY;
 
     [Space]
     [Header("Physics")]
@@ -34,6 +36,7 @@ public class Player : MonoBehaviour
         //Mouse input
         Vector3 viewRotation;
         viewRotation = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * cameraSpeed;
+
         cc.transform.Rotate(new Vector3(0, 1, 0), viewRotation.y * Time.deltaTime);
         camRotX += viewRotation.x * Time.deltaTime;
         camRotX = Mathf.Clamp(camRotX, -90.0f, 90.0f);
@@ -54,5 +57,20 @@ public class Player : MonoBehaviour
         else
             velocity.y += gravityForce * Time.deltaTime;
         cc.Move(velocity * Time.deltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        RaycastHit hit;
+        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 0);
+        if (hit.collider!=null) GrabObject(hit.collider.gameObject);
+        Debug.Log(hit.collider!=null);
+        Debug.DrawRay(cameraTransform.position,cameraTransform.forward*10.0f,Color.red);
+        
+    }
+
+    private void GrabObject(GameObject objectGrabbed)
+    {
+        objectGrabbed.transform.parent = transform;
     }
 }
