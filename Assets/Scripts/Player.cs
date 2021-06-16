@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     [Header("GeneralReferences")]
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Transform groundCheck = null;
+    [SerializeField] Text timeText = null;
     CharacterController cc;
     
     [Header("Movement")] 
@@ -24,6 +26,12 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask walkableLayer = 0;
     Vector3 velocity;
 
+    bool timerOn = true;
+
+    float timerDuration = 20.0f;
+    float timerMistakeDecrease = 5.0f;
+
+    Interactable hoveredInteractable;
     Material mat;
 
     void Start()
@@ -31,6 +39,8 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         cc = GetComponent<CharacterController>();
         mat = GetComponent<MeshRenderer>().material;
+
+        StartCoroutine(Timer());
     }
 
     // Update is called once per frame
@@ -60,6 +70,16 @@ public class Player : MonoBehaviour
         else
             velocity.y += gravityForce * Time.deltaTime;
         cc.Move(velocity * Time.deltaTime);
+
+        //Difference selection
+        if (hoveredInteractable)
+        {
+            if (Input.GetButtonDown("Click") && hoveredInteractable)
+            {
+                if (hoveredInteractable.CompareTag("Difference")) Debug.Log("difference selected");
+                else timerDuration -= timerMistakeDecrease;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -67,11 +87,18 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 1 << LayerMask.NameToLayer("Interactable"));
 
-        if (hit.collider != null)
+        if (hit.collider)
         {
-            Interactable interactable = hit.collider.GetComponent<Interactable>();
-            if (interactable != null) GrabObject(interactable);
+            //Interactable interactable = hit.collider.GetComponent<Interactable>();
+            //if (interactable != null)
+            //{
+            //    GrabObject(interactable);
+            //    interactable.OnPlayerWatching();
+            //}
+
+            hit.collider.TryGetComponent(out hoveredInteractable);
         }
+        else hoveredInteractable = null;
         Debug.DrawRay(cameraTransform.position,cameraTransform.forward*10.0f,Color.red);
         
         
@@ -81,5 +108,25 @@ public class Player : MonoBehaviour
     {
         interactable.OnPlayerWatching();
         interactable.transform.parent = cameraTransform;
+    }
+
+    IEnumerator Timer()
+    {
+        while (timerOn)
+        {
+            timeText.text = timerDuration.ToString();
+            timerDuration -= Time.deltaTime;
+
+            if (timerDuration <= 0.0f)
+            {
+                timerDuration = 0.0f;
+                timeText.text = timerDuration.ToString();
+
+                timerOn = false;
+                Debug.Log("You lost");
+            }
+
+            yield return null;
+        }
     }
 }
