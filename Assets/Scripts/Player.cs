@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    [Header("GeneralReferences")]
+    [Header("General References")]
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Transform groundCheck = null;
     [SerializeField] Text timeText = null;
@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     float lastCameraDirX;
     float lastCameraDirY;
 
-    [Space]
     [Header("Physics")]
     [SerializeField] float gravityForce = 0.0f;
     [SerializeField] bool isGrounded;
@@ -26,10 +25,14 @@ public class Player : MonoBehaviour
     [SerializeField] LayerMask walkableLayer = 0;
     Vector3 velocity;
 
+    [Header("Timer")]
+    [SerializeField] float timerDuration = 20.0f;
+    [SerializeField] float timerMistakeDecrease = 5.0f;
     bool timerOn = true;
 
-    float timerDuration = 20.0f;
-    float timerMistakeDecrease = 5.0f;
+    [Header("\"Spot the differences\" puzzle")]
+    [SerializeField] List<Interactable> differences = null;
+    [SerializeField] Door door = null;
 
     Interactable hoveredInteractable;
     Material mat;
@@ -41,6 +44,8 @@ public class Player : MonoBehaviour
         mat = GetComponent<MeshRenderer>().material;
 
         StartCoroutine(Timer());
+
+        Debug.Log("remaining differences: " + differences.Count);
     }
 
     // Update is called once per frame
@@ -76,7 +81,18 @@ public class Player : MonoBehaviour
         {
             if (Input.GetButtonDown("Click") && hoveredInteractable)
             {
-                if (hoveredInteractable.CompareTag("Difference")) Debug.Log("difference selected");
+                if (differences.Contains(hoveredInteractable))
+                {
+                    differences.Remove(hoveredInteractable);
+                    Debug.Log("difference selected. remaining differences: " + differences.Count);
+
+                    if (differences.Count <= 0)
+                    {
+                        timerOn = false;
+                        door.Open();
+                        Debug.Log("you win");
+                    }
+                }
                 else timerDuration -= timerMistakeDecrease;
             }
         }
@@ -123,7 +139,7 @@ public class Player : MonoBehaviour
                 timeText.text = timerDuration.ToString();
 
                 timerOn = false;
-                Debug.Log("You lost");
+                Debug.Log("you lost");
             }
 
             yield return null;
