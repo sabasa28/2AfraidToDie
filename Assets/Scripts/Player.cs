@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    public bool playingAsPA;
+
     [Header("General References")]
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Transform groundCheck = null;
@@ -31,8 +33,12 @@ public class Player : MonoBehaviour
     bool timerOn = true;
 
     [Header("\"Spot the differences\" puzzle")]
-    [SerializeField] List<Interactable> differences = null;
-    [SerializeField] Door door = null;
+    [SerializeField] Door paDoor = null;
+    [SerializeField] Door pbDoor = null;
+    [SerializeField] List<Interactable> paDifferences = null;
+    [SerializeField] List<Interactable> pbDifferences = null;
+    Door door;
+    List<Interactable> differences;
 
     Interactable hoveredInteractable;
     Material mat;
@@ -43,9 +49,18 @@ public class Player : MonoBehaviour
         cc = GetComponent<CharacterController>();
         mat = GetComponent<MeshRenderer>().material;
 
-        StartCoroutine(Timer());
+        if (playingAsPA)
+        {
+            differences = paDifferences;
+            door = paDoor;
+        }
+        else
+        {
+            differences = pbDifferences;
+            door = pbDoor;
+        }
 
-        Debug.Log("remaining differences: " + differences.Count);
+        StartCoroutine(Timer());
     }
 
     // Update is called once per frame
