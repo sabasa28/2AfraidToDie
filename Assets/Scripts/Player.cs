@@ -43,10 +43,15 @@ public class Player : MonoBehaviour
     Interactable hoveredInteractable;
     Material mat;
 
+    private void Awake()
+    {
+        cc = GetComponent<CharacterController>();
+        cc.enabled = false;
+    }
     void Start()
     {
+        cc.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
-        cc = GetComponent<CharacterController>();
         mat = GetComponent<MeshRenderer>().material;
 
         if (playingAsPA)
