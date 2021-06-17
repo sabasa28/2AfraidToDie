@@ -5,7 +5,7 @@ public class LevelEnd : MonoBehaviour
 {
     void OnTriggerEnter(Collider other)
     {
-        //Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         SceneManager.LoadScene("Main Menu");
     }
 }

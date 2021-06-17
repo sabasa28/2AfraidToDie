@@ -13,15 +13,13 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     void OnEnable()
     {
         SceneManager.sceneLoaded += CheckLoadedScene;
-    }
-
-    void Start()
-    {
+        UIManager_MainMenu.onPlay += GoToGameplay;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= CheckLoadedScene;
+        UIManager_MainMenu.onPlay -= GoToGameplay;
     }
 
     void CheckLoadedScene(Scene scene, LoadSceneMode loadSceneMode)
@@ -38,7 +36,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
         }
     }
 
-    public void Play(bool playAsPA)
+    public void GoToGameplay(bool playAsPA)
     {
         playingAsPA = playAsPA;
         SceneManager.LoadScene("Gameplay");
