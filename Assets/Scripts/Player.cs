@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     {
         cc.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         mat = GetComponent<MeshRenderer>().material;
 
         if (playingAsPA)
