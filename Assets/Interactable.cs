@@ -1,19 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    bool fadedOnClick = false;
+    float clickFadeDuration = 0.5f;
+
     Material mat;
 
-
-    private void Awake()
+    void Awake()
     {
         mat = GetComponent<MeshRenderer>().material;
     }
-    // Start is called before the first frame update
+
     public void OnPlayerWatching()
     {
-        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.5f);
+        if (!fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.75f);
+    }
+
+    public void OnPlayerNotWatching()
+    {
+        if (!fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
+    }
+
+    public void OnClicked()
+    {
+        if (!fadedOnClick) StartCoroutine(FadeOnClick());
+    }
+
+    IEnumerator FadeOnClick()
+    {
+        fadedOnClick = true;
+        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
+
+        yield return new WaitForSeconds(clickFadeDuration);
+
+        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
+        fadedOnClick = false;
     }
 }

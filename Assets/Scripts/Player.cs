@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Transform groundCheck = null;
     [SerializeField] Text timeText = null;
+    [SerializeField] Text instructionsText = null;
     CharacterController cc;
     
     [Header("Movement")] 
@@ -30,7 +31,7 @@ public class Player : MonoBehaviour
     [Header("Timer")]
     [SerializeField] float timerDuration = 20.0f;
     [SerializeField] float timerMistakeDecrease = 5.0f;
-    bool timerOn = true;
+    bool timerOn = false;
 
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] Door paDoor = null;
@@ -43,17 +44,27 @@ public class Player : MonoBehaviour
     Interactable hoveredInteractable;
     Material mat;
 
-    private void Awake()
+    void Awake()
     {
         cc = GetComponent<CharacterController>();
         cc.enabled = false;
     }
+
+    void OnEnable()
+    {
+        DoorButton.OnDoorOpen += StartTimer;
+    }
+
     void Start()
     {
         cc.enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         mat = GetComponent<MeshRenderer>().material;
+
+        timeText.text = "Time: " + timerDuration;
+        instructionsText.text = "Find all 5 differences between the two rooms to escape. If you make any mistakes, your timer will decrease!";
+        StartCoroutine(EraseTextWithTimer(instructionsText, 10.0f));
 
         if (playingAsPA)
         {
@@ -65,11 +76,8 @@ public class Player : MonoBehaviour
             differences = pbDifferences;
             door = pbDoor;
         }
-
-        StartCoroutine(Timer());
     }
 
-    // Update is called once per frame
     void Update()
     {
         //Mouse input
@@ -100,9 +108,14 @@ public class Player : MonoBehaviour
         //Difference selection
         if (hoveredInteractable)
         {
+            hoveredInteractable.OnPlayerWatching();
+
             if (Input.GetButtonDown("Click") && hoveredInteractable)
             {
-                if (differences.Contains(hoveredInteractable))
+                hoveredInteractable.OnClicked();
+
+                if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<DoorButton>().OpenDoor();
+                else if (differences.Contains(hoveredInteractable))
                 {
                     differences.Remove(hoveredInteractable);
                     Debug.Log("difference selected. remaining differences: " + differences.Count);
@@ -119,7 +132,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         RaycastHit hit;
         Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 1 << LayerMask.NameToLayer("Interactable"));
@@ -133,25 +146,56 @@ public class Player : MonoBehaviour
             //    interactable.OnPlayerWatching();
             //}
 
-            hit.collider.TryGetComponent(out hoveredInteractable);
+            Interactable hitInteractable;
+            hit.collider.TryGetComponent(out hitInteractable);
+
+            if (hoveredInteractable)
+            {
+                if (hitInteractable != hoveredInteractable)
+                {
+                    hoveredInteractable.OnPlayerNotWatching();
+
+                    hoveredInteractable = hitInteractable;
+                    hoveredInteractable.OnPlayerWatching();
+                }
+            }
+            else
+            {
+                hoveredInteractable = hitInteractable;
+                hoveredInteractable.OnPlayerWatching();
+            }
         }
-        else hoveredInteractable = null;
-        Debug.DrawRay(cameraTransform.position,cameraTransform.forward*10.0f,Color.red);
-        
-        
+        else if (hoveredInteractable)
+        {
+            hoveredInteractable.OnPlayerNotWatching();
+            hoveredInteractable = null;
+        }
+
+        Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 10.0f, Color.red);
     }
 
-    private void GrabObject(Interactable interactable)
+    void OnDisable()
+    {
+        DoorButton.OnDoorOpen -= StartTimer;
+    }
+
+    void GrabObject(Interactable interactable)
     {
         interactable.OnPlayerWatching();
         interactable.transform.parent = cameraTransform;
+    }
+
+    void StartTimer()
+    {
+        timerOn = true;
+        StartCoroutine(Timer());
     }
 
     IEnumerator Timer()
     {
         while (timerOn)
         {
-            timeText.text = timerDuration.ToString();
+            timeText.text = "Time: " + timerDuration;
             timerDuration -= Time.deltaTime;
 
             if (timerDuration <= 0.0f)
@@ -166,4 +210,12 @@ public class Player : MonoBehaviour
             yield return null;
         }
     }
+
+    IEnumerator EraseTextWithTimer(Text text, float time)
+    {
+        yield return new WaitForSeconds(time);
+        text.text = "";
+    }
+
+
 }

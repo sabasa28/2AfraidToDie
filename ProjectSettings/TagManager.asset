@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Difference
+  - Door Button
   layers:
   - Default
   - TransparentFX
