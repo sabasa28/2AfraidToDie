@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
         mat = GetComponent<MeshRenderer>().material;
 
         timeText.text = "Time: " + timerDuration;
-        instructionsText.text = "Find all 5 differences between the two rooms to escape. If you make any mistakes, your timer will decrease!";
+        instructionsText.text = "Find all 3 differences between the two rooms to escape. If you make any mistakes, your timer will decrease!";
         StartCoroutine(EraseTextWithTimer(instructionsText, 10.0f));
 
         if (playingAsPA)
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         RaycastHit hit;
-        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 10.0f, 1 << LayerMask.NameToLayer("Interactable"));
+        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 20.0f, 1 << LayerMask.NameToLayer("Interactable"));
 
         if (hit.collider)
         {
