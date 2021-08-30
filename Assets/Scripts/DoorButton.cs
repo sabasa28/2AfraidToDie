@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DoorButton : MonoBehaviour
 {
-    [SerializeField] Door door;
+    [SerializeField] Door door = null;
 
     static public event Action OnDoorOpen;
     static public event Action OnDoorClosed;
