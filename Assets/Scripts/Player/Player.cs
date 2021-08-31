@@ -67,7 +67,7 @@ public class Player : MonoBehaviour
             {
                 hoveredInteractable.OnClicked();
 
-                if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<DoorButton>().OpenDoor();
+                if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
                 else if (differences.Contains(hoveredInteractable))
                 {
                     differences.Remove(hoveredInteractable);
