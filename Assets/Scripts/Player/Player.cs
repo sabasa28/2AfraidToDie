@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Text timeText = null;
     [SerializeField] Text instructionsText = null;
+
     [Header("Timer")]
     [SerializeField] float timerDuration = 20.0f;
     [SerializeField] float timerMistakeDecrease = 5.0f;
@@ -38,7 +39,6 @@ public class Player : MonoBehaviour
     Animator animator;
 
     Interactable hoveredInteractable;
-    Material material;
 
     private void Awake()
     {

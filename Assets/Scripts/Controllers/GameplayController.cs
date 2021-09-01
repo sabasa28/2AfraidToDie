@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameplayController : MonoBehaviour
 {
@@ -19,7 +17,6 @@ public class GameplayController : MonoBehaviour
         playerisPA = player.playingAsPA;
         player.OnTimeEnd = OpenPlayersFloor;
         player.RespawnAtCheckpoint = RespawnPlayer;
-
     }
 
     void OpenPlayersFloor()
