@@ -2,7 +2,7 @@
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] Animator animator = null;
     [SerializeField] bool isOpen = false;
 
     private void Start()

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class DoorButton : MonoBehaviour
 {
-    [SerializeField] Door door;
+    [SerializeField] Door door = null;
     [SerializeField] bool canBePressed = true;
     [SerializeField] bool onlyOneUse = true;
-    [SerializeField] Animator animator;
+    [SerializeField] Animator animator = null;
     static public event Action OnDoorOpen;
     static public event Action OnDoorClosed;
 

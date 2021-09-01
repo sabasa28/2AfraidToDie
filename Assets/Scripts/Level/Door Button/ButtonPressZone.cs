@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ButtonPressZone : MonoBehaviour
 {
-    [SerializeField] DoorButton doorButton;
+    [SerializeField] DoorButton doorButton = null;
     [SerializeField] bool broken = false;
     public void Press()
     {

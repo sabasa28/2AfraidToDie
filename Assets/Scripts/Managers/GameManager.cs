@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     [SerializeField] bool playingAsPA;
 
+    GameplayController gameplayController;
     Player player;
 
     void OnEnable()
@@ -26,10 +27,10 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         if (scene.name == "Gameplay")
         {
-            Debug.Log("playing as PA: " + playingAsPA);
+            gameplayController = GameObject.Find("Gameplay Controller").GetComponent<GameplayController>();
             player = GameObject.Find("Player").GetComponent<Player>();
 
-            player.playingAsPA = playingAsPA;
+            gameplayController.playingAsPA = playingAsPA;
 
             if (playingAsPA) player.transform.position = paInitialPosition;
             else player.transform.position = new Vector3(paInitialPosition.x, paInitialPosition.y, -paInitialPosition.z);

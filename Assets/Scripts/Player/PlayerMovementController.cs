@@ -53,7 +53,7 @@ public class PlayerMovementController : MonoBehaviour
         float inputZ = Input.GetAxis("Horizontal");
         Vector3 movement;
         movement = (inputX * transform.right + inputZ * transform.forward) * movementSpeed;
-        if (ableToMove) characterController.Move(movement * Time.deltaTime);
+        if (ableToMove && characterController.enabled) characterController.Move(movement * Time.deltaTime);
         #endregion
 
         #region Physics
@@ -61,7 +61,7 @@ public class PlayerMovementController : MonoBehaviour
 
         if (isGrounded) velocity = Vector3.zero;
         else velocity.y += gravityForce * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        if (ableToMove && characterController.enabled) characterController.Move(velocity * Time.deltaTime);
         #endregion
     }
 
