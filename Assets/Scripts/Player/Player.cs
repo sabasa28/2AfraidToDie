@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,13 +11,12 @@ public class Player : MonoBehaviour
     // PB = Player B
     //----------
 
-    public bool playingAsPA;
+    [HideInInspector] public bool playingAsPA;
 
     [Header("General References")]
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Text timeText = null;
     [SerializeField] Text instructionsText = null;
-
     [Header("Timer")]
     [SerializeField] float timerDuration = 20.0f;
     [SerializeField] float timerMistakeDecrease = 5.0f;
@@ -27,12 +27,23 @@ public class Player : MonoBehaviour
     [SerializeField] Door pbDoor = null;
     [SerializeField] List<Interactable> paDifferences = null;
     [SerializeField] List<Interactable> pbDifferences = null;
+
+    [SerializeField] PlayerMovementController movementController;
+
     Door door;
     List<Interactable> differences;
+    public Action OnTimeEnd;
+    public Action RespawnAtCheckpoint;
+
+    Animator animator;
 
     Interactable hoveredInteractable;
     Material material;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     void OnEnable()
     {
         DoorButton.OnDoorOpen += StartTimer;
@@ -151,10 +162,24 @@ public class Player : MonoBehaviour
 
                 timerOn = false;
                 Debug.Log("you lost");
+                Fall();
             }
 
             yield return null;
         }
+    }
+
+    public void Fall()
+    {
+        movementController.setCharacterControllerActiveState(false);
+        OnTimeEnd();
+        animator.SetBool("Fall", true);
+    }
+    public void Respawn()
+    {
+        animator.SetBool("Fall", false);
+        RespawnAtCheckpoint();
+        movementController.setCharacterControllerActiveState(true);
     }
 
     IEnumerator EraseTextWithTimer(Text text, float time)

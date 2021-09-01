@@ -10,7 +10,7 @@ public class PlayerMovementController : MonoBehaviour
 
     [Header("Player Controller")]
     [SerializeField] float movementSpeed = 0.0f;
-
+    [HideInInspector] public bool ableToMove = true;
     CharacterController characterController = null;
 
     [Header("Physics")]
@@ -53,7 +53,7 @@ public class PlayerMovementController : MonoBehaviour
         float inputZ = Input.GetAxis("Horizontal");
         Vector3 movement;
         movement = (inputX * transform.right + inputZ * transform.forward) * movementSpeed;
-        characterController.Move(movement * Time.deltaTime);
+        if (ableToMove) characterController.Move(movement * Time.deltaTime);
         #endregion
 
         #region Physics
@@ -63,5 +63,10 @@ public class PlayerMovementController : MonoBehaviour
         else velocity.y += gravityForce * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
         #endregion
+    }
+
+    public void setCharacterControllerActiveState(bool isActive)
+    {
+        characterController.enabled = isActive;
     }
 }

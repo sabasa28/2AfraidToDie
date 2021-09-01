@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     [Header("Player Parameters")]
     [SerializeField] Vector3 paInitialPosition = Vector3.zero;
 
-    bool playingAsPA;
+    [SerializeField] bool playingAsPA;
 
     Player player;
 
