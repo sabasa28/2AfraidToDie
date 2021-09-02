@@ -36,7 +36,7 @@ public class GameplayController : MonoBehaviour
     [SerializeField] List<Interactable> paDifferences = null;
     [SerializeField] List<Interactable> pbDifferences = null;
 
-    [SerializeField] List<Interactable> differences;
+    List<Interactable> differences;
 
     static public event Action<float> OnTimerUpdated;
 
@@ -51,6 +51,7 @@ public class GameplayController : MonoBehaviour
     {
         player.RespawnAtCheckpoint = RespawnPlayer;
 
+        differences = new List<Interactable>();
         if (playingAsPA)
         {
             door = paDoor;

@@ -5,11 +5,12 @@ public class Door : MonoBehaviour
     [SerializeField] Animator animator = null;
     [SerializeField] bool isOpen = false;
 
-    private void Start()
+    void Start()
     {
         if (isOpen) animator.SetTrigger("Open");
         else animator.SetTrigger("Close");
     }
+
     public void SwitchState()
     {
         if (isOpen) Close();
@@ -29,5 +30,4 @@ public class Door : MonoBehaviour
         Debug.Log("door closed");
         animator.SetTrigger("Close");
     }
-
 }

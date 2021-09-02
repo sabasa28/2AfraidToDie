@@ -34,6 +34,8 @@ public class PlayerMovementController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        transform.rotation = Quaternion.identity;
     }
 
     void Update()

@@ -7,6 +7,7 @@ public class DoorButton : MonoBehaviour
     [SerializeField] bool canBePressed = true;
     [SerializeField] bool onlyOneUse = true;
     [SerializeField] Animator animator = null;
+
     static public event Action OnDoorOpen;
     static public event Action OnDoorClosed;
 
@@ -15,6 +16,7 @@ public class DoorButton : MonoBehaviour
         door.Open();
         canBePressed = false;
         animator.SetTrigger("Press");
+
         OnDoorOpen?.Invoke();
     }
 
