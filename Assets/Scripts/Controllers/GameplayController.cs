@@ -42,7 +42,7 @@ public class GameplayController : MonoBehaviour
 
     void OnEnable()
     {
-        DoorButton.OnDoorOpen += StartTimer;
+        DoorButton.OnTimerTriggered += StartTimer;
 
         Player.OnDifferenceObjectSelected += CheckSelectedDifferenceObject;
     }
@@ -69,7 +69,7 @@ public class GameplayController : MonoBehaviour
 
     void OnDisable()
     {
-        DoorButton.OnDoorOpen -= StartTimer;
+        DoorButton.OnTimerTriggered -= StartTimer;
 
         Player.OnDifferenceObjectSelected -= CheckSelectedDifferenceObject;
     }
@@ -106,6 +106,8 @@ public class GameplayController : MonoBehaviour
     #region Timer
     void StartTimer()
     {
+        Debug.Log("timer started");
+
         timerOn = true;
         StartCoroutine(Timer());
     }
@@ -142,7 +144,8 @@ public class GameplayController : MonoBehaviour
             if (differences.Count <= 0)
             {
                 timerOn = false;
-                door.Open();
+                //door.Open();
+                door.FixButton();
                 Debug.Log("you win");
             }
         }

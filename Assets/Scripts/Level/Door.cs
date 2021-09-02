@@ -2,8 +2,11 @@
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] Animator animator = null;
+    [SerializeField] DoorButton button = null;
+
     [SerializeField] bool isOpen = false;
+
+    [SerializeField] Animator animator = null;
 
     void Start()
     {
@@ -17,17 +20,22 @@ public class Door : MonoBehaviour
         else Open();
     }
 
+    public void FixButton()
+    {
+        button.FixButton();
+    }
+
     public void Open()
     {
         if (isOpen) return;
-        Debug.Log("door opened");
+        //Debug.Log("door opened");
         animator.SetTrigger("Open");
     } 
 
     public void Close()
     {
         if (!isOpen) return;
-        Debug.Log("door closed");
+        //Debug.Log("door closed");
         animator.SetTrigger("Close");
     }
 }

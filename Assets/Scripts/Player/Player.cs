@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
 
         if (hit.collider)
         {
-
             Interactable hitInteractable;
             hit.collider.TryGetComponent(out hitInteractable);
 
