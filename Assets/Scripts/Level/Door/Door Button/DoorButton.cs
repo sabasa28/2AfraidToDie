@@ -12,6 +12,7 @@ public class DoorButton : MonoBehaviour
     [SerializeField] bool broken = false;
 
     [SerializeField] Animator animator = null;
+    [SerializeField] ButtonMissingPart missingPart = null;
 
     static public event Action OnTimerTriggered;
     static public event Action OnDoorOpen;
@@ -25,7 +26,6 @@ public class DoorButton : MonoBehaviour
     public void FixButton()
     {
         broken = false;
-
         pressZone.gameObject.SetActive(true);
     }
 

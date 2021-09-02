@@ -20,10 +20,11 @@ public class GameplayController : MonoBehaviour
 
     [SerializeField] float RespawnZPA = -18.0f;
     [SerializeField] float RespawnZPB = 18.0f;
+    [SerializeField] float RespawnY = 6.0f;
 
-    [SerializeField] Door paDoor = null;
-    [SerializeField] Door pbDoor = null;
-    Door door;
+    [SerializeField] ButtonMissingPart paButtonMP = null;
+    [SerializeField] ButtonMissingPart pbButtonMP = null;
+    ButtonMissingPart buttonMissingPart;
 
     [Header("Timer")]
     [SerializeField] float timerInitialDuration = 20.0f;
@@ -54,12 +55,12 @@ public class GameplayController : MonoBehaviour
         differences = new List<Interactable>();
         if (playingAsPA)
         {
-            door = paDoor;
+            buttonMissingPart = paButtonMP;
             foreach (Interactable difference in paDifferences) differences.Add(difference);
         }
         else
         {
-            door = pbDoor;
+            buttonMissingPart = pbButtonMP;
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
         }
 
@@ -92,7 +93,7 @@ public class GameplayController : MonoBehaviour
     {
         float zPosToRespawn = RespawnZPA;
         if (!playingAsPA) zPosToRespawn = RespawnZPB;
-        player.transform.position = new Vector3(checkPoints[currentCheckpoint], 0.0f, zPosToRespawn);
+        player.transform.position = new Vector3(checkPoints[currentCheckpoint], 6.0f, zPosToRespawn);
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer);
@@ -144,8 +145,7 @@ public class GameplayController : MonoBehaviour
             if (differences.Count <= 0)
             {
                 timerOn = false;
-                //door.Open();
-                door.FixButton();
+                buttonMissingPart.gameObject.SetActive(true);
                 Debug.Log("you win");
             }
         }

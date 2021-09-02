@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     [SerializeField] bool isOpen = false;
 
     [SerializeField] Animator animator = null;
+    [SerializeField] GameObject closeDoorTrigger;
 
     void Start()
     {
@@ -28,14 +29,15 @@ public class Door : MonoBehaviour
     public void Open()
     {
         if (isOpen) return;
-        //Debug.Log("door opened");
+        isOpen = true;
         animator.SetTrigger("Open");
+        closeDoorTrigger.gameObject.SetActive(true);
     } 
 
     public void Close()
     {
         if (!isOpen) return;
-        //Debug.Log("door closed");
+        isOpen = false;
         animator.SetTrigger("Close");
     }
 }

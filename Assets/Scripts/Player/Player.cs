@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cameraTransform = null;
     [SerializeField] Text instructionsText = null;
     [SerializeField] PlayerMovementController movementController = null;
+    [SerializeField] Vector3 GrabbedObjectPos;
+    Grabbable objectGrabbed = null;
 
     public Action RespawnAtCheckpoint;
 
     Animator animator;
 
-    Interactable hoveredInteractable;
+    [SerializeField]Interactable hoveredInteractable;
 
     static public event Action<Interactable> OnDifferenceObjectSelected;
 
@@ -44,8 +46,11 @@ public class Player : MonoBehaviour
             {
                 hoveredInteractable.OnClicked();
 
+
                 if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
                 else if (hoveredInteractable.CompareTag("Difference Object")) OnDifferenceObjectSelected?.Invoke(hoveredInteractable);
+                else if (hoveredInteractable.CompareTag("Grabbable")) GrabObject(hoveredInteractable);
+                else if (objectGrabbed && hoveredInteractable.CompareTag("IncompleteButton")) hoveredInteractable.GetComponent<IncompleteButton>().TryFixButtonWithObj(objectGrabbed.gameObject);
             }
         }
     }
@@ -89,6 +94,9 @@ public class Player : MonoBehaviour
     {
         interactable.OnPlayerWatching();
         interactable.transform.parent = cameraTransform;
+        objectGrabbed = interactable.GetComponent<Grabbable>();
+        objectGrabbed.SetGrabbedState(true);
+        objectGrabbed.transform.localPosition = GrabbedObjectPos;
     }
 
     public void Fall()

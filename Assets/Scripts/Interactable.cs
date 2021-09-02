@@ -5,6 +5,7 @@ public class Interactable : MonoBehaviour
 {
     bool fadedOnClick = false;
     float clickFadeDuration = 0.5f;
+    public bool active = true;
 
     Material mat;
 
@@ -15,7 +16,7 @@ public class Interactable : MonoBehaviour
 
     public void OnPlayerWatching()
     {
-        if (!fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.75f);
+        if (active && !fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.75f);
     }
 
     public void OnPlayerNotWatching()
@@ -25,7 +26,7 @@ public class Interactable : MonoBehaviour
 
     public void OnClicked()
     {
-        if (!fadedOnClick) StartCoroutine(FadeOnClick());
+        if (active && !fadedOnClick) StartCoroutine(FadeOnClick());
     }
 
     IEnumerator FadeOnClick()
