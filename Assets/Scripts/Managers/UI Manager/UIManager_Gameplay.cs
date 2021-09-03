@@ -14,7 +14,7 @@ public class UIManager_Gameplay : MonoBehaviour
     void UpdateTimerText(float newTime)
     {
         if (newTime < 0.0f) newTime = 0.0f;
-        timerText.text = "Time: " + newTime;
+        timerText.text = "Time: " + newTime.ToString("0.0");
     }
 
     void OnDisable()

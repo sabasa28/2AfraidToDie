@@ -1234,7 +1234,7 @@ MonoBehaviour:
   RespawnY: 6
   paButtonMP: {fileID: 1439677340}
   pbButtonMP: {fileID: 547397698}
-  timerInitialDuration: 20
+  timerInitialDuration: 60
   timerMistakeDecrease: 5
   paDifferences:
   - {fileID: 1704695803}
@@ -8340,11 +8340,11 @@ GameObject:
   - component: {fileID: 1635629352}
   - component: {fileID: 1635629351}
   - component: {fileID: 1635629350}
+  - component: {fileID: 1635629356}
   - component: {fileID: 1635629349}
   - component: {fileID: 1635629355}
   - component: {fileID: 1635629354}
   - component: {fileID: 1635629353}
-  - component: {fileID: 1635629356}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -8446,7 +8446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 963194228}
-  cameraSpeed: 110
+  cameraSpeed: 130
   movementSpeed: 20
   ableToMove: 1
   groundCheck: {fileID: 260938735}
