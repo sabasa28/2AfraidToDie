@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IncompleteButton : MonoBehaviour
 {
-    [SerializeField] ButtonMissingPart missingPart;
-    [SerializeField] DoorButton doorButton;
+    [SerializeField] ButtonMissingPart missingPart = null;
+    [SerializeField] DoorButton doorButton = null;
     public bool TryFixButtonWithObj(GameObject insertedObject)
     {
         ButtonMissingPart temp;

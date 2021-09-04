@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CloseDoorTrigger : MonoBehaviour
 {
-    [SerializeField] Door door;
-    private void OnTriggerEnter(Collider other)
+    [SerializeField] Door door = null;
+
+    void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {

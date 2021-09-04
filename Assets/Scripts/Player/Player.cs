@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,7 +9,6 @@ public class Player : MonoBehaviour
     //----------
 
     [SerializeField] Transform cameraTransform = null;
-    [SerializeField] Text instructionsText = null;
     [SerializeField] PlayerMovementController movementController = null;
     [SerializeField] Vector3 GrabbedObjectPos;
     Grabbable objectGrabbed = null;
@@ -22,17 +19,11 @@ public class Player : MonoBehaviour
 
     [SerializeField]Interactable hoveredInteractable;
 
-    static public event Action<Interactable> OnDifferenceObjectSelected;
+    public static event Action<Interactable> OnDifferenceObjectSelected;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
-    }
-
-    void Start()
-    {
-        instructionsText.text = "Find all 3 differences between the two rooms to escape. If you make any mistakes, your timer will decrease!";
-        StartCoroutine(EraseTextWithTimer(instructionsText, 10.0f));
     }
 
     void Update()
@@ -45,7 +36,6 @@ public class Player : MonoBehaviour
             if (Input.GetButtonDown("Click") && hoveredInteractable)
             {
                 hoveredInteractable.OnClicked();
-
 
                 if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
                 else if (hoveredInteractable.CompareTag("Difference Object")) OnDifferenceObjectSelected?.Invoke(hoveredInteractable);
@@ -110,11 +100,5 @@ public class Player : MonoBehaviour
         animator.SetBool("Fall", false);
         RespawnAtCheckpoint();
         movementController.setCharacterControllerActiveState(true);
-    }
-
-    IEnumerator EraseTextWithTimer(Text text, float time)
-    {
-        yield return new WaitForSeconds(time);
-        text.text = "";
     }
 }

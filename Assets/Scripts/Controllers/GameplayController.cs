@@ -8,6 +8,7 @@ public class GameplayController : MonoBehaviour
     [HideInInspector] public bool playingAsPA;
 
     [SerializeField] UIManager_Gameplay uiManager = null;
+    [SerializeField] DialogueManager dialogueManager = null;
 
     [Header("Players")]
     [SerializeField] Player player = null;
@@ -66,6 +67,8 @@ public class GameplayController : MonoBehaviour
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer);
+
+        dialogueManager.PlayDialogueLine(dialogueManager.categories[(int)DialogueManager.DialogueCategories.PuzzleIntructions].lines[0]);
     }
 
     void OnDisable()

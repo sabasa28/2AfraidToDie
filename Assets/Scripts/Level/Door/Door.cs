@@ -7,7 +7,7 @@ public class Door : MonoBehaviour
     [SerializeField] bool isOpen = false;
 
     [SerializeField] Animator animator = null;
-    [SerializeField] GameObject closeDoorTrigger;
+    [SerializeField] GameObject closeDoorTrigger = null;
 
     void Start()
     {
