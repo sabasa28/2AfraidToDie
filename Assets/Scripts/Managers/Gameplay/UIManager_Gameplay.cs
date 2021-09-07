@@ -1,15 +1,22 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager_Gameplay : MonoBehaviour
 {
     [Header("Timer")]
-    [SerializeField] Text timerText = null;
+    [SerializeField] TextMeshProUGUI timerText = null;
 
     [Header("Dialogue")]
-    [SerializeField] Text dialogueText = null;
+    [SerializeField] TextMeshProUGUI dialogueText = null;
+    [SerializeField] Animator timerAnim = null;
     [SerializeField] float dialogueDuration = 5.0f;
+
+    [Header("Puzzle Info")]
+    [SerializeField] Animator puzzleInfoAnim = null;
+    [SerializeField] TextMeshProUGUI puzzleInfoText = null;
+    public string puzzleVariableName;
 
     void OnEnable()
     {
@@ -30,10 +37,11 @@ public class UIManager_Gameplay : MonoBehaviour
     }
 
     #region Timer
-    void UpdateTimerText(float newTime)
+    void UpdateTimerText(float newTime, bool playNegativeFeedback)
     {
         if (newTime < 0.0f) newTime = 0.0f;
         timerText.text = "Time: " + newTime.ToString("0.0");
+        if (playNegativeFeedback) timerAnim.SetTrigger("NegativeFeedback");
     }
     #endregion
 
@@ -47,7 +55,18 @@ public class UIManager_Gameplay : MonoBehaviour
     }
     #endregion
 
-    IEnumerator EraseTextWithTimer(Text text, float time)
+    #region Puzzle Info
+    public void UpdatePuzzleInfoText(int newNum, bool positiveFeedback)
+    {
+        puzzleInfoText.text = puzzleVariableName + " " + newNum;
+        if (positiveFeedback) puzzleInfoAnim.SetTrigger("PositiveFeedback");
+    }
+    public void PuzzleInfoTextActiveState(bool newState)
+    {
+        puzzleInfoText.gameObject.SetActive(newState);
+    }
+    #endregion
+    IEnumerator EraseTextWithTimer(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
         text.text = "";

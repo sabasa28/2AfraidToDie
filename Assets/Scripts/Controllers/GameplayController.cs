@@ -37,10 +37,10 @@ public class GameplayController : MonoBehaviour
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] List<Interactable> paDifferences = null;
     [SerializeField] List<Interactable> pbDifferences = null;
-
+    
     List<Interactable> differences;
 
-    static public event Action<float> OnTimerUpdated;
+    static public event Action<float,bool> OnTimerUpdated;
 
     void OnEnable()
     {
@@ -66,7 +66,7 @@ public class GameplayController : MonoBehaviour
         }
 
         timer = timerInitialDuration;
-        OnTimerUpdated?.Invoke(timer);
+        OnTimerUpdated?.Invoke(timer,false);
 
         dialogueManager.PlayDialogueLine(dialogueManager.categories[(int)DialogueManager.DialogueCategories.PuzzleIntructions].lines[0]);
     }
@@ -99,11 +99,12 @@ public class GameplayController : MonoBehaviour
         player.transform.position = new Vector3(checkPoints[currentCheckpoint], 6.0f, zPosToRespawn);
 
         timer = timerInitialDuration;
-        OnTimerUpdated?.Invoke(timer);
+        OnTimerUpdated?.Invoke(timer, false);
 
         differences.Clear();
         if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
         else foreach (Interactable difference in pbDifferences) differences.Add(difference);
+        uiManager.UpdatePuzzleInfoText(differences.Count, false);
     }
     #endregion
 
@@ -111,7 +112,9 @@ public class GameplayController : MonoBehaviour
     void StartTimer()
     {
         Debug.Log("timer started");
-
+        uiManager.puzzleVariableName = "Differences Left"; //Cuando tengamos varios puzzles esto se pondria en una variable que cambia segun el puzzle
+        uiManager.PuzzleInfoTextActiveState(true); //si el puzzle no tiene algo que mostrar se dejaria apagado
+        uiManager.UpdatePuzzleInfoText(differences.Count, false);
         timerOn = true;
         StartCoroutine(Timer());
     }
@@ -121,11 +124,11 @@ public class GameplayController : MonoBehaviour
         while (timerOn)
         {
             timer -= Time.deltaTime;
-            OnTimerUpdated?.Invoke(timer);
+            OnTimerUpdated?.Invoke(timer, false);
 
             if (timer <= 0.0f)
             {
-                OnTimerUpdated?.Invoke(timer);
+                OnTimerUpdated?.Invoke(timer, true);
 
                 timerOn = false;
                 Debug.Log("you lost");
@@ -143,20 +146,25 @@ public class GameplayController : MonoBehaviour
         if (differences.Contains(selectedObject))
         {
             differences.Remove(selectedObject);
-            Debug.Log("difference selected. remaining differences: " + differences.Count);
-
+            uiManager.UpdatePuzzleInfoText(differences.Count, true);
             if (differences.Count <= 0)
             {
                 timerOn = false;
                 buttonMissingPart.gameObject.SetActive(true);
+                uiManager.PuzzleInfoTextActiveState(false);
                 Debug.Log("you win");
             }
         }
         else
         {
-            timer -= timerMistakeDecrease;
-            OnTimerUpdated?.Invoke(timer);
+            OnPlayerMistake();
         }
+    }
+
+    void OnPlayerMistake()
+    {
+        timer -= timerMistakeDecrease;
+        OnTimerUpdated?.Invoke(timer, true);
     }
     #endregion
 }
