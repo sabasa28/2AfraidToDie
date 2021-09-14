@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviourSingleton<GameManager>
+public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
 {
     [Header("Player Parameters")]
     [SerializeField] Vector3 paInitialPosition = Vector3.zero;
@@ -27,13 +27,15 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         if (scene.name == "Gameplay")
         {
-            gameplayController = GameObject.Find("Gameplay Controller").GetComponent<GameplayController>();
+            gameplayController = GameplayController.Get();
             player = GameObject.Find("Player").GetComponent<Player>();
 
             gameplayController.playingAsPA = playingAsPA;
-
+            CharacterController playerCharacterController = player.GetComponent<CharacterController>();
+            playerCharacterController.enabled = false;
             if (playingAsPA) player.transform.position = paInitialPosition;
             else player.transform.position = new Vector3(paInitialPosition.x, paInitialPosition.y, -paInitialPosition.z);
+            playerCharacterController.enabled = true;
         }
     }
 

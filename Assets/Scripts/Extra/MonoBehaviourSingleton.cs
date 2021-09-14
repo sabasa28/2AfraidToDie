@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MonoBehaviourSingleton<T> : MonoBehaviour where T : Component
 {
@@ -6,19 +8,18 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour where T : Component
 
 	public static T Get()
 	{
-	    return instance;
+		return instance;
 	}
 
 	public virtual void Awake()
 	{
-	    if (instance == null)
-	    {
-	        instance = this as T;
-	        DontDestroyOnLoad(this);
-	    }
-	    else
-	    {
-	        Destroy(gameObject);
-	    }
+		if (instance == null)
+		{
+			instance = this as T;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
 	}
 }

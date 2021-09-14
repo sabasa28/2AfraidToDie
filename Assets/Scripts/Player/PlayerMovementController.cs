@@ -25,7 +25,7 @@ public class PlayerMovementController : MonoBehaviour
     void Awake()
     {
         characterController = GetComponent<CharacterController>();
-        characterController.enabled = false;
+
     }
 
     void Start()
@@ -44,8 +44,8 @@ public class PlayerMovementController : MonoBehaviour
         Vector3 viewRotation;
         viewRotation = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * cameraSpeed;
 
-        characterController.transform.Rotate(new Vector3(0, 1, 0), viewRotation.y * Time.deltaTime);
-        cameraRotationX += viewRotation.x * Time.deltaTime;
+        characterController.transform.Rotate(new Vector3(0, 1, 0), viewRotation.y);
+        cameraRotationX += viewRotation.x;
         cameraRotationX = Mathf.Clamp(cameraRotationX, -90.0f, 90.0f);
         cameraTransform.localRotation = Quaternion.Euler(cameraRotationX, cameraTransform.localRotation.eulerAngles.y, 0);
         #endregion
