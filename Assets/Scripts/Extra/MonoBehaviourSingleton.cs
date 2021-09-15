@@ -22,4 +22,9 @@ public class MonoBehaviourSingleton<T> : MonoBehaviour where T : Component
 			Destroy(gameObject);
 		}
 	}
+
+    private void OnDestroy()
+    {
+		if (instance == this as T) instance = null;
+    }
 }

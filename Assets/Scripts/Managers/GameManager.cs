@@ -39,11 +39,6 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
             player = GameObject.Find("Player").GetComponent<Player>();
 
             gameplayController.playingAsPA = playingAsPA;
-            CharacterController playerCharacterController = player.GetComponent<CharacterController>();
-            playerCharacterController.enabled = false;
-            if (playingAsPA) player.transform.position = paInitialPosition;
-            else player.transform.position = new Vector3(paInitialPosition.x, paInitialPosition.y, -paInitialPosition.z);
-            playerCharacterController.enabled = true;
         }
     }
 
