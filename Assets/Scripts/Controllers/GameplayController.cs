@@ -13,15 +13,15 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [Header("Players")]
     [SerializeField] Player player = null;
 
-    [SerializeField] float TimeToRespawnPlayer = 0.0f;
+    [SerializeField] float timeToRespawnPlayer = 0.0f;
     [SerializeField] Floor[] playerAFloor = null;
     [SerializeField] Floor[] playerBFloor = null;
     [SerializeField] float[] checkPoints = null;
     int currentCheckpoint = 0;
 
-    [SerializeField] float RespawnZPA = -18.0f;
-    [SerializeField] float RespawnZPB = 18.0f;
-    [SerializeField] float RespawnY = 6.0f;
+    [SerializeField] float spawnZPA = -18.0f;
+    [SerializeField] float spawnZPB = 18.0f;
+    [SerializeField] float spawnY = 6.0f;
 
     [SerializeField] ButtonMissingPart paButtonMP = null;
     [SerializeField] ButtonMissingPart pbButtonMP = null;
@@ -53,6 +53,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         player.RespawnAtCheckpoint = RespawnPlayer;
 
+        LocatePlayerOnSpawnPosition();
+
         differences = new List<Interactable>();
         if (playingAsPA)
         {
@@ -78,7 +80,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         Player.OnDifferenceObjectSelected -= CheckSelectedDifferenceObject;
     }
 
-    #region Player Death
+    #region Player
     void OpenPlayersFloor()
     {
         Floor[] floorsToOpen = playerAFloor;
@@ -92,11 +94,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         player.Fall();
     }
 
+    void LocatePlayerOnSpawnPosition()
+    {
+        float zPosToRespawn = spawnZPA;
+        if (!playingAsPA) zPosToRespawn = spawnZPB;
+        player.transform.position = new Vector3(checkPoints[currentCheckpoint], spawnY, zPosToRespawn);
+    }
+
     void RespawnPlayer()
     {
-        float zPosToRespawn = RespawnZPA;
-        if (!playingAsPA) zPosToRespawn = RespawnZPB;
-        player.transform.position = new Vector3(checkPoints[currentCheckpoint], 6.0f, zPosToRespawn);
+        LocatePlayerOnSpawnPosition();
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer, false);

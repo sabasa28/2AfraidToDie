@@ -14,12 +14,16 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     void OnEnable()
     {
         SceneManager.sceneLoaded += CheckLoadedScene;
+
+        UIManager_MainMenu.onExit += Exit;
         UIManager_MainMenu.onPlay += GoToGameplay;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= CheckLoadedScene;
+
+        UIManager_MainMenu.onExit -= Exit;
         UIManager_MainMenu.onPlay -= GoToGameplay;
     }
 
@@ -39,9 +43,16 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
         }
     }
 
+    #region Scene Flow
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     public void GoToGameplay(bool playAsPA)
     {
         playingAsPA = playAsPA;
         SceneManager.LoadScene("Gameplay");
     }
+    #endregion
 }
