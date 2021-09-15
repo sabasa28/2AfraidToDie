@@ -735,7 +735,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2 Afraid To Die
+  m_Text: 2 Afraid to Die
 --- !u!222 &949230740
 CanvasRenderer:
   m_ObjectHideFlags: 0

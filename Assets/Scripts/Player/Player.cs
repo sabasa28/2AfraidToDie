@@ -9,8 +9,9 @@ public class Player : MonoBehaviour
     //----------
 
     [SerializeField] Transform cameraTransform = null;
-    [SerializeField] PlayerMovementController movementController = null;
     [SerializeField] Vector3 GrabbedObjectPos;
+    public PlayerMovementController movementController = null;
+
     Grabbable objectGrabbed = null;
 
     public Action RespawnAtCheckpoint;

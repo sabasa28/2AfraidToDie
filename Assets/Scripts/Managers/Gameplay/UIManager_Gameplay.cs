@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class UIManager_Gameplay : MonoBehaviour
@@ -18,9 +18,16 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] TextMeshProUGUI puzzleInfoText = null;
     public string puzzleVariableName;
 
+    [Header("Victory Screen")]
+    [SerializeField] GameObject victoryScreen = null;
+
+    public static event Action OnGoToMainMenu;
+
     void OnEnable()
     {
         GameplayController.OnTimerUpdated += UpdateTimerText;
+        GameplayController.OnLevelEnd += DisplayVictoryScreen;
+
         DialogueManager.OnDialogueLinePlayed += UpdateDialogueText;
     }
 
@@ -33,6 +40,8 @@ public class UIManager_Gameplay : MonoBehaviour
     void OnDisable()
     {
         GameplayController.OnTimerUpdated -= UpdateTimerText;
+        GameplayController.OnLevelEnd -= DisplayVictoryScreen;
+
         DialogueManager.OnDialogueLinePlayed -= UpdateDialogueText;
     }
 
@@ -66,6 +75,21 @@ public class UIManager_Gameplay : MonoBehaviour
         puzzleInfoText.gameObject.SetActive(newState);
     }
     #endregion
+
+    #region Victory Screen
+    void DisplayVictoryScreen()
+    {
+        victoryScreen.SetActive(true);
+    }
+    #endregion
+
+    #region ButtonFunctions
+    public void GoToMainMenu()
+    {
+        OnGoToMainMenu?.Invoke();
+    }
+    #endregion
+
     IEnumerator EraseTextWithTimer(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);

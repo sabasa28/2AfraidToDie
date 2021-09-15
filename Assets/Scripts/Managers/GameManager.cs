@@ -15,16 +15,20 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     {
         SceneManager.sceneLoaded += CheckLoadedScene;
 
-        UIManager_MainMenu.onExit += Exit;
-        UIManager_MainMenu.onPlay += GoToGameplay;
+        UIManager_MainMenu.OnExit += Exit;
+        UIManager_MainMenu.OnPlay += GoToGameplay;
+
+        UIManager_Gameplay.OnGoToMainMenu += GoToMainMenu;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= CheckLoadedScene;
 
-        UIManager_MainMenu.onExit -= Exit;
-        UIManager_MainMenu.onPlay -= GoToGameplay;
+        UIManager_MainMenu.OnExit -= Exit;
+        UIManager_MainMenu.OnPlay -= GoToGameplay;
+
+        UIManager_Gameplay.OnGoToMainMenu -= GoToMainMenu;
     }
 
     void CheckLoadedScene(Scene scene, LoadSceneMode loadSceneMode)
@@ -44,12 +48,17 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     }
 
     #region Scene Flow
-    public void Exit()
+    void Exit()
     {
         Application.Quit();
     }
 
-    public void GoToGameplay(bool playAsPA)
+    void GoToMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    void GoToGameplay(bool playAsPA)
     {
         playingAsPA = playAsPA;
         SceneManager.LoadScene("Gameplay");

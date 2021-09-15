@@ -19,6 +19,7 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] float gravityForce = 0.0f;
     [SerializeField] float groundCheckRadius = 0.0f;
 
+    bool rotationActive = true;
     bool isGrounded;
     Vector3 velocity;
 
@@ -32,8 +33,7 @@ public class PlayerMovementController : MonoBehaviour
     {
         characterController.enabled = true;
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        SetCursorLockState(true);
 
         transform.rotation = Quaternion.identity;
     }
@@ -41,13 +41,16 @@ public class PlayerMovementController : MonoBehaviour
     void Update()
     {
         #region Mouse Input
-        Vector3 viewRotation;
-        viewRotation = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * cameraSpeed;
+        if (rotationActive)
+        {
+            Vector3 viewRotation;
+            viewRotation = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * cameraSpeed;
 
-        characterController.transform.Rotate(new Vector3(0, 1, 0), viewRotation.y);
-        cameraRotationX += viewRotation.x;
-        cameraRotationX = Mathf.Clamp(cameraRotationX, -90.0f, 90.0f);
-        cameraTransform.localRotation = Quaternion.Euler(cameraRotationX, cameraTransform.localRotation.eulerAngles.y, 0);
+            characterController.transform.Rotate(new Vector3(0, 1, 0), viewRotation.y);
+            cameraRotationX += viewRotation.x;
+            cameraRotationX = Mathf.Clamp(cameraRotationX, -90.0f, 90.0f);
+            cameraTransform.localRotation = Quaternion.Euler(cameraRotationX, cameraTransform.localRotation.eulerAngles.y, 0);
+        }
         #endregion
 
         #region Keyboard Input
@@ -65,6 +68,17 @@ public class PlayerMovementController : MonoBehaviour
         else velocity.y += gravityForce * Time.deltaTime;
         if (ableToMove && characterController.enabled) characterController.Move(velocity * Time.deltaTime);
         #endregion
+    }
+
+    public void SetCursorLockState(bool isActive)
+    {
+        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !isActive;
+    }
+
+    public void SetRotationActiveState(bool isActive)
+    {
+        rotationActive = isActive;
     }
 
     public void setCharacterControllerActiveState(bool isActive)

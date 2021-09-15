@@ -1,12 +1,15 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System;
+using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
+    public static event Action OnLevelEndReached;
+
     void OnTriggerEnter(Collider other)
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene("Main Menu");
+
+        OnLevelEndReached?.Invoke();
     }
 }

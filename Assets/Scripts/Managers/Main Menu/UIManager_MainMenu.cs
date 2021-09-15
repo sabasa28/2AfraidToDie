@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class UIManager_MainMenu : MonoBehaviour
 {
-    static public event Action onExit;
-    static public event Action<bool> onPlay;
+    static public event Action OnExit;
+    static public event Action<bool> OnPlay;
 
     public void Exit()
     {
-        onExit?.Invoke();
+        OnExit?.Invoke();
     }
 
     public void Play(bool playAsPA)
     {
-        onPlay?.Invoke(playAsPA);
+        OnPlay?.Invoke(playAsPA);
     }
 }

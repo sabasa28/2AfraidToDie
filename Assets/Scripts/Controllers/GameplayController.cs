@@ -40,13 +40,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     
     List<Interactable> differences;
 
-    static public event Action<float,bool> OnTimerUpdated;
+    public static event Action<float,bool> OnTimerUpdated;
+    public static event Action OnLevelEnd;
 
     void OnEnable()
     {
-        DoorButton.OnTimerTriggered += StartTimer;
-
         Player.OnDifferenceObjectSelected += CheckSelectedDifferenceObject;
+        DoorButton.OnTimerTriggered += StartTimer;
+        LevelEnd.OnLevelEndReached += ProcessLevelEnd;
     }
 
     void Start()
@@ -75,9 +76,18 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnDisable()
     {
-        DoorButton.OnTimerTriggered -= StartTimer;
-
         Player.OnDifferenceObjectSelected -= CheckSelectedDifferenceObject;
+        DoorButton.OnTimerTriggered -= StartTimer;
+        LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
+    }
+
+    void ProcessLevelEnd()
+    {
+        player.movementController.SetCursorLockState(false);
+        player.movementController.SetRotationActiveState(false);
+        player.movementController.setCharacterControllerActiveState(false);
+
+        OnLevelEnd?.Invoke();
     }
 
     #region Player
