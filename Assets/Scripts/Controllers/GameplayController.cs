@@ -106,6 +106,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void LocatePlayerOnSpawnPosition()
     {
+        
         float zPosToRespawn = spawnZPA;
         if (!playingAsPA) zPosToRespawn = spawnZPB;
         player.transform.position = new Vector3(checkPoints[currentCheckpoint], spawnY, zPosToRespawn);
