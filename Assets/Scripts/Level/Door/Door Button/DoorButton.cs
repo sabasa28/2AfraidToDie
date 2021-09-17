@@ -18,9 +18,30 @@ public class DoorButton : MonoBehaviour
     static public event Action OnDoorOpen;
     static public event Action OnDoorClosed;
 
+    void OnEnable()
+    {
+        Player.OnFixingButton += TryToFixButton;
+    }
+
     void Start()
     {
         if (broken) pressZone.gameObject.SetActive(false);
+    }
+
+    void OnDisable()
+    {
+        Player.OnFixingButton -= TryToFixButton;
+    }
+
+    public void TryToFixButton(GameObject insertedObject)
+    {
+        ButtonMissingPart temp;
+        insertedObject.TryGetComponent(out temp);
+        
+        if (temp != missingPart) return;
+        
+        FixButton();
+        temp.ResetState();
     }
 
     public void FixButton()

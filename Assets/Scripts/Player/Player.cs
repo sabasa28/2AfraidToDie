@@ -12,37 +12,41 @@ public class Player : MonoBehaviour
     [SerializeField] Vector3 GrabbedObjectPos;
     public PlayerMovementController movementController = null;
 
-    Grabbable objectGrabbed = null;
-
-    public Action RespawnAtCheckpoint;
+    Grabbable grabbedObject = null;
 
     Animator animator;
 
-    [SerializeField]Interactable hoveredInteractable;
+    [SerializeField] Interactable hoveredInteractable;
 
-    public static event Action<Interactable> OnDifferenceObjectSelected;
+    public Action RespawnAtCheckpoint;
+    public static event Action<GameObject> OnFixingButton;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
+    void OnEnable()
+    {
+        Grabbable.OnGrabbed += GrabObject;
+        IncompleteButton.OnTryingToBeFixed += FixButton;
+    }
+
     void Update()
     {
         //Difference selection
-        if (hoveredInteractable)
+        if (hoveredInteractable != null)
         {
-            hoveredInteractable.OnPlayerWatching();
+            hoveredInteractable.OnPlayerHovering();
 
-            if (Input.GetButtonDown("Click") && hoveredInteractable)
-            {
-                hoveredInteractable.OnClicked();
-
-                if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
-                else if (hoveredInteractable.CompareTag("Difference Object")) OnDifferenceObjectSelected?.Invoke(hoveredInteractable);
-                else if (hoveredInteractable.CompareTag("Grabbable")) GrabObject(hoveredInteractable);
-                else if (objectGrabbed && hoveredInteractable.CompareTag("IncompleteButton")) hoveredInteractable.GetComponent<IncompleteButton>().TryFixButtonWithObj(objectGrabbed.gameObject);
-            }
+            if (Input.GetButtonDown("Click") && hoveredInteractable != null) hoveredInteractable.OnClicked();
+            //{
+            //
+            //    //if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
+            //    //else if (hoveredInteractable.CompareTag("Difference Object")) OnDifferenceObjectSelected?.Invoke(hoveredInteractable);
+            //    //else if (hoveredInteractable.CompareTag("Grabbable")) GrabObject(hoveredInteractable);
+            //    //else if (objectGrabbed && hoveredInteractable.CompareTag("IncompleteButton")) hoveredInteractable.GetComponent<IncompleteButton>().TryFixButtonWithObj(objectGrabbed.gameObject);
+            //}
         }
     }
 
@@ -56,38 +60,51 @@ public class Player : MonoBehaviour
             Interactable hitInteractable;
             hit.collider.TryGetComponent(out hitInteractable);
 
-            if (hoveredInteractable)
+            if (hoveredInteractable != null)
             {
                 if (hitInteractable != hoveredInteractable)
                 {
-                    hoveredInteractable.OnPlayerNotWatching();
+                    hoveredInteractable.OnPlayerNotHovering();
 
                     hoveredInteractable = hitInteractable;
-                    hoveredInteractable.OnPlayerWatching();
+                    hoveredInteractable.OnPlayerHovering();
                 }
             }
             else
             {
                 hoveredInteractable = hitInteractable;
-                hoveredInteractable.OnPlayerWatching();
+                hoveredInteractable.OnPlayerHovering();
             }
         }
-        else if (hoveredInteractable)
+        else if (hoveredInteractable != null)
         {
-            hoveredInteractable.OnPlayerNotWatching();
+            hoveredInteractable.OnPlayerNotHovering();
             hoveredInteractable = null;
         }
 
         Debug.DrawRay(cameraTransform.position, cameraTransform.forward * 10.0f, Color.red);
     }
 
-    void GrabObject(Interactable interactable)
+    void OnDisable()
     {
-        interactable.OnPlayerWatching();
-        interactable.transform.parent = cameraTransform;
-        objectGrabbed = interactable.GetComponent<Grabbable>();
-        objectGrabbed.SetGrabbedState(true);
-        objectGrabbed.transform.localPosition = GrabbedObjectPos;
+        Grabbable.OnGrabbed -= GrabObject;
+        IncompleteButton.OnTryingToBeFixed -= FixButton;
+    }
+
+    void GrabObject(Grabbable grabbable)
+    {
+        grabbable.OnPlayerHovering();
+        grabbable.transform.parent = cameraTransform;
+        grabbable.transform.localPosition = GrabbedObjectPos;
+
+        grabbedObject = grabbable.GetComponent<Grabbable>();
+        //grabbedObject.SetGrabbedState(true);
+        //grabbedObject.transform.localPosition = GrabbedObjectPos;
+    }
+
+    void FixButton(DoorButton doorButton)
+    {
+        doorButton.TryToFixButton(grabbedObject.gameObject);
     }
 
     public void Fall()

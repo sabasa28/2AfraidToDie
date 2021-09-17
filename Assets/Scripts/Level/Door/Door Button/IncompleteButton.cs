@@ -1,16 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class IncompleteButton : MonoBehaviour
+public class IncompleteButton : Interactable
 {
     [SerializeField] ButtonMissingPart missingPart = null;
     [SerializeField] DoorButton doorButton = null;
-    public bool TryFixButtonWithObj(GameObject insertedObject)
+
+    public static event Action<DoorButton> OnTryingToBeFixed;
+
+    public override void OnClicked()
     {
-        ButtonMissingPart temp;
-        insertedObject.TryGetComponent(out temp);
-        if (temp != missingPart) return false;
-        doorButton.FixButton();
-        temp.ResetState();
-        return true;
+        base.OnClicked();
+
+        OnTryingToBeFixed?.Invoke(doorButton);
     }
 }

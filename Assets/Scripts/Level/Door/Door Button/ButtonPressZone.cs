@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
-public class ButtonPressZone : MonoBehaviour
+public class ButtonPressZone : Interactable
 {
     [SerializeField] DoorButton doorButton = null;
 
-    public void Press()
+    public override void OnClicked()
     {
+        base.OnClicked();
+
         doorButton.OpenDoor();
     }
 }

@@ -35,8 +35,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     bool timerOn = false;
 
     [Header("\"Spot the differences\" puzzle")]
-    [SerializeField] List<Interactable> paDifferences = null;
-    [SerializeField] List<Interactable> pbDifferences = null;
+    [SerializeField] List<Difference> paDifferences = null;
+    [SerializeField] List<Difference> pbDifferences = null;
     
     List<Interactable> differences;
 
@@ -45,7 +45,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnEnable()
     {
-        Player.OnDifferenceObjectSelected += CheckSelectedDifferenceObject;
+        Difference.OnSelected += CheckSelectedDifference;
         DoorButton.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
     }
@@ -76,7 +76,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnDisable()
     {
-        Player.OnDifferenceObjectSelected -= CheckSelectedDifferenceObject;
+        Difference.OnSelected -= CheckSelectedDifference;
         DoorButton.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
     }
@@ -159,11 +159,11 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Spot the Differences
-    void CheckSelectedDifferenceObject(Interactable selectedObject)
+    void CheckSelectedDifference(Difference selectedDifference)
     {
-        if (differences.Contains(selectedObject))
+        if (differences.Contains(selectedDifference))
         {
-            differences.Remove(selectedObject);
+            differences.Remove(selectedDifference);
             uiManager.UpdatePuzzleInfoText(differences.Count, true);
             if (differences.Count <= 0)
             {

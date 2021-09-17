@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8741127040252025100}
   - component: {fileID: 6058467172340200944}
   - component: {fileID: 5094722906399372894}
-  - component: {fileID: 7440342122932535367}
   - component: {fileID: 6900011705612577435}
   m_Layer: 8
   m_Name: Button
@@ -95,19 +94,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7440342122932535367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2500105538250728405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c1cf36849b738e418dc33fe06e2243c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
 --- !u!114 &6900011705612577435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d731286d33a9bca4d9484b5447550b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverFadeAlpha: 0.75
+  clickFadeAlpha: 1
+  clickFadeDuration: 0.5
+  active: 1
   doorButton: {fileID: 8521264283995834598}
 --- !u!1 &3593735751635453404
 GameObject:
