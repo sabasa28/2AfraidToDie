@@ -40,6 +40,12 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     
     List<Interactable> differences;
 
+    [Header("\"Create Shape\" puzzle")]
+    public int shapeCorrect3dShape;
+    public int shapeCorrectColor;
+    public int shapeCorrectSymbol;
+    [SerializeField] DeliveryMachine deliveryMachine;
+
     public static event Action<float,bool> OnTimerUpdated;
     public static event Action OnLevelEnd;
 
@@ -67,6 +73,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
             buttonMissingPart = pbButtonMP;
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
         }
+        deliveryMachine.UpdateShapeCorrectFeatures(shapeCorrectColor, shapeCorrect3dShape, shapeCorrectSymbol);
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer,false);
