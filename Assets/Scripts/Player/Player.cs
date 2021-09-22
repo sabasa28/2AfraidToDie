@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     {
         Grabbable.OnGrabbed += GrabObject;
         IncompleteButton.OnTryingToBeFixed += FixButton;
+        ShapeInsertionTube.OnTryToInsertShape += DeliverShape;
     }
 
     void Update()
@@ -89,6 +90,7 @@ public class Player : MonoBehaviour
     {
         Grabbable.OnGrabbed -= GrabObject;
         IncompleteButton.OnTryingToBeFixed -= FixButton;
+        ShapeInsertionTube.OnTryToInsertShape -= DeliverShape;
     }
 
     void GrabObject(Grabbable grabbable)
@@ -105,6 +107,17 @@ public class Player : MonoBehaviour
     void FixButton(DoorButton doorButton)
     {
         doorButton.TryToFixButton(grabbedObject.gameObject);
+    }
+
+    void DeliverShape(DeliveryMachine deliveryMachine)
+    {
+        if (!grabbedObject) return;
+        CreatedShape carriedShape = null;
+        grabbedObject.TryGetComponent(out carriedShape);
+        if (carriedShape)
+        {
+            deliveryMachine.InsertShape(carriedShape);
+        }
     }
 
     public void Fall()

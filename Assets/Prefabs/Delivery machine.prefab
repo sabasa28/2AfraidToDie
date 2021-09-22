@@ -252,7 +252,8 @@ GameObject:
   - component: {fileID: 6536859109128341839}
   - component: {fileID: 6536859109128341838}
   - component: {fileID: 6536859109128341837}
-  m_Layer: 0
+  - component: {fileID: 5298571052160799731}
+  m_Layer: 8
   m_Name: Tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -334,6 +335,23 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &5298571052160799731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6536859109128341843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57f5d47b0c6e4354baa98bc179b2504b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverFadeAlpha: 0.75
+  clickFadeAlpha: 1
+  clickFadeDuration: 0.5
+  active: 1
+  deliveryMachine: {fileID: 6536859109097785331}
 --- !u!1 &6536859109574406757
 GameObject:
   m_ObjectHideFlags: 0

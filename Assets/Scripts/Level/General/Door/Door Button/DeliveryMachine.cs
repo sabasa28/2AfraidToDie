@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DeliveryMachine : MonoBehaviour
@@ -30,6 +29,7 @@ public class DeliveryMachine : MonoBehaviour
         shapeCorrectSymbol = newShapeCorrectSymbol;
     }
 
+    
     public void InsertShape(CreatedShape shapeInserted)
     {
         if (shapeInserted.colorUsed == shapeCorrectColor &&

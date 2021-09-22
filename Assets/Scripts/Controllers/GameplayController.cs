@@ -113,7 +113,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void LocatePlayerOnSpawnPosition()
     {
-        
         float zPosToRespawn = spawnZPA;
         if (!playingAsPA) zPosToRespawn = spawnZPB;
         player.transform.position = new Vector3(checkPoints[currentCheckpoint], spawnY, zPosToRespawn);
@@ -146,6 +145,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     IEnumerator Timer()
     {
+        timer = timerInitialDuration;
         while (timerOn)
         {
             timer -= Time.deltaTime;
@@ -177,6 +177,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 timerOn = false;
                 buttonMissingPart.gameObject.SetActive(true);
                 uiManager.PuzzleInfoTextActiveState(false);
+                currentCheckpoint++;
                 Debug.Log("you win");
             }
         }
