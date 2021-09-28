@@ -1,9 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
+using TMPro;
 
-public class CodeBar : MonoBehaviour
+public class CodeBar : Grabbable
 {
-    public int code;
+    public DeliveryMachine deliveryMachine;
+    int code;
     public Animator animator;
+    [SerializeField] TextMeshProUGUI codeText;
+
+    public static Action UpdatePuzzleProgress;
+
+    public override void OnClicked()
+    {
+        base.OnClicked();
+        UpdatePuzzleProgress();
+    }
+    public void SetCode(int newCode)
+    {
+        code = newCode;
+        codeText.text = code.ToString();
+    }
+
+    public int GetCode()
+    {
+        return code;
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System;
 
 public class DeliveryMachine : MonoBehaviour
 {
@@ -36,17 +37,19 @@ public class DeliveryMachine : MonoBehaviour
             shapeInserted.shapeUsed == shapeCorrect3dShape &&
             shapeInserted.symbolUsed == shapeCorrectSymbol)
         {
-            InstanciateCodeBarAndSendDrone();
+            InstanciateCodeBarAndSendDrone(shapeInserted);
         }
     }
 
-    void InstanciateCodeBarAndSendDrone()
+    void InstanciateCodeBarAndSendDrone(CreatedShape shape)
     {
-        CodeBar codeBar = Instantiate<CodeBar>(codebarPrefab, transform.position, Quaternion.identity, transform);
-        codeBar.code = GenerateCode(shapeCorrectColor, shapeCorrect3dShape, shapeCorrectSymbol);
+        CodeBar codeBar = Instantiate(codebarPrefab, transform.position, Quaternion.identity, transform);
+        codeBar.SetCode(GenerateCode(shape.colorUsed, shape.shapeUsed, shape.symbolUsed));
 
-        Drone drone = Instantiate<Drone>(dronePrefab, transform.position, Quaternion.identity, transform);
+        Drone drone = Instantiate(dronePrefab, transform.position, Quaternion.identity, transform);
         drone.SetStartingMovement(Drone.MovementToDo.riseAndLeave);
+
+        Destroy(shape.gameObject);
     }
 
     int GenerateCode(int a, int b, int c)

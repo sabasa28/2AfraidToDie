@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
         Grabbable.OnGrabbed += GrabObject;
         IncompleteButton.OnTryingToBeFixed += FixButton;
         ShapeInsertionTube.OnTryToInsertShape += DeliverShape;
+        Phone.OnTryToUsePhone += UsePhone;
     }
 
     void Update()
@@ -91,6 +92,7 @@ public class Player : MonoBehaviour
         Grabbable.OnGrabbed -= GrabObject;
         IncompleteButton.OnTryingToBeFixed -= FixButton;
         ShapeInsertionTube.OnTryToInsertShape -= DeliverShape;
+        Phone.OnTryToUsePhone -= UsePhone;
     }
 
     void GrabObject(Grabbable grabbable)
@@ -118,6 +120,13 @@ public class Player : MonoBehaviour
         {
             deliveryMachine.InsertShape(carriedShape);
         }
+    }
+
+    void UsePhone(bool startUsing)
+    {
+        movementController.SetCursorLockState(!startUsing);
+        movementController.ableToMove = !startUsing;
+        movementController.SetRotationActiveState(!startUsing);
     }
 
     public void Fall()

@@ -11,6 +11,9 @@ public class Grabbable : Interactable
     {
         Rigidbody rb;
         TryGetComponent(out rb);
+        Animator animator;
+        TryGetComponent(out animator);
+        if (animator) animator.enabled = false;
         if (transform) rb.isKinematic = isGrabbed;
     }
 

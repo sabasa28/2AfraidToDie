@@ -41,10 +41,15 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     List<Interactable> differences;
 
     [Header("\"Create Shape\" puzzle")]
+
     public int shapeCorrect3dShape;
     public int shapeCorrectColor;
     public int shapeCorrectSymbol;
     [SerializeField] DeliveryMachine deliveryMachine;
+    bool secondPhase = false;
+    [SerializeField] Door secondPhaseDoorA;
+    [SerializeField] Door secondPhaseDoorB;
+    Door secondPhaseDoor;
 
     public static event Action<float,bool> OnTimerUpdated;
     public static event Action OnLevelEnd;
@@ -54,6 +59,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         Difference.OnSelected += CheckSelectedDifference;
         DoorButton.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
+        CodeBar.UpdatePuzzleProgress += UpdateCSProgress;
     }
 
     void Start()
@@ -67,11 +73,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         {
             buttonMissingPart = paButtonMP;
             foreach (Interactable difference in paDifferences) differences.Add(difference);
+            secondPhaseDoor = secondPhaseDoorA;
         }
         else
         {
             buttonMissingPart = pbButtonMP;
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
+            secondPhaseDoor = secondPhaseDoorB;
         }
         deliveryMachine.UpdateShapeCorrectFeatures(shapeCorrectColor, shapeCorrect3dShape, shapeCorrectSymbol);
 
@@ -86,6 +94,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         Difference.OnSelected -= CheckSelectedDifference;
         DoorButton.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
+        CodeBar.UpdatePuzzleProgress -= UpdateCSProgress;
     }
 
     void ProcessLevelEnd()
@@ -125,10 +134,18 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer, false);
 
-        differences.Clear();
-        if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
-        else foreach (Interactable difference in pbDifferences) differences.Add(difference);
-        uiManager.UpdatePuzzleInfoText(differences.Count, false);
+        switch (currentCheckpoint)
+        {
+            case 0:
+                differences.Clear();
+                if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
+                else foreach (Interactable difference in pbDifferences) differences.Add(difference);
+                uiManager.UpdatePuzzleInfoText(differences.Count, false);
+                break;
+            case 1:
+                secondPhase = false;
+                break;
+        }
     }
     #endregion
 
@@ -192,5 +209,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         timer -= timerMistakeDecrease;
         OnTimerUpdated?.Invoke(timer, true);
     }
+    #endregion
+
+    #region Create Shapes
+    void UpdateCSProgress() //CS = Create Shapes puzzle
+    {
+        if (!secondPhase)
+            secondPhaseDoor.Open();
+        else
+            buttonMissingPart.gameObject.SetActive(true);
+    }
+    
     #endregion
 }
