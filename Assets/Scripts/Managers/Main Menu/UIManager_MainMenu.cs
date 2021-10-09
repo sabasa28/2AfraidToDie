@@ -3,16 +3,29 @@ using UnityEngine;
 
 public class UIManager_MainMenu : MonoBehaviour
 {
+    [Header("Menues")]
+    [SerializeField] GameObject lobby = null;
+    [Space]
+    [SerializeField] GameObject defaultMenu = null;
+    GameObject currentMenu;
+
     static public event Action OnExit;
-    static public event Action<bool> OnPlay;
 
-    public void Exit()
-    {
-        OnExit?.Invoke();
-    }
+    void OnEnable() => NetworkManager.OnEnterLobby += EnterLobby;
 
-    public void Play(bool playAsPA)
+    void Start() => currentMenu = defaultMenu;
+
+    void OnDisable() => NetworkManager.OnEnterLobby -= EnterLobby;
+
+    void EnterLobby() => GoToMenu(lobby);
+
+    public void Exit() => OnExit?.Invoke();
+
+    public void GoToMenu(GameObject targetMenu)
     {
-        OnPlay?.Invoke(playAsPA);
+        currentMenu.SetActive(false);
+        targetMenu.SetActive(true);
+
+        currentMenu = targetMenu;
     }
 }

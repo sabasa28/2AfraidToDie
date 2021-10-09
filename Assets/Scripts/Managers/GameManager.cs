@@ -16,7 +16,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
         SceneManager.sceneLoaded += CheckLoadedScene;
 
         UIManager_MainMenu.OnExit += Exit;
-        UIManager_MainMenu.OnPlay += GoToGameplay;
+        //UIManager_MainMenu.OnPlay += GoToGameplay;
 
         UIManager_Gameplay.OnGoToMainMenu += GoToMainMenu;
     }
@@ -26,7 +26,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
         SceneManager.sceneLoaded -= CheckLoadedScene;
 
         UIManager_MainMenu.OnExit -= Exit;
-        UIManager_MainMenu.OnPlay -= GoToGameplay;
+        //UIManager_MainMenu.OnPlay -= GoToGameplay;
 
         UIManager_Gameplay.OnGoToMainMenu -= GoToMainMenu;
     }
