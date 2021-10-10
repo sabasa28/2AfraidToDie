@@ -4,20 +4,36 @@ using UnityEngine;
 public class UIManager_MainMenu : MonoBehaviour
 {
     [Header("Menues")]
+    [SerializeField] GameObject playerNameInputDialog = null;
     [SerializeField] GameObject lobby = null;
     [Space]
     [SerializeField] GameObject defaultMenu = null;
+
     GameObject currentMenu;
 
     static public event Action OnExit;
 
-    void OnEnable() => NetworkManager.OnEnterLobby += EnterLobby;
+    void OnEnable()
+    {
+        NetworkManager.OnNamePlayerPrefNotSet += TurnPlayerNameInputDialogOn;
+        NetworkManager.OnRoomJoined += GoToLobby;
+    }
 
-    void Start() => currentMenu = defaultMenu;
+    void Start()
+    {
+        currentMenu = defaultMenu;
+        if (!currentMenu.activeInHierarchy) currentMenu.SetActive(true);
+    }
 
-    void OnDisable() => NetworkManager.OnEnterLobby -= EnterLobby;
+    void OnDisable()
+    {
+        NetworkManager.OnNamePlayerPrefNotSet -= TurnPlayerNameInputDialogOn;
+        NetworkManager.OnRoomJoined -= GoToLobby;
+    }
 
-    void EnterLobby() => GoToMenu(lobby);
+    void TurnPlayerNameInputDialogOn() => playerNameInputDialog.SetActive(true);
+
+    void GoToLobby() => GoToMenu(lobby);
 
     public void Exit() => OnExit?.Invoke();
 

@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Networking_RoomManager : MonoBehaviour
+public class Networking_RoomNameInput : MonoBehaviour
 {
     [SerializeField] TMP_InputField roomNameInputField = null;
     [SerializeField] Button confirmRoomNameButton = null;
