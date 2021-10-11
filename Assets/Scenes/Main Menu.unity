@@ -432,8 +432,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 659.99994, y: -55.427616}
-  m_SizeDelta: {x: 264.56, y: 110.85523}
+  m_AnchoredPosition: {x: 660, y: -56.172615}
+  m_SizeDelta: {x: 264.56, y: 112.34523}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &206794764
 MonoBehaviour:
@@ -693,8 +693,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 659.99994, y: -252.56308}
-  m_SizeDelta: {x: 1219.9999, y: 283.41568}
+  m_AnchoredPosition: {x: 660, y: -251.81807}
+  m_SizeDelta: {x: 1220, y: 278.94568}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &520293689
 MonoBehaviour:
@@ -832,7 +832,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 165.5291, y: -48.612617}
+  m_AnchoredPosition: {x: 165.5291, y: -49.357613}
   m_SizeDelta: {x: 331.0582, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &566236357
@@ -919,8 +919,19 @@ MonoBehaviour:
   m_Group: {fileID: 1821940991}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 1903055472}
+        m_MethodName: ChooseParticipant
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  m_IsOn: 0
 --- !u!1 &571927219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 546.5873, y: -48.612617}
+  m_AnchoredPosition: {x: 546.5873, y: -49.357613}
   m_SizeDelta: {x: 331.0582, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579803467
@@ -1186,7 +1197,18 @@ MonoBehaviour:
   m_Group: {fileID: 1821940991}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1903055472}
+        m_MethodName: ChooseParticipant
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &615368285
 GameObject:
@@ -1224,7 +1246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1144.9999, y: -53.612617}
+  m_AnchoredPosition: {x: 1145, y: -54.357613}
   m_SizeDelta: {x: 150, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &615368287
@@ -1480,7 +1502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1030.4648, y: -53.612617}
+  m_AnchoredPosition: {x: 1030.465, y: -54.357613}
   m_SizeDelta: {x: 39.07, y: 31.29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &785523726
@@ -1958,8 +1980,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 659.99994, y: -545.10876}
-  m_SizeDelta: {x: 1219.9999, y: 107.225235}
+  m_AnchoredPosition: {x: 660, y: -544.3637}
+  m_SizeDelta: {x: 1220, y: 108.715225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &888250822
 MonoBehaviour:
@@ -2607,8 +2629,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 100, y: -48.72262}
-  m_SizeDelta: {x: 200, y: 97.44524}
+  m_AnchoredPosition: {x: 100, y: -49.467613}
+  m_SizeDelta: {x: 200, y: 98.93523}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1162799763
 MonoBehaviour:
@@ -2883,7 +2905,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 99.99997, y: -143.93784}
-  m_SizeDelta: {x: 133.89, y: 92.98523}
+  m_SizeDelta: {x: 240.3, y: 90.005226}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1376086654
 MonoBehaviour:
@@ -2904,7 +2926,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Waiting...
+  m_text: Waiting for player...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3750,8 +3772,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 99.99997, y: -236.92308}
-  m_SizeDelta: {x: 133.89, y: 92.98523}
+  m_AnchoredPosition: {x: 99.99997, y: -233.94307}
+  m_SizeDelta: {x: 240.3, y: 90.005226}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1712914676
 MonoBehaviour:
@@ -3772,7 +3794,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Waiting...
+  m_text: Waiting for player...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4054,8 +4076,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 659.99994, y: -442.8835}
-  m_SizeDelta: {x: 712.1164, y: 97.225235}
+  m_AnchoredPosition: {x: 660, y: -440.6485}
+  m_SizeDelta: {x: 712.1164, y: 98.715225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1821940991
 MonoBehaviour:
@@ -4069,7 +4091,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 0
+  m_AllowSwitchOff: 1
 --- !u!114 &1821940992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4263,6 +4285,7 @@ GameObject:
   - component: {fileID: 1903055471}
   - component: {fileID: 1903055470}
   - component: {fileID: 1903055469}
+  - component: {fileID: 1903055473}
   - component: {fileID: 1903055472}
   m_Layer: 5
   m_Name: Lobby
@@ -4369,8 +4392,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomNameText: {fileID: 206794764}
-  player1Text: {fileID: 1376086654}
-  player2Text: {fileID: 1712914676}
+  playerTexts:
+  - {fileID: 1376086654}
+  - {fileID: 1712914676}
+  participantAToggle: {fileID: 566236359}
+  participantBToggle: {fileID: 579803469}
+--- !u!114 &1903055473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903055467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 1
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &2051718787
 GameObject:
   m_ObjectHideFlags: 0
