@@ -8,6 +8,7 @@ public class DeliveryMachine : MonoBehaviour
     int shapeCorrectColor;
     int shapeCorrectSymbol;
     [SerializeField] CodeBar codebarPrefab;
+    int correctCode;
 
     [SerializeField] Drone dronePrefab;
 
@@ -23,11 +24,13 @@ public class DeliveryMachine : MonoBehaviour
         }
     }
 
-    public void UpdateShapeCorrectFeatures(int newShapeCorrectColor, int newShapeCorrect3dShape, int newShapeCorrectSymbol)
+    public void SetShapePuzzleVars(int newShapeCorrect3dShape, int newShapeCorrectColor, int newShapeCorrectSymbol, out int code)
     {
         shapeCorrect3dShape = newShapeCorrect3dShape;
         shapeCorrectColor = newShapeCorrectColor;
         shapeCorrectSymbol = newShapeCorrectSymbol;
+        correctCode = GenerateCode(shapeCorrect3dShape,shapeCorrectColor,shapeCorrectSymbol);
+        code = correctCode;
     }
 
     
@@ -44,7 +47,7 @@ public class DeliveryMachine : MonoBehaviour
     void InstanciateCodeBarAndSendDrone(CreatedShape shape)
     {
         CodeBar codeBar = Instantiate(codebarPrefab, transform.position, Quaternion.identity, transform);
-        codeBar.SetCode(GenerateCode(shape.colorUsed, shape.shapeUsed, shape.symbolUsed));
+        codeBar.SetCode(GenerateCode(shape.shapeUsed, shape.colorUsed, shape.symbolUsed));
 
         Drone drone = Instantiate(dronePrefab, transform.position, Quaternion.identity, transform);
         drone.SetStartingMovement(Drone.MovementToDo.riseAndLeave);
@@ -52,16 +55,16 @@ public class DeliveryMachine : MonoBehaviour
         Destroy(shape.gameObject);
     }
 
-    int GenerateCode(int a, int b, int c)
+    int GenerateCode(int shape3D, int shapeColor, int shapeSymbol)
     {
         int arbitraryConst = 420; //si tuviesemos las diferentes seeds de escenarios usariamos esa seed en vez de este numero, para que el numero cambie cada partida
                                   //siempre tiene que ser un numero de 3 digitos preferentemente menor a 900
 
-        a = a * 3 + arbitraryConst;
-        b = b * 3 + arbitraryConst;
-        c = c * 3 + arbitraryConst;
+        shape3D = shape3D * 3 + arbitraryConst;
+        shapeColor = shapeColor * 3 + arbitraryConst;
+        shapeSymbol = shapeSymbol * 3 + arbitraryConst;
 
-        string asString = a.ToString() + b.ToString() + c.ToString();
+        string asString = shape3D.ToString() + shapeColor.ToString() + shapeSymbol.ToString();
 
         Debug.Log(asString);
 
@@ -88,5 +91,4 @@ public class DeliveryMachine : MonoBehaviour
         Debug.Log(resultantCode);
         return resultantCode;
     }
-    
 }

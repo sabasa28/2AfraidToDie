@@ -68,7 +68,12 @@ public class UIPhone : MonoBehaviour
 
     public void CheckPhoneNumAndCloseUI()
     {
-        //check num
-        phone.OnStopUsingPhone();
+        string numberToCheckAsString = "";
+        for (int i = 0; i < phoneNumber.Length; i++)
+        {
+            numberToCheckAsString += phoneNumber[i];
+        }
+        int numberToCheck = int.Parse(numberToCheckAsString);
+        phone.OnStopUsingPhone(numberToCheck);
     }
 }
