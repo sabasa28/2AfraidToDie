@@ -2,11 +2,13 @@
 using Photon.Realtime;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    bool isJoiningRoom = false;
-    bool isCreatingNewRoom = false;
+    bool joiningRoom = false;
+    bool creatingNewRoom = false;
+    bool loadingScene = false;
 
     string gameVersion;
     string handledRoomName;
@@ -30,10 +32,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
 
+        SceneManager.sceneLoaded += OnLevelLoaded;
+
         Networking_PlayerNameInput.OnPlayerNameSaved += SetNickName;
 
         Networking_RoomNameInput.OnJoiningRoom += JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom += CreateNewRoom;
+
+        Networking_Lobby.OnMatchCountdownFinished += BeginMatch;
     }
 
     void Start()
@@ -54,10 +60,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         base.OnDisable();
 
+        SceneManager.sceneLoaded -= OnLevelLoaded;
+
         Networking_PlayerNameInput.OnPlayerNameSaved -= SetNickName;
 
         Networking_RoomNameInput.OnJoiningRoom -= JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom -= CreateNewRoom;
+
+        Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
     }
 
     void SetNickName(string nickName) => PhotonNetwork.NickName = nickName;
@@ -73,7 +83,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Joining room...");
 
         handledRoomName = roomName;
-        isJoiningRoom = true;
+        joiningRoom = true;
 
         if (PhotonNetwork.IsConnected) PhotonNetwork.JoinRoom(roomName);
         else ConnectToPhoton();
@@ -84,19 +94,30 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Debug.Log("Creating new room...");
 
         handledRoomName = roomName;
-        isCreatingNewRoom = true;
+        creatingNewRoom = true;
 
         if (PhotonNetwork.IsConnected) PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
         else ConnectToPhoton();
     }
+
+    void BeginMatch()
+    {
+        if (PhotonNetwork.IsMasterClient && !loadingScene)
+        {
+            loadingScene = true;
+            PhotonNetwork.LoadLevel("Gameplay");
+        }
+    }
+
+    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
 
     #region Overrides
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Master");
 
-        if (isJoiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-        else if (isCreatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
+        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
     }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
@@ -126,8 +147,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             if (PhotonNetwork.CurrentRoom.PlayerCount >= MaxPlayersPerRoom) PhotonNetwork.CurrentRoom.IsOpen = false;
             Debug.Log("Match is ready to begin");
-
-            //PhotonNetwork.LoadLevel("Gameplay");
         }
     }
     #endregion
