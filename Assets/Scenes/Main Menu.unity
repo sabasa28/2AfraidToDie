@@ -2265,6 +2265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270595c8b05e39d40be13a5fd81c3616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3260774284471188422, guid: 385ead46d687a4a49a88704d71bdd7dc,
+    type: 3}
 --- !u!1 &1162799761
 GameObject:
   m_ObjectHideFlags: 0
@@ -3246,6 +3248,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d4f3ff4569a8a4f9689c044f35c5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenuSceneName: Main Menu
+  GameplaySceneName: Gameplay
   paInitialPosition: {x: -8, y: 2.4, z: -15}
   playingAsPA: 0
 --- !u!1 &1579808853

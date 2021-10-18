@@ -11,17 +11,17 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] DialogueManager dialogueManager = null;
 
     [Header("Players")]
-    [SerializeField] Player player = null;
-
     [SerializeField] float timeToRespawnPlayer = 0.0f;
     [SerializeField] Floor[] playerAFloor = null;
     [SerializeField] Floor[] playerBFloor = null;
     [SerializeField] float[] checkPoints = null;
-    int currentCheckpoint = 0;
 
     [SerializeField] float spawnZPA = -18.0f;
     [SerializeField] float spawnZPB = 18.0f;
     [SerializeField] float spawnY = 6.0f;
+
+    Player player = null;
+    int currentCheckpoint = 0;
 
     [SerializeField] ButtonMissingPart paButtonMP = null;
     [SerializeField] ButtonMissingPart pbButtonMP = null;
@@ -64,9 +64,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void Start()
     {
+        player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
         player.RespawnAtCheckpoint = RespawnPlayer;
-
-        LocatePlayerOnSpawnPosition();
 
         differences = new List<Interactable>();
         if (playingAsPA)
@@ -120,17 +119,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         player.Fall();
     }
 
-    void LocatePlayerOnSpawnPosition()
-    {
-        float zPosToRespawn = spawnZPA;
-        if (!playingAsPA) zPosToRespawn = spawnZPB;
-        player.transform.position = new Vector3(checkPoints[currentCheckpoint], spawnY, zPosToRespawn);
-    }
-
     void RespawnPlayer()
     {
-        LocatePlayerOnSpawnPosition();
-
+        player.transform.position = GetPlayerSpawnPosition();
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer, false);
 
@@ -146,6 +137,12 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 secondPhase = false;
                 break;
         }
+    }
+
+    Vector3 GetPlayerSpawnPosition()
+    {
+        float spawnZ = playingAsPA ? spawnZPA : spawnZPB;
+        return new Vector3(checkPoints[currentCheckpoint], spawnY, spawnZ);
     }
     #endregion
 

@@ -4,8 +4,10 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkManager : MonoBehaviourPunCallbacks
+public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 {
+    [SerializeField] GameObject playerPrefab = null;
+
     bool joiningRoom = false;
     bool creatingNewRoom = false;
     bool loadingScene = false;
@@ -20,9 +22,13 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     static public event Action OnNamePlayerPrefNotSet;
     static public event Action OnRoomJoined;
+    static public event Action<bool> OnMatchBegun;
+    static public event Action<Player> OnPlayerSpawned;
 
-    void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         gameVersion = Application.version;
 
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -70,6 +76,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
     }
 
+    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
+
+    #region Main Menu
     void SetNickName(string nickName) => PhotonNetwork.NickName = nickName;
 
     void ConnectToPhoton()
@@ -102,14 +111,24 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     void BeginMatch()
     {
+        bool playingAsPA = (string)PhotonNetwork.CurrentRoom.CustomProperties["Participant A"] == PhotonNetwork.LocalPlayer.NickName;
+        OnMatchBegun?.Invoke(playingAsPA);
+        
         if (PhotonNetwork.IsMasterClient && !loadingScene)
         {
             loadingScene = true;
-            PhotonNetwork.LoadLevel("Gameplay");
+            PhotonNetwork.LoadLevel(GameManager.Get().GameplayScene);
         }
     }
+    #endregion
 
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
+    #region Gameplay
+    public Player SpawnPlayer(Vector3 position, Quaternion rotation)
+    {
+        GameObject playerGO = PhotonNetwork.Instantiate(playerPrefab.name, position, rotation);
+        return playerGO.GetComponent<Player>();
+    }
+    #endregion
 
     #region Overrides
     public override void OnConnectedToMaster()

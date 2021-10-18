@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviourPun
 {
     [Header("Camera")]
-    [SerializeField] Transform cameraTransform = null;
     [SerializeField] float cameraSpeed = 0.0f;
+    [SerializeField] Vector3 cameraInitialPosition = Vector3.zero;
+    [SerializeField] Vector3 cameraInitialRotation = Vector3.zero;
+    [HideInInspector] public Transform cameraTransform = null;
 
     float cameraRotationX;
 
@@ -30,6 +33,13 @@ public class PlayerMovementController : MonoBehaviour
 
     void Start()
     {
+        if (photonView.IsMine)
+        {
+            cameraTransform.SetParent(transform);
+            cameraTransform.localPosition = cameraInitialPosition;
+            cameraTransform.localRotation = Quaternion.Euler(cameraInitialRotation);
+        }
+
         characterController.enabled = true;
 
         SetCursorLockState(true);
@@ -39,6 +49,8 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         #region Mouse Input
         if (rotationActive)
         {

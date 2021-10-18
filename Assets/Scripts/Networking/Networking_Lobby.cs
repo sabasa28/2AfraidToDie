@@ -75,8 +75,6 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     [PunRPC]
     void SetParticipant(int participantIndex, string playerName)
     {
-        Debug.Log("setting participant");
-        
         ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
         property.Add(ParticipantName(participantIndex), playerName);
 
@@ -124,11 +122,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
             }
         }
 
-        if (allParticipantsSelected)
-        {
-            Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-            StartMatchCountdown();
-        }
+        if (allParticipantsSelected) StartMatchCountdown();
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => UpdatePlayerNames();
