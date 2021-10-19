@@ -17,6 +17,8 @@ public class Networking_RoomNameInput : MonoBehaviour
 
     public void OnEnteringRoomName(bool creatingNewRoom)
     {
+        confirmRoomNameButton.onClick.RemoveAllListeners();
+
         if (creatingNewRoom) confirmRoomNameButton.onClick.AddListener(CreateNewRoom);
         else confirmRoomNameButton.onClick.AddListener(JoinRoom);
     }

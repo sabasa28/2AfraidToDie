@@ -22,6 +22,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     static public event Action OnNamePlayerPrefNotSet;
     static public event Action OnRoomJoined;
+    static public event Action<string> OnJoiningRoomFailed;
+    static public event Action<string> OnCreatingRoomFailed;
     static public event Action<bool> OnMatchBegun;
     static public event Action<Player> OnPlayerSpawned;
 
@@ -94,7 +96,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         handledRoomName = roomName;
         joiningRoom = true;
 
-        if (PhotonNetwork.IsConnected) PhotonNetwork.JoinRoom(roomName);
+        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.JoinRoom(roomName);
         else ConnectToPhoton();
     }
 
@@ -105,7 +107,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         handledRoomName = roomName;
         creatingNewRoom = true;
 
-        if (PhotonNetwork.IsConnected) PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
         else ConnectToPhoton();
     }
 
@@ -139,17 +141,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
     }
 
-    public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
-
-    public override void OnJoinRoomFailed(short returnCode, string message) => Debug.LogError($"Join room failed (code { returnCode }): { message }");
-
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.Log("No clients are waiting for an opponent, creating a new room");
-
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
-    }
-
     public override void OnJoinedRoom()
     {
         Debug.Log("Client successfully joined a room");
@@ -167,6 +158,24 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             if (PhotonNetwork.CurrentRoom.PlayerCount >= MaxPlayersPerRoom) PhotonNetwork.CurrentRoom.IsOpen = false;
             Debug.Log("Match is ready to begin");
         }
+    }
+
+    public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("create");
+        Debug.LogError($"Create room failed (code { returnCode }): { message }");
+
+        OnCreatingRoomFailed?.Invoke(message);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        Debug.Log("join");
+        Debug.LogError($"Join room failed (code { returnCode }): { message }");
+
+        OnJoiningRoomFailed?.Invoke(message);
     }
     #endregion
 }

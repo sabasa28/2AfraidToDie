@@ -1,15 +1,22 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager_MainMenu : MonoBehaviour
 {
     [Header("Menues")]
-    [SerializeField] GameObject playerNameInputDialog = null;
-    [SerializeField] GameObject lobby = null;
-    [Space]
-    [SerializeField] GameObject defaultMenu = null;
+    [SerializeField] Menu rootMenu = null;
+    [SerializeField] Menu lobby = null;
 
-    GameObject currentMenu;
+    [Header("Buttons")]
+    [SerializeField] Button returnButton = null;
+
+    [Header("Dialogs")]
+    [SerializeField] Dialog playerNameInputDialog = null;
+    [SerializeField] Dialog failNotificationDialog = null;
+
+    Menu currentMenu;
+    Dialog currentDialog;
 
     static public event Action OnExit;
 
@@ -17,31 +24,74 @@ public class UIManager_MainMenu : MonoBehaviour
     {
         NetworkManager.OnNamePlayerPrefNotSet += TurnPlayerNameInputDialogOn;
         NetworkManager.OnRoomJoined += GoToLobby;
+        NetworkManager.OnCreatingRoomFailed += NotifyCreatingRoomFail;
+        NetworkManager.OnJoiningRoomFailed += NotifyJoinRoomFail;
     }
 
     void Start()
     {
-        currentMenu = defaultMenu;
-        if (!currentMenu.activeInHierarchy) currentMenu.SetActive(true);
+        currentMenu = rootMenu;
+        if (!currentMenu.gameObject.activeInHierarchy) currentMenu.gameObject.SetActive(true);
     }
 
     void OnDisable()
     {
         NetworkManager.OnNamePlayerPrefNotSet -= TurnPlayerNameInputDialogOn;
         NetworkManager.OnRoomJoined -= GoToLobby;
+        NetworkManager.OnCreatingRoomFailed -= NotifyCreatingRoomFail;
+        NetworkManager.OnJoiningRoomFailed -= NotifyJoinRoomFail;
     }
 
-    void TurnPlayerNameInputDialogOn() => playerNameInputDialog.SetActive(true);
-
-    void GoToLobby() => GoToMenu(lobby);
-
-    public void Exit() => OnExit?.Invoke();
-
-    public void GoToMenu(GameObject targetMenu)
+    void SetUpReturnButton(Menu targetMenu)
     {
-        currentMenu.SetActive(false);
-        targetMenu.SetActive(true);
+        returnButton.onClick.RemoveAllListeners();
+        returnButton.onClick.AddListener(() => { DisplayMenu(targetMenu); });
+
+        returnButton.gameObject.SetActive(true);
+    }
+
+    void GoToLobby() => DisplayMenu(lobby);
+
+    void NotifyCreatingRoomFail(string failMessage)
+    {
+        if (failNotificationDialog.gameObject.activeInHierarchy) return;
+
+        failNotificationDialog.Message = "Create room failed: " + failMessage;
+        DisplayMenu(failNotificationDialog);
+    }
+
+    void NotifyJoinRoomFail(string failMessage)
+    {
+        if (failNotificationDialog.gameObject.activeInHierarchy) return;
+
+        failNotificationDialog.Message = "Join room failed: " + failMessage;
+        DisplayMenu(failNotificationDialog);
+    }
+
+    void TurnPlayerNameInputDialogOn() => playerNameInputDialog.gameObject.SetActive(true);
+
+    public void DisplayMenu(Menu targetMenu)
+    {
+        currentMenu.gameObject.SetActive(false);
+        if (currentDialog) currentDialog.gameObject.SetActive(false);
+        targetMenu.gameObject.SetActive(true);
 
         currentMenu = targetMenu;
+
+        if (targetMenu.PreviousMenu != null) SetUpReturnButton(targetMenu.PreviousMenu);
+        else returnButton.gameObject.SetActive(false);
     }
+
+    public void DisplayDialog(Dialog targetDialog)
+    {
+        if (currentDialog) currentDialog.gameObject.SetActive(false);
+        targetDialog.gameObject.SetActive(true);
+
+        currentDialog = targetDialog;
+
+        if (targetDialog.PreviousMenu != null) SetUpReturnButton(targetDialog.PreviousMenu);
+        else returnButton.gameObject.SetActive(false);
+    }
+
+    public void Exit() => OnExit?.Invoke();
 }

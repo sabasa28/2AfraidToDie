@@ -26,10 +26,7 @@ public class PlayerMovementController : MonoBehaviourPun
     bool isGrounded;
     Vector3 velocity;
 
-    void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    void Awake() => characterController = GetComponent<CharacterController>();
 
     void Start()
     {
@@ -87,13 +84,7 @@ public class PlayerMovementController : MonoBehaviourPun
         Cursor.visible = !isActive;
     }
 
-    public void SetRotationActiveState(bool isActive)
-    {
-        rotationActive = isActive;
-    }
+    public void SetRotationActiveState(bool isActive) => rotationActive = isActive;
 
-    public void setCharacterControllerActiveState(bool isActive)
-    {
-        characterController.enabled = isActive;
-    }
+    public void setCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
 }
