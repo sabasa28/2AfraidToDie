@@ -1,25 +1,24 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class Networking_RoomNameInput : MonoBehaviour
 {
-    [SerializeField] TMP_InputField roomNameInputField = null;
-    [SerializeField] Button confirmRoomNameButton = null;
+    [SerializeField] string namePromptMessage = "";
 
     static public event Action<string> OnJoiningRoom;
     static public event Action<string> OnCreatingNewRoom;
 
-    void JoinRoom() => OnJoiningRoom?.Invoke(roomNameInputField.text);
+    void JoinRoom(string roomName) => OnJoiningRoom?.Invoke(roomName);
 
-    void CreateNewRoom() => OnCreatingNewRoom?.Invoke(roomNameInputField.text);
+    void CreateNewRoom(string roomName) => OnCreatingNewRoom?.Invoke(roomName);
 
     public void OnEnteringRoomName(bool creatingNewRoom)
     {
-        confirmRoomNameButton.onClick.RemoveAllListeners();
+        UnityAction<string> onContinue;
+        if (creatingNewRoom) onContinue = CreateNewRoom;
+        else onContinue = JoinRoom;
 
-        if (creatingNewRoom) confirmRoomNameButton.onClick.AddListener(CreateNewRoom);
-        else confirmRoomNameButton.onClick.AddListener(JoinRoom);
+        DialogManager.Get().DisplayPromptDialog(namePromptMessage, null, onContinue, null, null);
     }
 }

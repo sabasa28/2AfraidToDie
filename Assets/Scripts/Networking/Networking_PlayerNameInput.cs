@@ -1,15 +1,13 @@
 ﻿using Photon.Pun;
 using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Networking_PlayerNameInput : MonoBehaviourPunCallbacks
 {
-    [SerializeField] TMP_InputField playerNameInputField = null;
-    [SerializeField] Button confirmButton = null;
+    [SerializeField] string namePromptMessage = "";
 
     string playerPrefsNameKey;
+    PromptDialog playerNamePrompDialog;
 
     static public event Action<string> OnPlayerNameSaved;
 
@@ -22,16 +20,35 @@ public class Networking_PlayerNameInput : MonoBehaviourPunCallbacks
             PlayerPrefs.SetString(playerPrefsNameKey, playerPrefsNameKey);
             PlayerPrefs.Save();
         }
-
-        SetPlayerName();
     }
 
-    public void SetPlayerName() => confirmButton.interactable = !string.IsNullOrEmpty(playerNameInputField.text);
-
-    public void SavePlayerName()
+    public override void OnEnable()
     {
-        string playerName = playerNameInputField.text;
+        base.OnEnable();
 
+        NetworkManager.OnNamePlayerPrefNotSet += PromptForPlayerName;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        NetworkManager.OnNamePlayerPrefNotSet -= PromptForPlayerName;
+    }
+
+    //void PromptForPlayerName() => playerNameInputDialog.gameObject.SetActive(true);
+    void PromptForPlayerName()
+    {
+        playerNamePrompDialog = DialogManager.Get().DisplayPromptDialog(namePromptMessage, null, SavePlayerName, null, null);
+        playerNamePrompDialog.InputField.onValueChanged.AddListener(SetPlayerName);
+
+        SetPlayerName(playerNamePrompDialog.InputField.text);
+    }
+
+    void SetPlayerName(string playerName) => playerNamePrompDialog.Buttons[DialogManager.ButtonType.Continue].Interactable = !string.IsNullOrEmpty(playerName);
+
+    void SavePlayerName(string playerName)
+    {
         PlayerPrefs.SetString(playerPrefsNameKey, playerName);
         PlayerPrefs.Save();
 

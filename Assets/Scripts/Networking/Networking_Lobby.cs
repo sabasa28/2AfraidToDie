@@ -1,5 +1,4 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
+﻿using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Collections;
@@ -13,6 +12,11 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text matchCountdownText = null;
     [SerializeField] TMP_Text[] playerTexts = null;
     [SerializeField] Toggle[] participantToggles = null;
+    [SerializeField] Button disconnectButton = null;
+
+    [Header("Texts")]
+    [SerializeField] string emptyPlayerText = "Waiting for player...";
+    [SerializeField] string masterDisconnectMessage = "Master disconnected. Closing lobby...";
 
     [Header("Lobby properties")]
     [SerializeField] int matchCountdownTimer = 5;
@@ -20,13 +24,25 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     bool readyToBeginMatch = false;
     bool countingDown = false;
 
+    NetworkManager networkManager;
+
     static public event Action OnMatchCountdownFinished;
+    static public event Action OnDisconnectedOnRoomClosed;
+
+    void Awake() => networkManager = NetworkManager.Get();
 
     public override void OnEnable()
     {
         base.OnEnable();
 
         SetUp();
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        disconnectButton.gameObject.SetActive(false);
     }
 
     void SetUp()
@@ -36,61 +52,41 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         roomNameText.text = "Room \"" + room.Name + "\"";
         matchCountdownText.text = matchCountdownTimer.ToString();
 
-        for (int i = 0; i < room.PlayerCount; i++)
-            if (room.Players.TryGetValue(i + 1, out Photon.Realtime.Player player)) playerTexts[i].text = player.NickName;
+        UpdatePlayerNames();
 
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
-        for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++) properties.Add(ParticipantName(i), "None");
-        PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++) properties.Add(ParticipantName(i), "None");
+            PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
+        }
+        else
+        {
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+            {
+                string key = ParticipantName(i);
+                string value = (string)room.CustomProperties[ParticipantName(i)];
+
+                properties.Add(key, value);
+            }
+            UpdateParticipantProperties(properties);
+        }
+
+        disconnectButton.gameObject.SetActive(true);
     }
 
     void UpdatePlayerNames()
     {
         Room room = PhotonNetwork.CurrentRoom;
 
-        for (int i = 0; i < room.PlayerCount; i++)
+        for (int i = 0; i < room.MaxPlayers; i++)
         {
-            if (room.Players.TryGetValue(i + 1, out Photon.Realtime.Player player) && player.NickName != playerTexts[i].text) playerTexts[i].text = player.NickName;
+            if (room.Players.TryGetValue(i + 1, out Photon.Realtime.Player player)) playerTexts[i].text = player.NickName;
+            else playerTexts[i].text = emptyPlayerText;
         }
     }
 
-    void StartMatchCountdown()
-    {
-        matchCountdownText.gameObject.SetActive(true);
-        readyToBeginMatch = true;
-
-        StartCoroutine(MatchCountdown());
-        countingDown = true;
-    }
-
-    void StopMatchCountdown()
-    {
-        matchCountdownText.gameObject.SetActive(false);
-        readyToBeginMatch = false;
-        countingDown = false;
-    }
-
-    string ParticipantName(int participantIndex) { return "Participant " + (char)('A' + participantIndex); }
-
-    [PunRPC]
-    void SetParticipant(int participantIndex, string playerName)
-    {
-        ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
-        property.Add(ParticipantName(participantIndex), playerName);
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
-    }
-
-    public void ChooseParticipant(int playerIndex)
-    {
-        string playerName = "";
-        if (participantToggles[playerIndex].isOn) playerName = PhotonNetwork.LocalPlayer.NickName;
-        else playerName = "None";
-
-        photonView.RPC("SetParticipant", RpcTarget.All, playerIndex, playerName);
-    }
-
-    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
+    void UpdateParticipantProperties(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
     {
         bool allParticipantsSelected = true;
 
@@ -125,8 +121,63 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         if (allParticipantsSelected) StartMatchCountdown();
     }
 
+    void StartMatchCountdown()
+    {
+        matchCountdownText.gameObject.SetActive(true);
+        readyToBeginMatch = true;
+
+        StartCoroutine(MatchCountdown());
+        countingDown = true;
+    }
+
+    void StopMatchCountdown()
+    {
+        matchCountdownText.gameObject.SetActive(false);
+        readyToBeginMatch = false;
+        countingDown = false;
+    }
+
+    string ParticipantName(int participantIndex) { return "Participant " + (char)('A' + participantIndex); }
+
+    public void ChooseParticipant(int playerIndex)
+    {
+        string playerName = "";
+        if (participantToggles[playerIndex].isOn) playerName = PhotonNetwork.LocalPlayer.NickName;
+        else playerName = "None";
+
+        photonView.RPC("SetParticipant", RpcTarget.All, playerIndex, playerName);
+    }
+
+    public void DisconnectFromLobby()
+    {
+        if (PhotonNetwork.LocalPlayer.IsMasterClient) photonView.RPC("DisconnectOnRoomClosed", RpcTarget.Others);
+
+        networkManager.DisconnectFromRoom();
+    }
+
+    #region RPCs
+    [PunRPC]
+    void SetParticipant(int participantIndex, string playerName)
+    {
+        ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
+        property.Add(ParticipantName(participantIndex), playerName);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
+    }
+
+    [PunRPC]
+    void DisconnectOnRoomClosed() => DialogManager.Get().DisplayMessageDialog(masterDisconnectMessage, null, () => OnDisconnectedOnRoomClosed?.Invoke());
+    #endregion
+
+    #region Overrides
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) => UpdateParticipantProperties(propertiesThatChanged);
+
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => UpdatePlayerNames();
 
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) => UpdatePlayerNames();
+    #endregion
+
+    #region Coroutines
     IEnumerator MatchCountdown()
     {
         int timer = matchCountdownTimer;
@@ -146,4 +197,5 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
         if (readyToBeginMatch) OnMatchCountdownFinished?.Invoke();
     }
+    #endregion
 }

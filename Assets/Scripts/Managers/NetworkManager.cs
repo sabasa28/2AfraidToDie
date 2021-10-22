@@ -6,6 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 {
+    public enum FailTypes
+    {
+        CreateRoomFail,
+        JoinRoomFail
+    }
+
     [SerializeField] GameObject playerPrefab = null;
 
     bool joiningRoom = false;
@@ -22,8 +28,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     static public event Action OnNamePlayerPrefNotSet;
     static public event Action OnRoomJoined;
-    static public event Action<string> OnJoiningRoomFailed;
-    static public event Action<string> OnCreatingRoomFailed;
+    static public event Action<FailTypes, string> OnFail;
     static public event Action<bool> OnMatchBegun;
     static public event Action<Player> OnPlayerSpawned;
 
@@ -122,6 +127,13 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             PhotonNetwork.LoadLevel(GameManager.Get().GameplayScene);
         }
     }
+
+    public void DisconnectFromRoom()
+    {
+        Debug.Log("Leaving room...");
+
+        PhotonNetwork.LeaveRoom();
+    }
     #endregion
 
     #region Gameplay
@@ -141,9 +153,18 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
     }
 
+    public override void OnCreatedRoom()
+    {
+        Debug.Log("Client successfully created a new room");
+
+        creatingNewRoom = false;
+    }
+
     public override void OnJoinedRoom()
     {
         Debug.Log("Client successfully joined a room");
+
+        joiningRoom = false;
 
         if (PhotonNetwork.CurrentRoom.PlayerCount < MinPlayersPerRoom) Debug.Log("Client is waiting for an opponent");
         else Debug.Log("Matching is ready to begin");
@@ -164,18 +185,16 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
-        Debug.Log("create");
         Debug.LogError($"Create room failed (code { returnCode }): { message }");
 
-        OnCreatingRoomFailed?.Invoke(message);
+        OnFail?.Invoke(FailTypes.CreateRoomFail, message);
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log("join");
         Debug.LogError($"Join room failed (code { returnCode }): { message }");
 
-        OnJoiningRoomFailed?.Invoke(message);
+        OnFail?.Invoke(FailTypes.JoinRoomFail, message);
     }
     #endregion
 }
