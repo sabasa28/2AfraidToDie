@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviourPun
 {
     //----------
     // PA = Player A
     // PB = Player B
     //----------
 
-    [SerializeField] Transform cameraTransform = null;
     [SerializeField] Vector3 GrabbedObjectPos;
     public PlayerMovementController movementController = null;
+    [HideInInspector] Transform cameraTransform = null;
 
     Grabbable grabbedObject = null;
 
@@ -24,6 +25,12 @@ public class Player : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+
+        if (photonView.IsMine)
+        {
+            cameraTransform = GameObject.Find("Main Camera").transform;
+            movementController.cameraTransform = cameraTransform;
+        }
     }
 
     void OnEnable()
@@ -54,6 +61,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!photonView.IsMine) return;
+
         RaycastHit hit;
         Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 20.0f, 1 << LayerMask.NameToLayer("Interactable"));
 
@@ -97,6 +106,8 @@ public class Player : MonoBehaviour
 
     void GrabObject(Grabbable grabbable)
     {
+        if (!photonView.IsMine) return;
+
         grabbable.OnPlayerHovering();
         grabbable.transform.parent = cameraTransform;
         grabbable.transform.localPosition = GrabbedObjectPos;
