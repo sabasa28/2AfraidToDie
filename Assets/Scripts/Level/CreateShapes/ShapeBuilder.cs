@@ -23,11 +23,11 @@ public class ShapeBuilder : MonoBehaviour
 
     public void GetRandomShape(out int randShape3d, out int randShapeColor, out int randShapeSymbol)
     {
-        int randomNumber = Random.Range(0, (int)Shape3D.endOfShapes);
+        int randomNumber = 0;//Random.Range(0, (int)Shape3D.endOfShapes);
         randShape3d = randomNumber;
-        randomNumber = Random.Range(0, posibleColors.Count);
+        randomNumber = 2;//Random.Range(0, posibleColors.Count);
         randShapeColor = randomNumber;
-        randomNumber = Random.Range(0, posibleSymbols.Count);
+        randomNumber = 2;//Random.Range(0, posibleSymbols.Count);
         randShapeSymbol = randomNumber;
     }
 

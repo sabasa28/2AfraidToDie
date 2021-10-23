@@ -231,11 +231,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         if (!secondPhase)
         {
+            secondPhase = true;
             secondPhaseDoor.Open();
             SetShapePuzzle();
+            Debug.Log("bbb");
         }
         else
+        {
+            Debug.Log("aaaa");
             buttonMissingPart.gameObject.SetActive(true);
+        }
     }
 
     void SetShapePuzzle()
