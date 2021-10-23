@@ -133,6 +133,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         Debug.Log("Leaving room...");
 
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.Disconnect();
     }
     #endregion
 
@@ -166,19 +167,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         joiningRoom = false;
 
-        if (PhotonNetwork.CurrentRoom.PlayerCount < MinPlayersPerRoom) Debug.Log("Client is waiting for an opponent");
-        else Debug.Log("Matching is ready to begin");
-
         OnRoomJoined?.Invoke();
-    }
-
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        if (PhotonNetwork.CurrentRoom.PlayerCount >= MinPlayersPerRoom)
-        {
-            if (PhotonNetwork.CurrentRoom.PlayerCount >= MaxPlayersPerRoom) PhotonNetwork.CurrentRoom.IsOpen = false;
-            Debug.Log("Match is ready to begin");
-        }
     }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");

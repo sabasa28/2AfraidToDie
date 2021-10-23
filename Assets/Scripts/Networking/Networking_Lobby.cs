@@ -79,11 +79,21 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     {
         Room room = PhotonNetwork.CurrentRoom;
 
-        for (int i = 0; i < room.MaxPlayers; i++)
+        int foundPlayers = 0;
+        int index = 1;
+        while (foundPlayers < room.PlayerCount)
         {
-            if (room.Players.TryGetValue(i + 1, out Photon.Realtime.Player player)) playerTexts[i].text = player.NickName;
-            else playerTexts[i].text = emptyPlayerText;
+            if (room.Players.TryGetValue(index, out Photon.Realtime.Player player))
+            {
+                playerTexts[foundPlayers].text = player.NickName;
+                foundPlayers++;
+            }
+
+            index++;
         }
+
+        if (room.PlayerCount < room.MaxPlayers)
+            for (int i = room.PlayerCount; i < playerTexts.Length; i++) playerTexts[i].text = emptyPlayerText;
     }
 
     void UpdateParticipantProperties(ExitGames.Client.Photon.Hashtable propertiesThatChanged)
@@ -148,12 +158,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         photonView.RPC("SetParticipant", RpcTarget.All, playerIndex, playerName);
     }
 
-    public void DisconnectFromLobby()
-    {
-        if (PhotonNetwork.LocalPlayer.IsMasterClient) photonView.RPC("DisconnectOnRoomClosed", RpcTarget.Others);
-
-        networkManager.DisconnectFromRoom();
-    }
+    public void DisconnectFromLobby() => networkManager.DisconnectFromRoom();
 
     #region RPCs
     [PunRPC]
@@ -164,9 +169,6 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
         PhotonNetwork.CurrentRoom.SetCustomProperties(property);
     }
-
-    [PunRPC]
-    void DisconnectOnRoomClosed() => DialogManager.Get().DisplayMessageDialog(masterDisconnectMessage, null, () => OnDisconnectedOnRoomClosed?.Invoke());
     #endregion
 
     #region Overrides
