@@ -20,12 +20,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] float spawnZPB = 18.0f;
     [SerializeField] float spawnY = 6.0f;
 
-    Player player = null;
-    int currentCheckpoint = 0;
-
-    [SerializeField] ButtonMissingPart paButtonMP = null;
-    [SerializeField] ButtonMissingPart pbButtonMP = null;
     ButtonMissingPart buttonMissingPart;
+    [SerializeField] ButtonMissingPart[] paButtonMP = null;
+    [SerializeField] ButtonMissingPart[] pbButtonMP = null;
 
     [Header("Timer")]
     [SerializeField] float timerInitialDuration = 20.0f;
@@ -42,10 +39,15 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     [Header("\"Create Shape\" puzzle")]
 
+    [SerializeField] ShapeBuilder shapeBuilder;
     public int shapeCorrect3dShape;
     public int shapeCorrectColor;
     public int shapeCorrectSymbol;
-    [SerializeField] DeliveryMachine deliveryMachine;
+    int currentCode;
+    [SerializeField] DeliveryMachine deliveryMachineA;
+    [SerializeField] DeliveryMachine deliveryMachineB;
+    [SerializeField] Phone phoneA;
+    [SerializeField] Phone phoneB;
     bool secondPhase = false;
     [SerializeField] Door secondPhaseDoorA;
     [SerializeField] Door secondPhaseDoorB;
@@ -60,6 +62,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         DoorButton.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
         CodeBar.UpdatePuzzleProgress += UpdateCSProgress;
+        Phone.OnCorrectNumberInserted += UpdateCSProgress;
     }
 
     void Start()
@@ -70,17 +73,18 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         differences = new List<Interactable>();
         if (playingAsPA)
         {
-            buttonMissingPart = paButtonMP;
+            buttonMissingPart = paButtonMP[currentCheckpoint];
             foreach (Interactable difference in paDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorA;
         }
         else
         {
-            buttonMissingPart = pbButtonMP;
+            buttonMissingPart = pbButtonMP[currentCheckpoint];
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorB;
         }
-        deliveryMachine.UpdateShapeCorrectFeatures(shapeCorrectColor, shapeCorrect3dShape, shapeCorrectSymbol);
+
+        SetShapePuzzle();
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer,false);
@@ -94,6 +98,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         DoorButton.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
         CodeBar.UpdatePuzzleProgress -= UpdateCSProgress;
+        Phone.OnCorrectNumberInserted -= UpdateCSProgress;
     }
 
     void ProcessLevelEnd()
@@ -192,7 +197,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 buttonMissingPart.gameObject.SetActive(true);
                 uiManager.PuzzleInfoTextActiveState(false);
                 currentCheckpoint++;
-                Debug.Log("you win");
+                if (playingAsPA)
+                {
+                    buttonMissingPart = paButtonMP[currentCheckpoint];
+                }
+                else
+                {
+                    buttonMissingPart = pbButtonMP[currentCheckpoint];
+                }
             }
         }
         else
@@ -212,10 +224,32 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void UpdateCSProgress() //CS = Create Shapes puzzle
     {
         if (!secondPhase)
+        {
+            secondPhase = true;
             secondPhaseDoor.Open();
+            SetShapePuzzle();
+            Debug.Log("bbb");
+        }
         else
+        {
+            Debug.Log("aaaa");
             buttonMissingPart.gameObject.SetActive(true);
+        }
     }
-    
+
+    void SetShapePuzzle()
+    {
+        shapeBuilder.GetRandomShape(out shapeCorrect3dShape, out shapeCorrectColor, out shapeCorrectSymbol);
+        if (!secondPhase)
+        {
+            deliveryMachineB.SetShapePuzzleVars(shapeCorrect3dShape, shapeCorrectColor, shapeCorrectSymbol, out currentCode);
+            phoneA.correctNumber = currentCode;
+        }
+        else
+        {
+            deliveryMachineA.SetShapePuzzleVars(shapeCorrect3dShape, shapeCorrectColor, shapeCorrectSymbol, out currentCode);
+            phoneB.correctNumber = currentCode;
+        }
+    }
     #endregion
 }

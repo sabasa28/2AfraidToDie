@@ -4,7 +4,9 @@ using UnityEngine;
 public class Phone : Interactable
 {
     [SerializeField] UIPhone uiPhone;
-    public static event Action<bool> OnTryToUsePhone; //bool StartUsing
+    public static event Action<bool> OnTryToUsePhone; //bool StartUsing, true=start false=stop
+    public static event Action OnCorrectNumberInserted;
+    public int correctNumber;
     public override void OnClicked()
     {
         base.OnClicked();
@@ -18,9 +20,10 @@ public class Phone : Interactable
         uiPhone.phone = this;
     }
 
-    public void OnStopUsingPhone()
+    public void OnStopUsingPhone(int numInserted)
     {
         OnTryToUsePhone(false);
         uiPhone.gameObject.SetActive(false);
+        if (correctNumber == numInserted) OnCorrectNumberInserted();
     }
 }
