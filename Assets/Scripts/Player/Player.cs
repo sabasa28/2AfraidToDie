@@ -112,15 +112,12 @@ public class Player : MonoBehaviourPun
         grabbable.transform.parent = cameraTransform;
         grabbable.transform.localPosition = GrabbedObjectPos;
 
-        grabbedObject = grabbable.GetComponent<Grabbable>();
+        grabbedObject = grabbable;
         //grabbedObject.SetGrabbedState(true);
         //grabbedObject.transform.localPosition = GrabbedObjectPos;
     }
 
-    void FixButton(DoorButton doorButton)
-    {
-        doorButton.TryToFixButton(grabbedObject.gameObject);
-    }
+    void FixButton(DoorButton doorButton) { if (photonView.IsMine) doorButton.TryToFixButton(grabbedObject.gameObject); }
 
     void DeliverShape(DeliveryMachine deliveryMachine)
     {

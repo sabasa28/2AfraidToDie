@@ -20,6 +20,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] float spawnZPB = 18.0f;
     [SerializeField] float spawnY = 6.0f;
 
+    Player player = null;
+    int currentCheckpoint = 0;
+
     ButtonMissingPart buttonMissingPart;
     [SerializeField] ButtonMissingPart[] paButtonMP = null;
     [SerializeField] ButtonMissingPart[] pbButtonMP = null;
