@@ -57,7 +57,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         ExitGames.Client.Photon.Hashtable properties = new ExitGames.Client.Photon.Hashtable();
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++) properties.Add(ParticipantName(i), "None");
+            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++) properties.Add(ParticipantName(i), "");
             PhotonNetwork.CurrentRoom.SetCustomProperties(properties);
         }
         else
@@ -106,7 +106,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
             if (propertiesThatChanged.ContainsKey(key))
             {
-                if ((string)propertiesThatChanged[key] == "None") participantToggles[i].interactable = true;
+                if ((string)propertiesThatChanged[key] == "") participantToggles[i].interactable = true;
                 else if ((string)propertiesThatChanged[key] != PhotonNetwork.LocalPlayer.NickName)
                 {
                     for (int j = 0; j < PhotonNetwork.CurrentRoom.MaxPlayers; j++)
@@ -116,12 +116,12 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
                             participantToggles[j].interactable = false;
                             continue;
                         }
-                        else if ((string)PhotonNetwork.CurrentRoom.CustomProperties[ParticipantName(j)] == "None") participantToggles[j].interactable = true;
+                        else if ((string)PhotonNetwork.CurrentRoom.CustomProperties[ParticipantName(j)] == "") participantToggles[j].interactable = true;
                     }
                 }
             }
 
-            if (allParticipantsSelected && (string)PhotonNetwork.CurrentRoom.CustomProperties[ParticipantName(i)] == "None")
+            if (allParticipantsSelected && (string)PhotonNetwork.CurrentRoom.CustomProperties[ParticipantName(i)] == "")
             {
                 allParticipantsSelected = false;
                 if (countingDown) StopMatchCountdown();
@@ -147,29 +147,23 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         countingDown = false;
     }
 
-    string ParticipantName(int participantIndex) { return "Participant " + (char)('A' + participantIndex); }
+    string ParticipantName(int participantIndex) { return "Participant" + (char)('A' + participantIndex); }
 
-    public void ChooseParticipant(int playerIndex)
+    public void ChooseParticipant(int participantIndex)
     {
         string playerName = "";
-        if (participantToggles[playerIndex].isOn) playerName = PhotonNetwork.LocalPlayer.NickName;
-        else playerName = "None";
+        if (participantToggles[participantIndex].isOn) playerName = PhotonNetwork.LocalPlayer.NickName;
 
-        photonView.RPC("SetParticipant", RpcTarget.All, playerIndex, playerName);
+        ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
+        roomProperty.Add(ParticipantName(participantIndex), playerName);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
+
+        ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
+        playerProperty.Add(NetworkManager.ParticipantIndexProp, participantIndex);
+        PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperty);
     }
 
     public void DisconnectFromLobby() => networkManager.DisconnectFromRoom();
-
-    #region RPCs
-    [PunRPC]
-    void SetParticipant(int participantIndex, string playerName)
-    {
-        ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
-        property.Add(ParticipantName(participantIndex), playerName);
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
-    }
-    #endregion
 
     #region Overrides
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) => UpdateParticipantProperties(propertiesThatChanged);

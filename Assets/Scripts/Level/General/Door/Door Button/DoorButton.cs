@@ -7,9 +7,9 @@ public class DoorButton : MonoBehaviour
     [SerializeField] ButtonPressZone pressZone = null;
 
     [SerializeField] bool triggersTimer = false;
-    [SerializeField] bool canBePressed = true;
     [SerializeField] bool onlyOneUse = true;
     [SerializeField] bool broken = false;
+    public bool canBePressed = true;
 
     [SerializeField] Animator animator = null;
     [SerializeField] ButtonMissingPart missingPart = null;
@@ -18,20 +18,11 @@ public class DoorButton : MonoBehaviour
     static public event Action OnDoorOpen;
     static public event Action OnDoorClosed;
 
-    void OnEnable()
-    {
-        Player.OnFixingButton += TryToFixButton;
-    }
+    void OnEnable() => Player.OnFixingButton += TryToFixButton;
 
-    void Start()
-    {
-        if (broken) pressZone.gameObject.SetActive(false);
-    }
+    void Start() { if (broken) pressZone.gameObject.SetActive(false); }
 
-    void OnDisable()
-    {
-        Player.OnFixingButton -= TryToFixButton;
-    }
+    void OnDisable() => Player.OnFixingButton -= TryToFixButton;
 
     public void TryToFixButton(GameObject insertedObject)
     {

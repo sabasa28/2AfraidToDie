@@ -20,11 +20,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     string gameVersion;
     string handledRoomName;
-
-    const int MinPlayersPerRoom = 2;
+    
     const int MaxPlayersPerRoom = 2;
 
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
+    public const string ParticipantIndexProp = "ParticipantIndex";
 
     static public event Action OnNamePlayerPrefNotSet;
     static public event Action OnRoomJoined;
@@ -118,7 +118,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     void BeginMatch()
     {
-        bool playingAsPA = (string)PhotonNetwork.CurrentRoom.CustomProperties["Participant A"] == PhotonNetwork.LocalPlayer.NickName;
+        bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[ParticipantIndexProp] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
         
         if (PhotonNetwork.IsMasterClient && !loadingScene)
@@ -168,6 +168,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         joiningRoom = false;
 
         OnRoomJoined?.Invoke();
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
     }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
