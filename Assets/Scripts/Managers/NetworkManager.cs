@@ -24,9 +24,10 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     const int MaxPlayersPerRoom = 2;
 
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
-    public const string ParticipantIndexProp = "ParticipantIndex";
+    static public string ParticipantIndexProp { private set; get; } = "ParticipantIndex";
 
     static public event Action OnNamePlayerPrefNotSet;
+    static public event Action<string> OnPlayerNameSet;
     static public event Action OnRoomJoined;
     static public event Action<FailTypes, string> OnFail;
     static public event Action<bool> OnMatchBegun;
@@ -47,11 +48,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SceneManager.sceneLoaded += OnLevelLoaded;
 
-        Networking_PlayerNameInput.OnPlayerNameSaved += SetNickName;
-
+        Networking_PlayerNameInput.OnPlayerNameSaved += SetPlayerName;
         Networking_RoomNameInput.OnJoiningRoom += JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom += CreateNewRoom;
-
         Networking_Lobby.OnMatchCountdownFinished += BeginMatch;
     }
 
@@ -65,7 +64,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         else
         {
             Debug.Log("Player name already set");
-            SetNickName(PlayerPrefs.GetString(PlayerPrefsNameKey));
+
+            PhotonNetwork.NickName = PlayerPrefs.GetString(PlayerPrefsNameKey);
+            OnPlayerNameSet?.Invoke(PhotonNetwork.NickName);
         }
     }
 
@@ -75,18 +76,23 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SceneManager.sceneLoaded -= OnLevelLoaded;
 
-        Networking_PlayerNameInput.OnPlayerNameSaved -= SetNickName;
-
+        Networking_PlayerNameInput.OnPlayerNameSaved -= SetPlayerName;
         Networking_RoomNameInput.OnJoiningRoom -= JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom -= CreateNewRoom;
-
         Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
     }
 
     void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
 
     #region Main Menu
-    void SetNickName(string nickName) => PhotonNetwork.NickName = nickName;
+    void SetPlayerName(string name)
+    {
+        PlayerPrefs.SetString(PlayerPrefsNameKey, name);
+        PlayerPrefs.Save();
+
+        PhotonNetwork.NickName = name;
+        OnPlayerNameSet?.Invoke(name);
+    }
 
     void ConnectToPhoton()
     {
