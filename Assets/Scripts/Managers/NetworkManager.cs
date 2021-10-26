@@ -20,6 +20,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     string gameVersion;
     string handledRoomName;
+
+    RoomOptions defaultRoomOptions;
     
     const int MaxPlayersPerRoom = 2;
 
@@ -38,6 +40,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         base.Awake();
 
         gameVersion = Application.version;
+        defaultRoomOptions = new RoomOptions{ PublishUserId = true, MaxPlayers = MaxPlayersPerRoom };
 
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -68,6 +71,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             PhotonNetwork.NickName = PlayerPrefs.GetString(PlayerPrefsNameKey);
             OnPlayerNameSet?.Invoke(PhotonNetwork.NickName);
         }
+
+        PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
     }
 
     public override void OnDisable()
@@ -118,7 +123,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         handledRoomName = roomName;
         creatingNewRoom = true;
 
-        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, defaultRoomOptions);
         else ConnectToPhoton();
     }
 
@@ -157,7 +162,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         Debug.Log("Connected to Master");
 
         if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
     }
 
     public override void OnCreatedRoom()

@@ -3344,6 +3344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1542218945}
   returnButton: {fileID: 1042171814}
+  playerNameDisplay: {fileID: 1739712565}
   rootMenu: {fileID: 812450191}
   roomOptionsMenu: {fileID: 2051718790}
   lobby: {fileID: 1903055474}

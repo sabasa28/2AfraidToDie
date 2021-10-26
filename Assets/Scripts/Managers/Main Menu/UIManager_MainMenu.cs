@@ -11,6 +11,9 @@ public class UIManager_MainMenu : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
 
+    [Header("Displays")]
+    [SerializeField] GameObject playerNameDisplay = null;
+
     [Header("Menues")]
     [SerializeField] Menu rootMenu = null;
     [SerializeField] Menu roomOptionsMenu = null;
@@ -82,6 +85,11 @@ public class UIManager_MainMenu : MonoBehaviour
 
         currentMenu = targetMenu;
 
+        //Header
+        bool displayPlayerName = targetMenu == lobby ? false : true;
+        playerNameDisplay.SetActive(displayPlayerName);
+
+        //Footer
         if (targetMenu.PreviousMenu != null) SetUpReturnButton(targetMenu.PreviousMenu);
         else returnButton.gameObject.SetActive(false);
     }

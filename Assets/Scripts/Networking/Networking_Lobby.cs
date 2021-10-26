@@ -107,7 +107,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
             if (propertiesThatChanged.ContainsKey(key))
             {
                 if ((string)propertiesThatChanged[key] == "") participantToggles[i].interactable = true;
-                else if ((string)propertiesThatChanged[key] != PhotonNetwork.LocalPlayer.NickName)
+                else if ((string)propertiesThatChanged[key] != PhotonNetwork.LocalPlayer.UserId)
                 {
                     for (int j = 0; j < PhotonNetwork.CurrentRoom.MaxPlayers; j++)
                     {
@@ -151,11 +151,11 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
     public void ChooseParticipant(int participantIndex)
     {
-        string playerName = "";
-        if (participantToggles[participantIndex].isOn) playerName = PhotonNetwork.LocalPlayer.NickName;
+        string userID = "";
+        if (participantToggles[participantIndex].isOn) userID = PhotonNetwork.LocalPlayer.UserId;
 
         ExitGames.Client.Photon.Hashtable roomProperty = new ExitGames.Client.Photon.Hashtable();
-        roomProperty.Add(ParticipantName(participantIndex), playerName);
+        roomProperty.Add(ParticipantName(participantIndex), userID);
         PhotonNetwork.CurrentRoom.SetCustomProperties(roomProperty);
 
         ExitGames.Client.Photon.Hashtable playerProperty = new ExitGames.Client.Photon.Hashtable();
