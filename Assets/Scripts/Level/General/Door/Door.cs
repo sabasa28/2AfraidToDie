@@ -9,17 +9,14 @@ public class Door : MonoBehaviour
 
     [Header("Door properties")]
     [SerializeField] bool playerA = true;
+    [SerializeField] bool isEntranceDoor = true;
     [SerializeField] int doorNumber = 0;
+    bool isOpen = false;
 
-    [Space]
-    [SerializeField] bool isExitDoor = false;
-    [SerializeField] bool isOpen = false;
-
-    public bool IsExitDoor { get { return isExitDoor; } }
-    public bool IsLocked { set { button.canBePressed = !value; } get { return !button.canBePressed; } }
-
-    public static Action<bool, int> OnDoorOpen;
-    public static Action<bool, int> OnDoorClosed;
+    public static event Action OnDoorUnlocked;
+    public static event Action<bool, int> OnDoorOpen;
+    public static event Action<bool, int> OnDoorClosed;
+    static public event Action OnTimerTriggered;
 
     void Start()
     {
@@ -35,6 +32,8 @@ public class Door : MonoBehaviour
 
     public void FixButton() => button.FixButton();
 
+    public void Unlock() => OnDoorUnlocked.Invoke();
+
     public void Open(bool isLocal = true)
     {
         if (isOpen) return;
@@ -42,6 +41,8 @@ public class Door : MonoBehaviour
         isOpen = true;
         animator.SetTrigger("Open");
         closeDoorTrigger.gameObject.SetActive(true);
+
+        if (isEntranceDoor) OnTimerTriggered?.Invoke();
 
         if (isLocal) OnDoorOpen?.Invoke(playerA, doorNumber);
     } 

@@ -28,7 +28,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] Door[] paDoors = null;
     [SerializeField] Door[] pbDoors = null;
     Door[] doors;
-    int currentExitDoor = 0;
+    int currentDoor = 0;
 
     [Space]
     [SerializeField] ButtonMissingPart[] paButtonMP = null;
@@ -46,7 +46,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     bool timerOn = false;
     float timer;
 
-    const string ParticipantsThatWonProp = "ParticipantsThatWon";
+    const string AreDoorsUnlockedProp = "AreDoorsUnlocked";
 
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] List<Difference> paDifferences = null;
@@ -82,9 +82,10 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnEnable()
     {
-        DoorButton.OnTimerTriggered += StartTimer;
+        Door.OnDoorUnlocked += UnlockDoor;
         Door.OnDoorOpen += OpenDoorOnOtherPlayers;
         Door.OnDoorClosed += CloseDoorOnOtherPlayers;
+        Door.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
 
         Difference.OnSelected += CheckSelectedDifference;
@@ -99,9 +100,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         player.RespawnAtCheckpoint = RespawnPlayer;
 
         doors = playingAsPA ? paDoors : pbDoors;
-        UpdateNextExitDoor(ref currentExitDoor);
 
-        SetUpParticipantsThatWonProp();
+        SetUpAreDoorsUnlockedProp();
 
         SetUpSpotTheDifferences();
         SetUpCreateShapes();
@@ -114,9 +114,10 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnDisable()
     {
-        DoorButton.OnTimerTriggered -= StartTimer;
+        Door.OnDoorUnlocked -= UnlockDoor;
         Door.OnDoorOpen -= OpenDoorOnOtherPlayers;
         Door.OnDoorClosed -= CloseDoorOnOtherPlayers;
+        Door.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
 
         Difference.OnSelected -= CheckSelectedDifference;
@@ -163,56 +164,40 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Room flow
-    void SetUpParticipantsThatWonProp()
+    void SetUpAreDoorsUnlockedProp()
     {
-        bool[] participantsThatWon = new bool[PhotonNetwork.CurrentRoom.PlayerCount];
-        for (int i = 0; i < participantsThatWon.Length; i++) participantsThatWon[i] = false;
+        bool[] areDoorsUnlocked = new bool[PhotonNetwork.CurrentRoom.PlayerCount];
+        for (int i = 0; i < areDoorsUnlocked.Length; i++) areDoorsUnlocked[i] = false;
 
         ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
-        property.Add(ParticipantsThatWonProp, participantsThatWon);
+        property.Add(AreDoorsUnlockedProp, areDoorsUnlocked);
         PhotonNetwork.CurrentRoom.SetCustomProperties(property);
     }
 
-    void UpdateParticipantsThatWonProp(int participantIndex, bool value)
+    void UnlockDoor()
     {
-        bool[] participantsThatWon = (bool[])PhotonNetwork.CurrentRoom.CustomProperties[ParticipantsThatWonProp];
-        participantsThatWon[participantIndex] = value;
+        int participantIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties[NetworkManager.ParticipantIndexProp];
+        bool[] areDoorsUnlocked = (bool[])PhotonNetwork.CurrentRoom.CustomProperties[AreDoorsUnlockedProp];
+        areDoorsUnlocked[participantIndex] = true;
 
-        foreach (bool item in participantsThatWon)
+        foreach (bool item in areDoorsUnlocked)
         {
             if (!item)
             {
                 ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
-                property.Add(ParticipantsThatWonProp, participantsThatWon);
+                property.Add(AreDoorsUnlockedProp, areDoorsUnlocked);
                 PhotonNetwork.CurrentRoom.SetCustomProperties(property);
 
                 return;
             }
         }
 
-        photonView.RPC("UnlockExitDoor", RpcTarget.All);
+        photonView.RPC("OpenCurrentDoor", RpcTarget.All);
     }
 
-    void UpdateNextExitDoor(ref int currentDoor)
-    {
-        for (int i = currentDoor + 1; i < doors.Length; i++)
-        {
-            if (doors[i].IsExitDoor)
-            {
-                currentDoor = i;
-                doors[currentDoor].IsLocked = true;
+    void OpenDoorOnOtherPlayers(bool playerA, int doorNumber) => photonView.RPC("OnPlayerDoorOpen", RpcTarget.Others, playerA, doorNumber);
 
-                return;
-            }
-        }
-        currentDoor = -1;
-
-        return;
-    }
-
-    void OpenDoorOnOtherPlayers(bool playerA, int doorNumber) => photonView.RPC("OpenDoor", RpcTarget.Others, playerA, doorNumber);
-
-    void CloseDoorOnOtherPlayers(bool playerA, int doorNumber) => photonView.RPC("CloseDoor", RpcTarget.Others, playerA, doorNumber);
+    void CloseDoorOnOtherPlayers(bool playerA, int doorNumber) => photonView.RPC("OnPlayerDoorClosed", RpcTarget.Others, playerA, doorNumber);
 
     void OpenPlayersFloor()
     {
@@ -272,9 +257,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
         if (playingAsPA) buttonMissingPart = paButtonMP[currentCheckpoint];
         else buttonMissingPart = pbButtonMP[currentCheckpoint];
-
-        int participantIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties[NetworkManager.ParticipantIndexProp];
-        UpdateParticipantsThatWonProp(participantIndex, true);
     }
     #endregion
 
@@ -351,22 +333,22 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     #region RPCs
     [PunRPC]
-    void UnlockExitDoor()
+    void OpenCurrentDoor()
     {
-        doors[currentExitDoor].IsLocked = false;
-        UpdateNextExitDoor(ref currentExitDoor);
-        SetUpParticipantsThatWonProp();
+        doors[currentDoor].Open();
+        currentDoor++;
+        SetUpAreDoorsUnlockedProp();
     }
 
     [PunRPC]
-    void OpenDoor(bool playerA, int doorNumber)
+    void OnPlayerDoorOpen(bool playerA, int doorNumber)
     {
         Door[] playerDoors = playerA ? paDoors : pbDoors;
         playerDoors[doorNumber].Open(false);
     }
 
     [PunRPC]
-    void CloseDoor(bool playerA, int doorNumber)
+    void OnPlayerDoorClosed(bool playerA, int doorNumber)
     {
         Door[] playerDoors = playerA ? paDoors : pbDoors;
         playerDoors[doorNumber].Close(false);

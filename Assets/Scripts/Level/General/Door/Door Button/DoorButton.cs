@@ -6,7 +6,6 @@ public class DoorButton : MonoBehaviour
     [SerializeField] Door door = null;
     [SerializeField] ButtonPressZone pressZone = null;
 
-    [SerializeField] bool triggersTimer = false;
     [SerializeField] bool onlyOneUse = true;
     [SerializeField] bool broken = false;
     public bool canBePressed = true;
@@ -14,9 +13,7 @@ public class DoorButton : MonoBehaviour
     [SerializeField] Animator animator = null;
     [SerializeField] ButtonMissingPart missingPart = null;
 
-    static public event Action OnTimerTriggered;
-    static public event Action OnDoorOpen;
-    static public event Action OnDoorClosed;
+    static public event Action OnDoorUnlocked;
 
     void OnEnable() => Player.OnFixingButton += TryToFixButton;
 
@@ -41,22 +38,21 @@ public class DoorButton : MonoBehaviour
         pressZone.gameObject.SetActive(true);
     }
 
-    public void OpenDoor()
+    public void UnlockDoor()
     {
-        door.Open();
         canBePressed = false;
         animator.SetTrigger("Press");
 
-        OnDoorOpen?.Invoke();
-        if (triggersTimer) OnTimerTriggered?.Invoke();
+        door.Unlock();
     }
+
+    public void OpenDoor() => door.Open();
 
     public void CloseDoor()
     {
-        door.Close();
         canBePressed = false;
         animator.SetTrigger("Press");
 
-        OnDoorClosed?.Invoke();
+        door.Close();
     }
 }

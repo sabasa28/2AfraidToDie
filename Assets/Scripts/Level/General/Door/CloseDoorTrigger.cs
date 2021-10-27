@@ -9,6 +9,7 @@ public class CloseDoorTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             door.Close();
+
             transform.parent.gameObject.SetActive(false);
         }
     }
