@@ -21,12 +21,15 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     string gameVersion;
     string handledRoomName;
 
-    const int MinPlayersPerRoom = 2;
+    RoomOptions defaultRoomOptions;
+    
     const int MaxPlayersPerRoom = 2;
 
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
+    static public string ParticipantIndexProp { private set; get; } = "ParticipantIndex";
 
     static public event Action OnNamePlayerPrefNotSet;
+    static public event Action<string> OnPlayerNameSet;
     static public event Action OnRoomJoined;
     static public event Action<FailTypes, string> OnFail;
     static public event Action<bool> OnMatchBegun;
@@ -37,6 +40,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         base.Awake();
 
         gameVersion = Application.version;
+        defaultRoomOptions = new RoomOptions{ PublishUserId = true, MaxPlayers = MaxPlayersPerRoom };
 
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -47,11 +51,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SceneManager.sceneLoaded += OnLevelLoaded;
 
-        Networking_PlayerNameInput.OnPlayerNameSaved += SetNickName;
-
+        Networking_PlayerNameInput.OnPlayerNameSaved += SetPlayerName;
         Networking_RoomNameInput.OnJoiningRoom += JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom += CreateNewRoom;
-
         Networking_Lobby.OnMatchCountdownFinished += BeginMatch;
     }
 
@@ -65,8 +67,12 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         else
         {
             Debug.Log("Player name already set");
-            SetNickName(PlayerPrefs.GetString(PlayerPrefsNameKey));
+
+            PhotonNetwork.NickName = PlayerPrefs.GetString(PlayerPrefsNameKey);
+            OnPlayerNameSet?.Invoke(PhotonNetwork.NickName);
         }
+
+        PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
     }
 
     public override void OnDisable()
@@ -75,18 +81,23 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SceneManager.sceneLoaded -= OnLevelLoaded;
 
-        Networking_PlayerNameInput.OnPlayerNameSaved -= SetNickName;
-
+        Networking_PlayerNameInput.OnPlayerNameSaved -= SetPlayerName;
         Networking_RoomNameInput.OnJoiningRoom -= JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom -= CreateNewRoom;
-
         Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
     }
 
     void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
 
     #region Main Menu
-    void SetNickName(string nickName) => PhotonNetwork.NickName = nickName;
+    void SetPlayerName(string name)
+    {
+        PlayerPrefs.SetString(PlayerPrefsNameKey, name);
+        PlayerPrefs.Save();
+
+        PhotonNetwork.NickName = name;
+        OnPlayerNameSet?.Invoke(name);
+    }
 
     void ConnectToPhoton()
     {
@@ -112,13 +123,13 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         handledRoomName = roomName;
         creatingNewRoom = true;
 
-        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, defaultRoomOptions);
         else ConnectToPhoton();
     }
 
     void BeginMatch()
     {
-        bool playingAsPA = (string)PhotonNetwork.CurrentRoom.CustomProperties["Participant A"] == PhotonNetwork.LocalPlayer.NickName;
+        bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[ParticipantIndexProp] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
         
         if (PhotonNetwork.IsMasterClient && !loadingScene)
@@ -151,7 +162,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         Debug.Log("Connected to Master");
 
         if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, new RoomOptions { MaxPlayers = MaxPlayersPerRoom });
+        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
     }
 
     public override void OnCreatedRoom()
@@ -168,6 +179,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         joiningRoom = false;
 
         OnRoomJoined?.Invoke();
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
     }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");

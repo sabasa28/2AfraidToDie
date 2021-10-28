@@ -110,7 +110,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  doorButton: {fileID: 8521264283995834598}
+  button: {fileID: 8521264283995834598}
 --- !u!1 &3593735751635453404
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,10 +438,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22c5395500acfd4db721e6e620da5b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 8521264283995834598}
-  isOpen: 0
   animator: {fileID: 6991752988434209037}
+  button: {fileID: 8521264283995834598}
   closeDoorTrigger: {fileID: 8453753327614819604}
+  playerA: 1
+  doorNumber: 0
+  isExitDoor: 0
+  isOpen: 0
 --- !u!1 &6991752990166169383
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,9 +731,9 @@ MonoBehaviour:
   door: {fileID: 6991752988434209034}
   pressZone: {fileID: 6900011705612577435}
   triggersTimer: 0
-  canBePressed: 1
   onlyOneUse: 1
   broken: 0
+  canBePressed: 1
   animator: {fileID: 6988372493539340623}
   missingPart: {fileID: 0}
 --- !u!1 &8453753327614819604

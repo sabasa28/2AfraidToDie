@@ -1,16 +1,23 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager_MainMenu : MonoBehaviour
 {
+    [Header("Texts")]
+    [SerializeField] TMP_Text nameText = null;
+
+    [Header("Buttons")]
+    [SerializeField] Button returnButton = null;
+
+    [Header("Displays")]
+    [SerializeField] GameObject playerNameDisplay = null;
+
     [Header("Menues")]
     [SerializeField] Menu rootMenu = null;
     [SerializeField] Menu roomOptionsMenu = null;
     [SerializeField] Menu lobby = null;
-
-    [Header("Buttons")]
-    [SerializeField] Button returnButton = null;
 
     Menu currentMenu;
 
@@ -18,6 +25,7 @@ public class UIManager_MainMenu : MonoBehaviour
 
     void OnEnable()
     {
+        NetworkManager.OnPlayerNameSet += UpdatePlayerName;
         NetworkManager.OnRoomJoined += GoToLobby;
         NetworkManager.OnFail += NotifyFail;
 
@@ -32,10 +40,11 @@ public class UIManager_MainMenu : MonoBehaviour
 
     void OnDisable()
     {
+        NetworkManager.OnPlayerNameSet -= UpdatePlayerName;
         NetworkManager.OnRoomJoined -= GoToLobby;
         NetworkManager.OnFail -= NotifyFail;
 
-        Networking_Lobby.OnDisconnectedOnRoomClosed += GoToRoomOptionsMenu;
+        Networking_Lobby.OnDisconnectedOnRoomClosed -= GoToRoomOptionsMenu;
     }
 
     void SetUpReturnButton(Menu targetMenu)
@@ -67,6 +76,8 @@ public class UIManager_MainMenu : MonoBehaviour
         DialogManager.Get().DisplayMessageDialog(message, null, null);
     }
 
+    void UpdatePlayerName(string name) => nameText.text = "Nickname: " + name;
+
     public void DisplayMenu(Menu targetMenu)
     {
         currentMenu.gameObject.SetActive(false);
@@ -74,6 +85,11 @@ public class UIManager_MainMenu : MonoBehaviour
 
         currentMenu = targetMenu;
 
+        //Header
+        bool displayPlayerName = targetMenu == lobby ? false : true;
+        playerNameDisplay.SetActive(displayPlayerName);
+
+        //Footer
         if (targetMenu.PreviousMenu != null) SetUpReturnButton(targetMenu.PreviousMenu);
         else returnButton.gameObject.SetActive(false);
     }
