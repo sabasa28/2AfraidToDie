@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Networking_PlayerNameInput : MonoBehaviourPunCallbacks
 {
+    [SerializeField] string newNamePromptTitle = "";
+    [SerializeField] string nameChangePromptTitle = "";
     [SerializeField] string namePromptMessage = "";
 
     PromptDialog playerNamePrompDialog;
@@ -28,10 +30,12 @@ public class Networking_PlayerNameInput : MonoBehaviourPunCallbacks
 
     void SavePlayerName(string playerName) => OnPlayerNameSaved?.Invoke(playerName);
 
-    public void PromptForPlayerName()
+    public void PromptForPlayerName(bool firstTime)
     {
-        playerNamePrompDialog = DialogManager.Get().DisplayPromptDialog(namePromptMessage, null, SavePlayerName, null, null);
+        string title = firstTime ? newNamePromptTitle : nameChangePromptTitle;
+        playerNamePrompDialog = DialogManager.Get().DisplayPromptDialog(title, namePromptMessage, null, SavePlayerName, null, null);
         playerNamePrompDialog.InputField.onValueChanged.AddListener(SetPlayerName);
+        if (!firstTime) playerNamePrompDialog.InputField.text = PhotonNetwork.LocalPlayer.NickName;
 
         SetPlayerName(playerNamePrompDialog.InputField.text);
     }

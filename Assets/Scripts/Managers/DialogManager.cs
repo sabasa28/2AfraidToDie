@@ -113,7 +113,7 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
         return GenerateDialog(defaultDialogPrefab, message, new ButtonData[] { negativeButton, positiveButton });
     }
 
-    public PromptDialog DisplayPromptDialog(string message, string @continue, UnityAction<string> onContinue, string cancel, UnityAction onCancel)
+    public PromptDialog DisplayPromptDialog(string title, string message, string @continue, UnityAction<string> onContinue, string cancel, UnityAction onCancel)
     {
         PromptDialog newDialog = null;
 
@@ -121,6 +121,7 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
         ButtonData continueButton = new ButtonData(@continue, ButtonType.Continue, () => { onContinue(newDialog.InputField.text); });
 
         newDialog = GenerateDialog(promptDialogPrefab, message, new ButtonData[] { cancelButton, continueButton }) as PromptDialog;
+        newDialog.Title = title;
         return newDialog;
     }
 }

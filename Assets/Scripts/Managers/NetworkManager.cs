@@ -28,7 +28,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
     static public string ParticipantIndexProp { private set; get; } = "ParticipantIndex";
 
-    static public event Action OnNamePlayerPrefNotSet;
+    static public event Action<bool> OnNamePlayerPrefNotSet;
     static public event Action<string> OnPlayerNameSet;
     static public event Action OnRoomJoined;
     static public event Action<FailTypes, string> OnFail;
@@ -62,7 +62,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         if (!PlayerPrefs.HasKey(PlayerPrefsNameKey))
         {
             Debug.Log("Player name not set");
-            OnNamePlayerPrefNotSet?.Invoke();
+            OnNamePlayerPrefNotSet?.Invoke(true);
         }
         else
         {

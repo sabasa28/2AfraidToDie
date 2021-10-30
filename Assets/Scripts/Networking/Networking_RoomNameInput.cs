@@ -4,6 +4,7 @@ using UnityEngine.Events;
 
 public class Networking_RoomNameInput : MonoBehaviour
 {
+    [SerializeField] string namePromptTitle = "";
     [SerializeField] string namePromptMessage = "";
 
     static public event Action<string> OnJoiningRoom;
@@ -19,6 +20,6 @@ public class Networking_RoomNameInput : MonoBehaviour
         if (creatingNewRoom) onContinue = CreateNewRoom;
         else onContinue = JoinRoom;
 
-        DialogManager.Get().DisplayPromptDialog(namePromptMessage, null, onContinue, null, null);
+        DialogManager.Get().DisplayPromptDialog(namePromptTitle, namePromptMessage, null, onContinue, null, null);
     }
 }

@@ -5,19 +5,23 @@ using UnityEngine.UI;
 
 public class UIManager_MainMenu : MonoBehaviour
 {
-    [Header("Texts")]
+    [SerializeField] GameObject margins = null;
+
+    [Header("Text fields")]
     [SerializeField] TMP_Text nameText = null;
 
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
 
-    [Header("Displays")]
-    [SerializeField] GameObject playerNameDisplay = null;
-
     [Header("Menues")]
     [SerializeField] Menu rootMenu = null;
     [SerializeField] Menu roomOptionsMenu = null;
     [SerializeField] Menu lobby = null;
+
+    [Header("Texts")]
+    [SerializeField] string createRoomFailPreText = "Error al crear show: ";
+    [SerializeField] string joinRoomFailPreText = "Error al unirse a show: ";
+    [SerializeField] string nameDisplayPreText = "Participante:     ";
 
     Menu currentMenu;
 
@@ -65,10 +69,10 @@ public class UIManager_MainMenu : MonoBehaviour
         switch (failType)
         {
             case NetworkManager.FailTypes.CreateRoomFail:
-                message = "Create room failed: " + failMessage;
+                message = createRoomFailPreText + failMessage;
                 break;
             case NetworkManager.FailTypes.JoinRoomFail:
-                message = "Join room failed: " + failMessage;
+                message = joinRoomFailPreText + failMessage;
                 break;
             default: break;
         }
@@ -76,7 +80,7 @@ public class UIManager_MainMenu : MonoBehaviour
         DialogManager.Get().DisplayMessageDialog(message, null, null);
     }
 
-    void UpdatePlayerName(string name) => nameText.text = "Nickname: " + name;
+    void UpdatePlayerName(string name) => nameText.text = nameDisplayPreText + name;
 
     public void DisplayMenu(Menu targetMenu)
     {
@@ -85,9 +89,11 @@ public class UIManager_MainMenu : MonoBehaviour
 
         currentMenu = targetMenu;
 
+        margins.SetActive(targetMenu.DisplayMargins);
+
         //Header
-        bool displayPlayerName = targetMenu == lobby ? false : true;
-        playerNameDisplay.SetActive(displayPlayerName);
+        //bool displayPlayerName = targetMenu == lobby ? false : true;
+        //playerNameDisplay.SetActive(displayPlayerName);
 
         //Footer
         if (targetMenu.PreviousMenu != null) SetUpReturnButton(targetMenu.PreviousMenu);
