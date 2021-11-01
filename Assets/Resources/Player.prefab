@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eda3939a0f3edef4d9c8a88f15157bd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GrabbedObjectPos: {x: 0.15, y: -0.25, z: 0.6}
+  GrabbedObjectPos: {x: 0.8, y: -0.9, z: 2}
   movementController: {fileID: 3260774284471188427}
   hoveredInteractable: {fileID: 0}
 --- !u!114 &3260774284471188427
