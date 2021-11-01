@@ -3,28 +3,31 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    [SerializeField, Range(0.0f, 1.0f)] float hoverFadeAlpha = 0.75f;
+    [SerializeField, Range(0.0f, 1.0f)] float clickFadeAlpha = 1.0f;
+    [SerializeField] float clickFadeDuration = 0.5f;
+
     bool fadedOnClick = false;
-    float clickFadeDuration = 0.5f;
     public bool active = true;
+    
+    Material material;
 
-    Material mat;
-
-    void Awake()
+    protected virtual void Awake()
     {
-        mat = GetComponent<MeshRenderer>().material;
+        material = GetComponent<MeshRenderer>().material;
     }
 
-    public void OnPlayerWatching()
+    public virtual void OnPlayerHovering()
     {
-        if (active && !fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 0.75f);
+        if (active && !fadedOnClick) material.color = new Color(material.color.r, material.color.g, material.color.b, hoverFadeAlpha);
     }
 
-    public void OnPlayerNotWatching()
+    public virtual void OnPlayerNotHovering()
     {
-        if (!fadedOnClick) mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
+        if (!fadedOnClick) material.color = new Color(material.color.r, material.color.g, material.color.b, 1.0f);
     }
 
-    public void OnClicked()
+    public virtual void OnClicked()
     {
         if (active && !fadedOnClick) StartCoroutine(FadeOnClick());
     }
@@ -32,11 +35,11 @@ public class Interactable : MonoBehaviour
     IEnumerator FadeOnClick()
     {
         fadedOnClick = true;
-        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
-
+        material.color = new Color(material.color.r, material.color.g, material.color.b, clickFadeAlpha);
+    
         yield return new WaitForSeconds(clickFadeDuration);
-
-        mat.color = new Color(mat.color.r, mat.color.g, mat.color.b, 1.0f);
+    
+        material.color = new Color(material.color.r, material.color.g, material.color.b, 1.0f);
         fadedOnClick = false;
     }
 }

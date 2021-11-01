@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using Photon.Pun;
+using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovementController : MonoBehaviourPun
 {
     [Header("Camera")]
-    [SerializeField] Transform cameraTransform = null;
     [SerializeField] float cameraSpeed = 0.0f;
+    [SerializeField] Vector3 cameraInitialPosition = Vector3.zero;
+    [SerializeField] Vector3 cameraInitialRotation = Vector3.zero;
+    [HideInInspector] public Transform cameraTransform = null;
 
     float cameraRotationX;
 
@@ -23,13 +26,17 @@ public class PlayerMovementController : MonoBehaviour
     bool isGrounded;
     Vector3 velocity;
 
-    void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-    }
+    void Awake() => characterController = GetComponent<CharacterController>();
 
     void Start()
     {
+        if (photonView.IsMine)
+        {
+            cameraTransform.SetParent(transform);
+            cameraTransform.localPosition = cameraInitialPosition;
+            cameraTransform.localRotation = Quaternion.Euler(cameraInitialRotation);
+        }
+
         characterController.enabled = true;
 
         SetCursorLockState(true);
@@ -39,6 +46,8 @@ public class PlayerMovementController : MonoBehaviour
 
     void Update()
     {
+        if (!photonView.IsMine) return;
+
         #region Mouse Input
         if (rotationActive)
         {
@@ -75,13 +84,7 @@ public class PlayerMovementController : MonoBehaviour
         Cursor.visible = !isActive;
     }
 
-    public void SetRotationActiveState(bool isActive)
-    {
-        rotationActive = isActive;
-    }
+    public void SetRotationActiveState(bool isActive) => rotationActive = isActive;
 
-    public void setCharacterControllerActiveState(bool isActive)
-    {
-        characterController.enabled = isActive;
-    }
+    public void setCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
 }
