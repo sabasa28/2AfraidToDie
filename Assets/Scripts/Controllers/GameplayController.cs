@@ -176,7 +176,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void UnlockDoor()
     {
-        int participantIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties[NetworkManager.ParticipantIndexProp];
+        int participantIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties[NetworkManager.PlayerPropParticipantIndex];
         bool[] areDoorsUnlocked = (bool[])PhotonNetwork.CurrentRoom.CustomProperties[AreDoorsUnlockedProp];
         areDoorsUnlocked[participantIndex] = true;
 

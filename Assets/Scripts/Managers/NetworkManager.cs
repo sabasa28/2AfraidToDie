@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,12 +22,16 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     string gameVersion;
     string handledRoomName;
 
+    Room currentRoom;
     RoomOptions defaultRoomOptions;
+
+    public Dictionary<int, Photon.Realtime.Player> PlayersByIndex { private set; get; } = new Dictionary<int, Photon.Realtime.Player>();
+    public Dictionary<string, Photon.Realtime.Player> PlayersByID { private set; get; } = new Dictionary<string, Photon.Realtime.Player>();
     
     const int MaxPlayersPerRoom = 2;
 
+    static public string PlayerPropParticipantIndex { set; get; } = "ParticipantIndex";
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
-    static public string ParticipantIndexProp { private set; get; } = "ParticipantIndex";
 
     static public event Action<bool> OnNamePlayerPrefNotSet;
     static public event Action<string> OnPlayerNameSet;
@@ -43,6 +48,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         defaultRoomOptions = new RoomOptions{ PublishUserId = true, MaxPlayers = MaxPlayersPerRoom };
 
         PhotonNetwork.AutomaticallySyncScene = true;
+        SetPlayerPropParticipantIndex(-1);
     }
 
     public override void OnEnable()
@@ -51,13 +57,33 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SceneManager.sceneLoaded += OnLevelLoaded;
 
+        TitleScreen.OnTitleScreenClosed += VerifyPlayerName;
+
         Networking_PlayerNameInput.OnPlayerNameSaved += SetPlayerName;
         Networking_RoomNameInput.OnJoiningRoom += JoinRoom;
         Networking_RoomNameInput.OnCreatingNewRoom += CreateNewRoom;
         Networking_Lobby.OnMatchCountdownFinished += BeginMatch;
     }
 
-    void Start()
+    void Start() => PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+
+        SceneManager.sceneLoaded -= OnLevelLoaded;
+
+        TitleScreen.OnTitleScreenClosed -= VerifyPlayerName;
+
+        Networking_PlayerNameInput.OnPlayerNameSaved -= SetPlayerName;
+        Networking_RoomNameInput.OnJoiningRoom -= JoinRoom;
+        Networking_RoomNameInput.OnCreatingNewRoom -= CreateNewRoom;
+        Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
+    }
+
+    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
+
+    void VerifyPlayerName()
     {
         if (!PlayerPrefs.HasKey(PlayerPrefsNameKey))
         {
@@ -71,23 +97,85 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             PhotonNetwork.NickName = PlayerPrefs.GetString(PlayerPrefsNameKey);
             OnPlayerNameSet?.Invoke(PhotonNetwork.NickName);
         }
-
-        PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
     }
 
-    public override void OnDisable()
+    bool GetPlayerByIndex(int playerIndex, out Photon.Realtime.Player player)
     {
-        base.OnDisable();
+        int foundPlayers = 0;
+        int actorIndex = 1;
+    
+        while (foundPlayers < currentRoom.PlayerCount)
+        {
+            if (currentRoom.Players.TryGetValue(actorIndex, out Photon.Realtime.Player foundPlayer))
+            {
+                if (foundPlayers == playerIndex)
+                {
+                    player = foundPlayer;
+                    return true;
+                }
+    
+                foundPlayers++;
+            }
+    
+            actorIndex++;
+        }
 
-        SceneManager.sceneLoaded -= OnLevelLoaded;
-
-        Networking_PlayerNameInput.OnPlayerNameSaved -= SetPlayerName;
-        Networking_RoomNameInput.OnJoiningRoom -= JoinRoom;
-        Networking_RoomNameInput.OnCreatingNewRoom -= CreateNewRoom;
-        Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
+        player = null;
+        return false;
     }
 
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
+    public bool GetPlayerByParticipantIndex(int participantIndex, out Photon.Realtime.Player player)
+    {
+        foreach (Photon.Realtime.Player playerInRoom in currentRoom.Players.Values)
+        {
+            if ((int)playerInRoom.CustomProperties[PlayerPropParticipantIndex] == participantIndex)
+            {
+                player = playerInRoom;
+                return true;
+            }
+        }
+
+        player = null;
+        return false;
+    }
+
+    public int GetPlayerIndex(Photon.Realtime.Player player)
+    {
+        int foundPlayers = 0;
+        int actorIndex = 1;
+
+        while (foundPlayers < currentRoom.PlayerCount)
+        {
+            if (currentRoom.Players.TryGetValue(actorIndex, out Photon.Realtime.Player foundPlayer))
+            {
+                if (foundPlayer == player) return foundPlayers;
+
+                foundPlayers++;
+            }
+
+            actorIndex++;
+        }
+
+        return -1;
+    }
+
+    public string ParticipantName(int participantIndex) { return "Participant" + (char)('A' + participantIndex); }
+
+    public void SetRoomPropParticipantID(int participantIndex, string userID)
+    {
+        ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
+        property.Add(ParticipantName(participantIndex), userID);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
+    }
+
+    public void SetPlayerPropParticipantIndex(int participantIndex)
+    {
+        ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
+        property.Add(PlayerPropParticipantIndex, participantIndex);
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(property);
+    }
 
     #region Main Menu
     void SetPlayerName(string name)
@@ -129,7 +217,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     void BeginMatch()
     {
-        bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[ParticipantIndexProp] == 0;
+        bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
         
         if (PhotonNetwork.IsMasterClient && !loadingScene)
@@ -177,13 +265,36 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         Debug.Log("Client successfully joined a room");
 
         joiningRoom = false;
+        currentRoom = PhotonNetwork.CurrentRoom;
+
+        for (int i = 0; i < currentRoom.PlayerCount; i++)
+        {
+            Photon.Realtime.Player player;
+            if (GetPlayerByIndex(i, out player)) PlayersByIndex.Add(i, player);
+        }
+        foreach (Photon.Realtime.Player player in PlayersByIndex.Values) PlayersByID.Add(player.UserId, player);
 
         OnRoomJoined?.Invoke();
     }
 
+    public override void OnLeftRoom()
+    {
+        currentRoom = null;
+
+        PlayersByIndex.Clear();
+        PlayersByID.Clear();
+    }
+
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        base.OnPlayerEnteredRoom(newPlayer);
+        PlayersByIndex.Add(GetPlayerIndex(newPlayer), newPlayer);
+        PlayersByID.Add(newPlayer.UserId, newPlayer);
+    }
+
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        PlayersByIndex.Remove(GetPlayerIndex(otherPlayer));
+        PlayersByID.Remove(otherPlayer.UserId);
     }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
