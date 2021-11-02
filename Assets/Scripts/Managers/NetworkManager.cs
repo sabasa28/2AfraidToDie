@@ -25,7 +25,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     Room currentRoom;
     RoomOptions defaultRoomOptions;
 
-    public Dictionary<int, Photon.Realtime.Player> PlayersByIndex { private set; get; } = new Dictionary<int, Photon.Realtime.Player>();
     public Dictionary<string, Photon.Realtime.Player> PlayersByID { private set; get; } = new Dictionary<string, Photon.Realtime.Player>();
     
     const int MaxPlayersPerRoom = 2;
@@ -99,7 +98,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         }
     }
 
-    bool GetPlayerByIndex(int playerIndex, out Photon.Realtime.Player player)
+    public bool GetPlayerByIndex(int playerIndex, out Photon.Realtime.Player player)
     {
         int foundPlayers = 0;
         int actorIndex = 1;
@@ -139,7 +138,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         return false;
     }
 
-    public int GetPlayerIndex(Photon.Realtime.Player player)
+    public bool GetPlayerIndex(Photon.Realtime.Player player, out int index)
     {
         int foundPlayers = 0;
         int actorIndex = 1;
@@ -148,7 +147,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         {
             if (currentRoom.Players.TryGetValue(actorIndex, out Photon.Realtime.Player foundPlayer))
             {
-                if (foundPlayer == player) return foundPlayers;
+                if (foundPlayer == player)
+                {
+                    index = foundPlayers;
+                    return true;
+                }
 
                 foundPlayers++;
             }
@@ -156,7 +159,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             actorIndex++;
         }
 
-        return -1;
+        index = -1;
+        return false;
     }
 
     public string ParticipantName(int participantIndex) { return "Participant" + (char)('A' + participantIndex); }
@@ -270,9 +274,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         for (int i = 0; i < currentRoom.PlayerCount; i++)
         {
             Photon.Realtime.Player player;
-            if (GetPlayerByIndex(i, out player)) PlayersByIndex.Add(i, player);
+            if (GetPlayerByIndex(i, out player)) PlayersByID.Add(player.UserId, player);
         }
-        foreach (Photon.Realtime.Player player in PlayersByIndex.Values) PlayersByID.Add(player.UserId, player);
 
         OnRoomJoined?.Invoke();
     }
@@ -280,22 +283,12 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     public override void OnLeftRoom()
     {
         currentRoom = null;
-
-        PlayersByIndex.Clear();
         PlayersByID.Clear();
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        PlayersByIndex.Add(GetPlayerIndex(newPlayer), newPlayer);
-        PlayersByID.Add(newPlayer.UserId, newPlayer);
-    }
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => PlayersByID.Add(newPlayer.UserId, newPlayer);
 
-    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
-    {
-        PlayersByIndex.Remove(GetPlayerIndex(otherPlayer));
-        PlayersByID.Remove(otherPlayer.UserId);
-    }
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) => PlayersByID.Remove(otherPlayer.UserId);
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
 

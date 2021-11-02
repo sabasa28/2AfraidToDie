@@ -9,11 +9,13 @@ using UnityEngine.UI;
 
 public class Networking_Lobby : MonoBehaviourPunCallbacks
 {
+    [Header("Text fields")]
     [SerializeField] TMP_Text roomNameText = null;
-    [SerializeField] TMP_Text matchCountdownText = null;
 
+    [Header("Buttons")]
     [SerializeField] Button disconnectButton = null;
 
+    [Header("Toggles")]
     [SerializeField] Toggle[] participantToggles = null;
     [SerializeField] PlayerConnectionToggle[] playerConnectionToggles = null;
     [SerializeField] RectTransform[] playerContainers = null;
@@ -21,8 +23,8 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     List<RectTransform> playerToggleTransforms;
     List<RectTransform> participantToggleTransforms;
 
-    [Header("Lobby properties")]
-    [SerializeField] int matchCountdownTimer = 5;
+    [Header("Timer")]
+    [SerializeField] MatchCountdownTimer matchCountdownTimer = null;
 
     bool readyToBeginMatch = false;
     bool countingDown = false;
@@ -38,12 +40,16 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     {
         base.OnEnable();
 
+        MatchCountdownTimer.OnCountdownFinished += OnCountdownFinished;
+
         SetUp();
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
+
+        MatchCountdownTimer.OnCountdownFinished -= OnCountdownFinished;
 
         disconnectButton.gameObject.SetActive(false);
     }
@@ -53,15 +59,12 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         Room room = PhotonNetwork.CurrentRoom;
 
         //Texts
-        roomNameText.text = "Room \"" + room.Name + "\"";
-        matchCountdownText.text = matchCountdownTimer.ToString();
+        roomNameText.text = "Show \"" + room.Name + "\"";
 
         //Toggles
         playerToggleTransforms = new List<RectTransform>();
         participantToggleTransforms = new List<RectTransform>();
         foreach (PlayerConnectionToggle toggle in playerConnectionToggles) playerToggleTransforms.Add(toggle.transform as RectTransform);
-
-        UpdatePlayerToggles();
 
         //Room properties
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
@@ -75,6 +78,8 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
             }
         }
 
+        UpdatePlayerToggles();
+
         disconnectButton.gameObject.SetActive(true);
     }
 
@@ -82,13 +87,8 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < playerConnectionToggles.Length; i++)
         {
-            Photon.Realtime.Player player;
-
-            if (networkManager.PlayersByIndex.TryGetValue(i, out player))
-            {
-                if (!playerConnectionToggles[i].IsOn) playerConnectionToggles[i].TurnOn(player);
-            }
-            else if (playerConnectionToggles[i].IsOn) playerConnectionToggles[i].TurnOff();
+            if (networkManager.GetPlayerByIndex(i, out Photon.Realtime.Player player)) playerConnectionToggles[i].TurnOn(player);
+            else playerConnectionToggles[i].TurnOff();
         }
     }
 
@@ -174,7 +174,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
                     if (player.IsLocal) networkManager.SetPlayerPropParticipantIndex(-1);
 
-                    int playerIndex = networkManager.GetPlayerIndex(player);
+                    networkManager.GetPlayerIndex(player, out int playerIndex);
                     MoveToggleToPlayers(participantToggleTransforms[i], playerIndex);
 
                     participantToggles[i].interactable = true;
@@ -187,22 +187,12 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
                     if (player.IsLocal) networkManager.SetPlayerPropParticipantIndex(i);
                     else participantToggles[i].interactable = false;
 
-                    int playerIndex = networkManager.GetPlayerIndex(player);
+                    networkManager.GetPlayerIndex(player, out int playerIndex);
                     MoveToggleToParticipants(playerToggleTransforms[playerIndex], i);
-
-                    //for (int j = 0; j < PhotonNetwork.CurrentRoom.MaxPlayers; j++)
-                    //{
-                    //    if (j == i)
-                    //    {
-                    //        participantToggles[j].interactable = false;
-                    //        continue;
-                    //    }
-                    //    else if ((string)PhotonNetwork.CurrentRoom.CustomProperties[ParticipantName(j)] == "") participantToggles[j].interactable = true;
-                    //}
                 }
             }
 
-            if (allParticipantsSelected && (string)PhotonNetwork.CurrentRoom.CustomProperties[networkManager.ParticipantName(i)] == "")
+            if (allParticipantsSelected && string.IsNullOrEmpty((string)PhotonNetwork.CurrentRoom.CustomProperties[networkManager.ParticipantName(i)]))
             {
                 allParticipantsSelected = false;
                 if (countingDown) StopMatchCountdown();
@@ -214,19 +204,21 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
     void StartMatchCountdown()
     {
-        matchCountdownText.gameObject.SetActive(true);
         readyToBeginMatch = true;
 
-        StartCoroutine(MatchCountdown());
+        matchCountdownTimer.StartCountdown();
         countingDown = true;
     }
 
     void StopMatchCountdown()
     {
-        matchCountdownText.gameObject.SetActive(false);
         readyToBeginMatch = false;
+
+        matchCountdownTimer.StopCountdown();
         countingDown = false;
     }
+
+    void OnCountdownFinished() { if (readyToBeginMatch) OnMatchCountdownFinished?.Invoke(); }
 
     public void ChooseParticipant(int participantIndex)
     {
@@ -244,27 +236,5 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => UpdatePlayerToggles();
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) => UpdatePlayerToggles();
-    #endregion
-
-    #region Coroutines
-    IEnumerator MatchCountdown()
-    {
-        int timer = matchCountdownTimer;
-
-        while (readyToBeginMatch)
-        {
-            matchCountdownText.text = timer--.ToString();
-
-            yield return new WaitForSeconds(1);
-
-            if (timer <= 0)
-            {
-                matchCountdownText.text = "0";
-                break;
-            }
-        }
-
-        if (readyToBeginMatch) OnMatchCountdownFinished?.Invoke();
-    }
     #endregion
 }

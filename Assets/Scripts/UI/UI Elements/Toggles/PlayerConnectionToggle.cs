@@ -13,7 +13,6 @@ public class PlayerConnectionToggle : MonoBehaviour
     [SerializeField] Sprite offSprite = null;
 
     [Header("Font sizes")]
-    [SerializeField] float onSize = 30.0f;
     [SerializeField] float offSize = 20.0f;
 
     [Header("Texts")]
@@ -30,22 +29,23 @@ public class PlayerConnectionToggle : MonoBehaviour
         {
             image.sprite = onSprite;
 
-            labelText.fontSize = onSize;
+            labelText.enableAutoSizing = true;
             labelText.text = player.NickName;
         }
         else
         {
             image.sprite = offSprite;
 
+            labelText.enableAutoSizing = false;
             labelText.fontSize = offSize;
             labelText.text = offText;
         }
     }
 
-    public void TurnOn(Photon.Realtime.Player player)
+    public void TurnOn(Photon.Realtime.Player connectedPlayer)
     {
         toggle.isOn = true;
-        this.player = player;
+        player = connectedPlayer;
 
         OnValueChanged(toggle.isOn);
     }
