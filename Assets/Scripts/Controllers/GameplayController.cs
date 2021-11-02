@@ -96,7 +96,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void Start()
     {
-        player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
+        player = FindObjectOfType<Player>(); //NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
         player.RespawnAtCheckpoint = RespawnPlayer;
 
         doors = playingAsPA ? paDoors : pbDoors;
