@@ -40,11 +40,11 @@ public class DeliveryMachine : MonoBehaviour
             shapeInserted.shapeUsed == shapeCorrect3dShape &&
             shapeInserted.symbolUsed == shapeCorrectSymbol)
         {
-            InstanciateCodeBarAndSendDrone(shapeInserted);
+            InstantiateCodeBarAndSendDrone(shapeInserted);
         }
     }
 
-    void InstanciateCodeBarAndSendDrone(CreatedShape shape)
+    void InstantiateCodeBarAndSendDrone(CreatedShape shape)
     {
         CodeBar codeBar = Instantiate(codebarPrefab, transform.position, Quaternion.identity, transform);
         codeBar.SetCode(GenerateCode(shape.shapeUsed, shape.colorUsed, shape.symbolUsed));

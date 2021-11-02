@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1296233817747863353}
   - component: {fileID: 3643564853515465696}
   - component: {fileID: 1501065117479783082}
-  - component: {fileID: 4413155758513400259}
+  - component: {fileID: 1488549389659943417}
   m_Layer: 0
   m_Name: Puerta_I
   m_TagString: Untagged
@@ -80,7 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4413155758513400259
+--- !u!65 &1488549389659943417
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,8 +91,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1232368, y: 2.4879215, z: 0.14894955}
-  m_Center: {x: -0.37441224, y: 1.2561895, z: 0}
+  m_Size: {x: 5.6161838, y: 12.439606, z: 0.7447477}
+  m_Center: {x: -1.8720613, y: 6.2809467, z: -0.000000014959372}
 --- !u!1 &3602813826732972568
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 430452941303243171}
   - component: {fileID: 6864874243038706439}
   - component: {fileID: 4618954318908704003}
-  - component: {fileID: 4413155758204267631}
+  - component: {fileID: 9059672776996130488}
   m_Layer: 0
   m_Name: Puerta_D
   m_TagString: Untagged
@@ -300,7 +300,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &4413155758204267631
+--- !u!65 &9059672776996130488
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,5 +311,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3104428, y: 2.4879215, z: 0.14894953}
-  m_Center: {x: 0.28080916, y: 1.2561895, z: -0.000000007450582}
+  m_Size: {x: 6.5522137, y: 12.439606, z: 0.7447477}
+  m_Center: {x: 1.4040457, y: 6.2809467, z: -0.000000014959372}

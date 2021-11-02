@@ -151,10 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22c5395500acfd4db721e6e620da5b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 3934806381409942747}
-  isOpen: 0
   animator: {fileID: 2440127966400687408}
+  button: {fileID: 3934806381409942747}
   closeDoorTrigger: {fileID: 7648399964260012469}
+  playerA: 1
+  isEntranceDoor: 1
+  doorNumber: 0
 --- !u!1 &3775680325834327206
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,10 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 2440127966400687415}
   pressZone: {fileID: 2241496492893904550}
-  triggersTimer: 0
-  canBePressed: 1
   onlyOneUse: 1
   broken: 1
+  canBePressed: 1
   animator: {fileID: 2315148143113487730}
   missingPart: {fileID: 4673224832578792884}
 --- !u!1 &4673224832578792908
@@ -647,7 +648,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  doorButton: {fileID: 3934806381409942747}
+  button: {fileID: 3934806381409942747}
 --- !u!1 &7648399964260012469
 GameObject:
   m_ObjectHideFlags: 0

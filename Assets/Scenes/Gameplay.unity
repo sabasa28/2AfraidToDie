@@ -4832,8 +4832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d4f3ff4569a8a4f9689c044f35c5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuSceneName: 
-  GameplaySceneName: 
+  MainMenuSceneName: Main Menu
+  GameplaySceneName: Gameplay
   paInitialPosition: {x: -8, y: 6, z: -15}
   playingAsPA: 0
 --- !u!1 &402667293
@@ -14716,9 +14716,8 @@ MonoBehaviour:
   button: {fileID: 0}
   closeDoorTrigger: {fileID: 649341191}
   playerA: 1
+  isEntranceDoor: 1
   doorNumber: -1
-  isExitDoor: 0
-  isOpen: 0
 --- !u!95 &1290328738
 Animator:
   serializedVersion: 3
@@ -22952,9 +22951,8 @@ MonoBehaviour:
   button: {fileID: 0}
   closeDoorTrigger: {fileID: 6206582272195498850}
   playerA: 0
+  isEntranceDoor: 1
   doorNumber: -1
-  isExitDoor: 0
-  isOpen: 0
 --- !u!65 &5260044269741003137
 BoxCollider:
   m_ObjectHideFlags: 0
