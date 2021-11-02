@@ -13,6 +13,7 @@ public class UIManager_MainMenu : MonoBehaviour
 
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
+    [SerializeField] Button changeNameButton = null;
 
     [Header("Menues")]
     [SerializeField] Menu defaultMenu = null;
@@ -110,15 +111,17 @@ public class UIManager_MainMenu : MonoBehaviour
     {
         currentMenu.gameObject.SetActive(false);
         targetMenu.gameObject.SetActive(true);
+        currentMenu = targetMenu;
 
         if (!targetMenu.gameObject.activeInHierarchy) ActivateMenuInHierarchy(targetMenu);
 
-        currentMenu = targetMenu;
-
-        margins.SetActive(targetMenu.DisplayMargins);
-
         if (targetMenu.PreviousMenu != null) SetUpReturnButton(targetMenu.PreviousMenu);
         else returnButton.gameObject.SetActive(false);
+
+        if (targetMenu == lobby) changeNameButton.gameObject.SetActive(false);
+        else changeNameButton.gameObject.SetActive(true);
+
+        margins.SetActive(targetMenu.DisplayMargins);
     }
 
     public void Exit() => OnExit?.Invoke();

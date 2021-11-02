@@ -1,0 +1,3704 @@
+fileFormatVersion: 2
+guid: 9532e5f103d1a34498bad7c4e7288d2c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 202865182548007097
+    second: Timer Sprite Sheet_0
+  - first:
+      213: 8676103366260741051
+    second: Timer Sprite Sheet_1
+  - first:
+      213: 9170173589732417837
+    second: Timer Sprite Sheet_2
+  - first:
+      213: -7290692554751520653
+    second: Timer Sprite Sheet_3
+  - first:
+      213: 9025299948593111255
+    second: Timer Sprite Sheet_4
+  - first:
+      213: -7840243668366361038
+    second: Timer Sprite Sheet_5
+  - first:
+      213: -8857083392765481998
+    second: Timer Sprite Sheet_6
+  - first:
+      213: 1862213192540603392
+    second: Timer Sprite Sheet_7
+  - first:
+      213: 5352996853923887715
+    second: Timer Sprite Sheet_8
+  - first:
+      213: 7442432286386750884
+    second: Timer Sprite Sheet_9
+  - first:
+      213: -4140979060681110250
+    second: Timer Sprite Sheet_10
+  - first:
+      213: -2964376313480517830
+    second: Timer Sprite Sheet_11
+  - first:
+      213: -2573774411339700899
+    second: Timer Sprite Sheet_12
+  - first:
+      213: 4561321554001463898
+    second: Timer Sprite Sheet_13
+  - first:
+      213: 4847959436467169809
+    second: Timer Sprite Sheet_14
+  - first:
+      213: -5940983668459279541
+    second: Timer Sprite Sheet_15
+  - first:
+      213: -5634090216786688620
+    second: Timer Sprite Sheet_16
+  - first:
+      213: -2584514628115864817
+    second: Timer Sprite Sheet_17
+  - first:
+      213: 9147131201408361943
+    second: Timer Sprite Sheet_18
+  - first:
+      213: 1036713257584646582
+    second: Timer Sprite Sheet_19
+  - first:
+      213: 6054802150339961330
+    second: Timer Sprite Sheet_20
+  - first:
+      213: 5165281549656780755
+    second: Timer Sprite Sheet_21
+  - first:
+      213: -56743644255906338
+    second: Timer Sprite Sheet_22
+  - first:
+      213: 4280714450372356926
+    second: Timer Sprite Sheet_23
+  - first:
+      213: -9134895046128400180
+    second: Timer Sprite Sheet_24
+  - first:
+      213: -257618722308986989
+    second: Timer Sprite Sheet_25
+  - first:
+      213: -101618351018710157
+    second: Timer Sprite Sheet_26
+  - first:
+      213: 2836559102493866689
+    second: Timer Sprite Sheet_27
+  - first:
+      213: 4713881321031630406
+    second: Timer Sprite Sheet_28
+  - first:
+      213: -8761573359050687512
+    second: Timer Sprite Sheet_29
+  - first:
+      213: -8037578341275445237
+    second: Timer Sprite Sheet_30
+  - first:
+      213: -5975298110126641695
+    second: Timer Sprite Sheet_31
+  - first:
+      213: 8934869066090680235
+    second: Timer Sprite Sheet_32
+  - first:
+      213: -8767836599119800653
+    second: Timer Sprite Sheet_33
+  - first:
+      213: 5629744308088338145
+    second: Timer Sprite Sheet_34
+  - first:
+      213: 8839555347111091972
+    second: Timer Sprite Sheet_35
+  - first:
+      213: -8469333089600020746
+    second: Timer Sprite Sheet_36
+  - first:
+      213: 2514186515633270177
+    second: Timer Sprite Sheet_37
+  - first:
+      213: 8868881399465900227
+    second: Timer Sprite Sheet_38
+  - first:
+      213: -3825613225316855912
+    second: Timer Sprite Sheet_39
+  - first:
+      213: 6278376644243079851
+    second: Timer Sprite Sheet_40
+  - first:
+      213: -4071118531641280552
+    second: Timer Sprite Sheet_41
+  - first:
+      213: -763725518543888675
+    second: Timer Sprite Sheet_42
+  - first:
+      213: -1663495183492223447
+    second: Timer Sprite Sheet_43
+  - first:
+      213: 8784235734193660445
+    second: Timer Sprite Sheet_44
+  - first:
+      213: -6653397731825389
+    second: Timer Sprite Sheet_45
+  - first:
+      213: 6284881670161239988
+    second: Timer Sprite Sheet_46
+  - first:
+      213: -8193942869764305558
+    second: Timer Sprite Sheet_47
+  - first:
+      213: 5051749609676147035
+    second: Timer Sprite Sheet_48
+  - first:
+      213: -3904889854431663721
+    second: Timer Sprite Sheet_49
+  - first:
+      213: 8812638739573614320
+    second: Timer Sprite Sheet_50
+  - first:
+      213: -5266146286164749203
+    second: Timer Sprite Sheet_51
+  - first:
+      213: 4570651157553815336
+    second: Timer Sprite Sheet_52
+  - first:
+      213: -7183261543278935458
+    second: Timer Sprite Sheet_53
+  - first:
+      213: -6318014239569962846
+    second: Timer Sprite Sheet_54
+  - first:
+      213: -6226575994091992030
+    second: Timer Sprite Sheet_55
+  - first:
+      213: -6105695196887482089
+    second: Timer Sprite Sheet_56
+  - first:
+      213: 6112172195249400736
+    second: Timer Sprite Sheet_57
+  - first:
+      213: 2280925993316945434
+    second: Timer Sprite Sheet_58
+  - first:
+      213: -1047357576348425727
+    second: Timer Sprite Sheet_59
+  - first:
+      213: 5450985947526337547
+    second: Timer Sprite Sheet_60
+  - first:
+      213: -8228151795904221844
+    second: Timer Sprite Sheet_61
+  - first:
+      213: 7369927162945958994
+    second: Timer Sprite Sheet_62
+  - first:
+      213: 467854418759967150
+    second: Timer Sprite Sheet_63
+  - first:
+      213: 3453601662601765014
+    second: Timer Sprite Sheet_64
+  - first:
+      213: -4512481458794828225
+    second: Timer Sprite Sheet_65
+  - first:
+      213: 1933527697553491109
+    second: Timer Sprite Sheet_66
+  - first:
+      213: 4135296873857144315
+    second: Timer Sprite Sheet_67
+  - first:
+      213: -5544449981633436927
+    second: Timer Sprite Sheet_68
+  - first:
+      213: -954087663034027153
+    second: Timer Sprite Sheet_69
+  - first:
+      213: 3142659444925975093
+    second: Timer Sprite Sheet_70
+  - first:
+      213: -4979846964385083769
+    second: Timer Sprite Sheet_71
+  - first:
+      213: 6290582242366122260
+    second: Timer Sprite Sheet_72
+  - first:
+      213: -1204907879825948898
+    second: Timer Sprite Sheet_73
+  - first:
+      213: 588193767870198339
+    second: Timer Sprite Sheet_74
+  - first:
+      213: -4871810976436704678
+    second: Timer Sprite Sheet_75
+  - first:
+      213: 1146985089753841363
+    second: Timer Sprite Sheet_76
+  - first:
+      213: -2363409478185855709
+    second: Timer Sprite Sheet_77
+  - first:
+      213: -7813959482992601406
+    second: Timer Sprite Sheet_78
+  - first:
+      213: -3564360758245067628
+    second: Timer Sprite Sheet_79
+  - first:
+      213: -5416985119277610523
+    second: Timer Sprite Sheet_80
+  - first:
+      213: 7585803057995233523
+    second: Timer Sprite Sheet_81
+  - first:
+      213: 919730504197678977
+    second: Timer Sprite Sheet_82
+  - first:
+      213: -8585876881957691268
+    second: Timer Sprite Sheet_83
+  - first:
+      213: 7311849434260936455
+    second: Timer Sprite Sheet_84
+  - first:
+      213: 2886186175477868148
+    second: Timer Sprite Sheet_85
+  - first:
+      213: 7176057962796457713
+    second: Timer Sprite Sheet_86
+  - first:
+      213: 6549662023575447790
+    second: Timer Sprite Sheet_87
+  - first:
+      213: 7349647268721586949
+    second: Timer Sprite Sheet_88
+  - first:
+      213: 2008062255658694053
+    second: Timer Sprite Sheet_89
+  - first:
+      213: 3860507619542757144
+    second: Timer Sprite Sheet_90
+  - first:
+      213: -448048828228187740
+    second: Timer Sprite Sheet_91
+  - first:
+      213: -547824422683326914
+    second: Timer Sprite Sheet_92
+  - first:
+      213: -3244470166193556199
+    second: Timer Sprite Sheet_93
+  - first:
+      213: -3706568383194812934
+    second: Timer Sprite Sheet_94
+  - first:
+      213: -8058789088231394842
+    second: Timer Sprite Sheet_95
+  - first:
+      213: 869530763779003188
+    second: Timer Sprite Sheet_96
+  - first:
+      213: -5478264528928161263
+    second: Timer Sprite Sheet_97
+  - first:
+      213: -1267245483063099514
+    second: Timer Sprite Sheet_98
+  - first:
+      213: 7521666228900122350
+    second: Timer Sprite Sheet_99
+  - first:
+      213: -3198221066397073402
+    second: Timer Sprite Sheet_100
+  - first:
+      213: -855381719648083352
+    second: Timer Sprite Sheet_101
+  - first:
+      213: -6995259015912224298
+    second: Timer Sprite Sheet_102
+  - first:
+      213: 890253029645414540
+    second: Timer Sprite Sheet_103
+  - first:
+      213: 7073048653604640321
+    second: Timer Sprite Sheet_104
+  - first:
+      213: 601335747276504725
+    second: Timer Sprite Sheet_105
+  - first:
+      213: 8074552851078514358
+    second: Timer Sprite Sheet_106
+  - first:
+      213: -8527967589266101955
+    second: Timer Sprite Sheet_107
+  - first:
+      213: 5540735489209353232
+    second: Timer Sprite Sheet_108
+  - first:
+      213: -5990632648131635961
+    second: Timer Sprite Sheet_109
+  - first:
+      213: -7873439174695484270
+    second: Timer Sprite Sheet_110
+  - first:
+      213: 5851829404510480895
+    second: Timer Sprite Sheet_111
+  - first:
+      213: 5859887893990532807
+    second: Timer Sprite Sheet_112
+  - first:
+      213: 921630231426266883
+    second: Timer Sprite Sheet_113
+  - first:
+      213: 4828607032863434540
+    second: Timer Sprite Sheet_114
+  - first:
+      213: -7684853064803872633
+    second: Timer Sprite Sheet_115
+  - first:
+      213: -7893462601736865398
+    second: Timer Sprite Sheet_116
+  - first:
+      213: -283106232361978295
+    second: Timer Sprite Sheet_117
+  - first:
+      213: -7871684405443429483
+    second: Timer Sprite Sheet_118
+  - first:
+      213: 5602980781002958012
+    second: Timer Sprite Sheet_119
+  - first:
+      213: 2036207033842629559
+    second: Timer Sprite Sheet_120
+  - first:
+      213: 6390628352386619688
+    second: Timer Sprite Sheet_121
+  - first:
+      213: 8395634437112590111
+    second: Timer Sprite Sheet_122
+  - first:
+      213: -7230304714475198053
+    second: Timer Sprite Sheet_123
+  - first:
+      213: 2283373307851565527
+    second: Timer Sprite Sheet_124
+  - first:
+      213: -5640358505117330171
+    second: Timer Sprite Sheet_125
+  - first:
+      213: 808683748496733059
+    second: Timer Sprite Sheet_126
+  - first:
+      213: 7065848857170230861
+    second: Timer Sprite Sheet_127
+  - first:
+      213: -3999996499420458328
+    second: Timer Sprite Sheet_128
+  - first:
+      213: -334166207555175071
+    second: Timer Sprite Sheet_129
+  - first:
+      213: 6854659207152218388
+    second: Timer Sprite Sheet_130
+  - first:
+      213: 5082515334369736494
+    second: Timer Sprite Sheet_131
+  - first:
+      213: -4502744237115163605
+    second: Timer Sprite Sheet_132
+  - first:
+      213: -4135943504107880073
+    second: Timer Sprite Sheet_133
+  - first:
+      213: 4263360899012764213
+    second: Timer Sprite Sheet_134
+  - first:
+      213: 4993965344201052582
+    second: Timer Sprite Sheet_135
+  - first:
+      213: 7327574699556043576
+    second: Timer Sprite Sheet_136
+  - first:
+      213: 3548093040277946674
+    second: Timer Sprite Sheet_137
+  - first:
+      213: 6225854257037840928
+    second: Timer Sprite Sheet_138
+  - first:
+      213: 3022281967786367711
+    second: Timer Sprite Sheet_139
+  - first:
+      213: -542416683603271413
+    second: Timer Sprite Sheet_140
+  - first:
+      213: -9178295109158109220
+    second: Timer Sprite Sheet_141
+  - first:
+      213: -5268762795249947182
+    second: Timer Sprite Sheet_142
+  - first:
+      213: 7414722974107290685
+    second: Timer Sprite Sheet_143
+  - first:
+      213: 4577778593907792307
+    second: Timer Sprite Sheet_144
+  - first:
+      213: -7091408890075228262
+    second: Timer Sprite Sheet_145
+  - first:
+      213: -8205258451000049771
+    second: Timer Sprite Sheet_146
+  - first:
+      213: 6911060559171679024
+    second: Timer Sprite Sheet_147
+  - first:
+      213: 4502014689164396193
+    second: Timer Sprite Sheet_148
+  - first:
+      213: 5626427478955473319
+    second: Timer Sprite Sheet_149
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b891170fc8b0d200800000000000000
+      internalID: 202865182548007097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb3da8c2b06b76870800000000000000
+      internalID: 8676103366260741051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d216ba05b40034f70800000000000000
+      internalID: 9170173589732417837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 370537bcfb142da90800000000000000
+      internalID: -7290692554751520653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d06e333c7e404d70800000000000000
+      internalID: 9025299948593111255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23e748a4cebd13390800000000000000
+      internalID: -7840243668366361038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fba334c491551580800000000000000
+      internalID: -8857083392765481998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 004cd6d3809e7d910800000000000000
+      internalID: 1862213192540603392
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 36abae9f64aa94a40800000000000000
+      internalID: 5352996853923887715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a50bf69bb4d84760800000000000000
+      internalID: 7442432286386750884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61d85c1fb794886c0800000000000000
+      internalID: -4140979060681110250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a376966e27b6cd6d0800000000000000
+      internalID: -2964376313480517830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1837
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d556b103fcd184cd0800000000000000
+      internalID: -2573774411339700899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5a079459c11d4f30800000000000000
+      internalID: 4561321554001463898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11ae0200c69674340800000000000000
+      internalID: 4847959436467169809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4b661984d26d8da0800000000000000
+      internalID: -5940983668459279541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4950deb6cc0bfc1b0800000000000000
+      internalID: -5634090216786688620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f036a5a93a5f12cd0800000000000000
+      internalID: -2584514628115864817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d566d53d5321fe70800000000000000
+      internalID: 9147131201408361943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b9554c0735236e00800000000000000
+      internalID: 1036713257584646582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f1e84cd97af60450800000000000000
+      internalID: 6054802150339961330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3dfeb2cd334cea740800000000000000
+      internalID: 5165281549656780755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed59dd8c4f7663ff0800000000000000
+      internalID: -56743644255906338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3b6357cc17286b30800000000000000
+      internalID: 4280714450372356926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc88a03ba555a3180800000000000000
+      internalID: -9134895046128400180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1670
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39768411321cc6cf0800000000000000
+      internalID: -257618722308986989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b6edce5aaf69ef0800000000000000
+      internalID: -101618351018710157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ca3c88997b7d5720800000000000000
+      internalID: 2836559102493866689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64e707516121b6140800000000000000
+      internalID: 4713881321031630406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ebf1446373a86680800000000000000
+      internalID: -8761573359050687512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0857e16519c47090800000000000000
+      internalID: -8037578341275445237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1eda6def60a731da0800000000000000
+      internalID: -5975298110126641695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: baf06fe93180ffb70800000000000000
+      internalID: 8934869066090680235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b69bcc2113625680800000000000000
+      internalID: -8767836599119800653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e6f1ebde9ed02e40800000000000000
+      internalID: 5629744308088338145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40f16f411c86caa70800000000000000
+      internalID: 8839555347111091972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fedded6d62e67a80800000000000000
+      internalID: -8469333089600020746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ade563b05f24e220800000000000000
+      internalID: 2514186515633270177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1503
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c8fb3ab4a8941b70800000000000000
+      internalID: 8868881399465900227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89fc3f06a01b8eac0800000000000000
+      internalID: -3825613225316855912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba2c73e2b46412750800000000000000
+      internalID: 6278376644243079851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d7f203e34b7087c0800000000000000
+      internalID: -4071118531641280552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dde5a41ffa3b665f0800000000000000
+      internalID: -763725518543888675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92e6f56b1f31ae8e0800000000000000
+      internalID: -1663495183492223447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d12e7effbdfd7e970800000000000000
+      internalID: 8784235734193660445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31925af15cc58eff0800000000000000
+      internalID: -6653397731825389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bf035d8492683750800000000000000
+      internalID: 6284881670161239988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a6d8ad19f54494e80800000000000000
+      internalID: -8193942869764305558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5907f2318b6b1640800000000000000
+      internalID: 5051749609676147035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 799e29bcd5b0fc9c0800000000000000
+      internalID: -3904889854431663721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f6a1260e38cc4a70800000000000000
+      internalID: 8812638739573614320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1336
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6458ed9ad3eae6b0800000000000000
+      internalID: -5266146286164749203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82f193ee2073e6f30800000000000000
+      internalID: 4570651157553815336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5282285fadef4c90800000000000000
+      internalID: -7183261543278935458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a8929cf587e158a0800000000000000
+      internalID: -6318014239569962846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22c0c298f12c699a0800000000000000
+      internalID: -6226575994091992030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71186ba5196344ba0800000000000000
+      internalID: -6105695196887482089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ab2cd75a3cc2d450800000000000000
+      internalID: 6112172195249400736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1e8c962b1a77af10800000000000000
+      internalID: 2280925993316945434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10220fc55d90771f0800000000000000
+      internalID: -1047357576348425727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0414f5b6dac5ab40800000000000000
+      internalID: 5450985947526337547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6de227498bbfcd80800000000000000
+      internalID: -8228151795904221844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25475e705bd374660800000000000000
+      internalID: 7369927162945958994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea1e8c47d172e7600800000000000000
+      internalID: 467854418759967150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1169
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 690a3170a68adef20800000000000000
+      internalID: 3453601662601765014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3e6ff875027061c0800000000000000
+      internalID: -4512481458794828225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a40e08523545da10800000000000000
+      internalID: 1933527697553491109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf5d907d896836930800000000000000
+      internalID: 4135296873857144315
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10361d11e182e03b0800000000000000
+      internalID: -5544449981633436927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f633640535662c2f0800000000000000
+      internalID: -954087663034027153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53ac6d85d18fc9b20800000000000000
+      internalID: 3142659444925975093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78e050cf19704eab0800000000000000
+      internalID: -4979846964385083769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 419ec927833ac4750800000000000000
+      internalID: 6290582242366122260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1fb7ebcaae474fe0800000000000000
+      internalID: -1204907879825948898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34270019d1fa92800800000000000000
+      internalID: 588193767870198339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5a24a89ab9d36cb0800000000000000
+      internalID: -4871810976436704678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3de7275bcd8eaef00800000000000000
+      internalID: 1146985089753841363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 2004
+        y: 1002
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 325d0f9f99b733fd0800000000000000
+      internalID: -2363409478185855709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c65ee6104d3f8390800000000000000
+      internalID: -7813959482992601406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 494f57176c8d88ec0800000000000000
+      internalID: -3564360758245067628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_80
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e981e30cb003d4b0800000000000000
+      internalID: -5416985119277610523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_81
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f8b0ef90bf264960800000000000000
+      internalID: 7585803057995233523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_82
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1872bc7450a83cc00800000000000000
+      internalID: 919730504197678977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_83
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c706cad3776d8d880800000000000000
+      internalID: -8585876881957691268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_84
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70793441258e87560800000000000000
+      internalID: 7311849434260936455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_85
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4766001f80bcd0820800000000000000
+      internalID: 2886186175477868148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_86
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1fe981062ba769360800000000000000
+      internalID: 7176057962796457713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_87
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee8a41aa8e215ea50800000000000000
+      internalID: 6549662023575447790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_88
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 503f19430413ff560800000000000000
+      internalID: 7349647268721586949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_89
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 835
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a5f76b7bf11edb10800000000000000
+      internalID: 2008062255658694053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81fe883e937439530800000000000000
+      internalID: 3860507619542757144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_91
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a9cd6fe6f538c9f0800000000000000
+      internalID: -448048828228187740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_92
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e364dae079cb568f0800000000000000
+      internalID: -547824422683326914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_93
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9153ea3e29359f2d0800000000000000
+      internalID: -3244470166193556199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_94
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: afdaaf791bf9f8cc0800000000000000
+      internalID: -3706568383194812934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_95
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e17c24850e692090800000000000000
+      internalID: -8058789088231394842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_96
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43352586f91311c00800000000000000
+      internalID: 869530763779003188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_97
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1124d9f9f6b49f3b0800000000000000
+      internalID: -5478264528928161263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_98
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68f3ec282f6d96ee0800000000000000
+      internalID: -1267245483063099514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_99
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eeec4ac6593526860800000000000000
+      internalID: 7521666228900122350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_100
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6004b3092e2ad93d0800000000000000
+      internalID: -3198221066397073402
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_101
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 668
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8626305abd21124f0800000000000000
+      internalID: -855381719648083352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_102
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d904bcccf8dbee90800000000000000
+      internalID: -6995259015912224298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_103
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c80fa38e960da5c00800000000000000
+      internalID: 890253029645414540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_104
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 146d82d9644882260800000000000000
+      internalID: 7073048653604640321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_105
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ef8271daf585800800000000000000
+      internalID: 601335747276504725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_106
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b607a889039e0070800000000000000
+      internalID: 8074552851078514358
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_107
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d39efb129a296a980800000000000000
+      internalID: -8527967589266101955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_108
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01449b44295a4ec40800000000000000
+      internalID: 5540735489209353232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_109
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7059144a85ffcdca0800000000000000
+      internalID: -5990632648131635961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_110
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29481af29ccebb290800000000000000
+      internalID: -7873439174695484270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_111
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff9680ec6dfd53150800000000000000
+      internalID: 5851829404510480895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_112
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c6eae81ef0825150800000000000000
+      internalID: 5859887893990532807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_113
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 501
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3077c6effc94acc00800000000000000
+      internalID: 921630231426266883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_114
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2727c96388a20340800000000000000
+      internalID: 4828607032863434540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_115
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7801b498adae95590800000000000000
+      internalID: -7684853064803872633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_116
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a89b4a7c599c47290800000000000000
+      internalID: -7893462601736865398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_117
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9467d52b164321cf0800000000000000
+      internalID: -283106232361978295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_118
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59bff8d3db822c290800000000000000
+      internalID: -7871684405443429483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_119
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb4a50f9559c1cd40800000000000000
+      internalID: 5602980781002958012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_120
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bb775d428f024c10800000000000000
+      internalID: 2036207033842629559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_121
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8295b83a0a210b850800000000000000
+      internalID: 6390628352386619688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_122
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1fe120e909438470800000000000000
+      internalID: 8395634437112590111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_123
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b99afd38b2cc8ab90800000000000000
+      internalID: -7230304714475198053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_124
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d9e918fceb20bf10800000000000000
+      internalID: 2283373307851565527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_125
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 334
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 505d0a0d2db69b1b0800000000000000
+      internalID: -5640358505117330171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_126
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38377cca595093b00800000000000000
+      internalID: 808683748496733059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_127
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e3b306910fe0260800000000000000
+      internalID: 7065848857170230861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_128
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a2dc3d60682d78c0800000000000000
+      internalID: -3999996499420458328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_129
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16dfbbeca9dcc5bf0800000000000000
+      internalID: -334166207555175071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_130
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4113baa3b34a02f50800000000000000
+      internalID: 6854659207152218388
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_131
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e27759ea4c8b88640800000000000000
+      internalID: 5082515334369736494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_132
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2c305019f90381c0800000000000000
+      internalID: -4502744237115163605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_133
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 771c092db4d2a96c0800000000000000
+      internalID: -4135943504107880073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_134
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53222fe36208a2b30800000000000000
+      internalID: 4263360899012764213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_135
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a117b975012e4540800000000000000
+      internalID: 4993965344201052582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_136
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83b7d28bd56c0b560800000000000000
+      internalID: 7327574699556043576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_137
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 167
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2318dcf42db5d3130800000000000000
+      internalID: 3548093040277946674
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_138
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0221816f57da66650800000000000000
+      internalID: 6225854257037840928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_139
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fda99fcdf6d41f920800000000000000
+      internalID: 3022281967786367711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_140
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b01e49d66e2f878f0800000000000000
+      internalID: -542416683603271413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_141
+      rect:
+        serializedVersion: 2
+        x: 501
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cdffce61a3520a080800000000000000
+      internalID: -9178295109158109220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_142
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2dd255f172891e6b0800000000000000
+      internalID: -5268762795249947182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_143
+      rect:
+        serializedVersion: 2
+        x: 835
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3cc793924366e660800000000000000
+      internalID: 7414722974107290685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_144
+      rect:
+        serializedVersion: 2
+        x: 1002
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b9d2468069878f30800000000000000
+      internalID: 4577778593907792307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_145
+      rect:
+        serializedVersion: 2
+        x: 1169
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a97d406bf21469d90800000000000000
+      internalID: -7091408890075228262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_146
+      rect:
+        serializedVersion: 2
+        x: 1336
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59fbed189e0112e80800000000000000
+      internalID: -8205258451000049771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_147
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 033f3a256f409ef50800000000000000
+      internalID: 6911060559171679024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_148
+      rect:
+        serializedVersion: 2
+        x: 1670
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a60c31d18e5a7e30800000000000000
+      internalID: 4502014689164396193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Timer Sprite Sheet_149
+      rect:
+        serializedVersion: 2
+        x: 1837
+        y: 0
+        width: 167
+        height: 167
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a933a56bf5151e40800000000000000
+      internalID: 5626427478955473319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
