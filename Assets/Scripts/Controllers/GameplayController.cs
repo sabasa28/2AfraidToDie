@@ -31,9 +31,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     int currentDoor = 0;
 
     [Space]
-    [SerializeField] ButtonMissingPart[] paButtonMP = null;
-    [SerializeField] ButtonMissingPart[] pbButtonMP = null;
-    ButtonMissingPart buttonMissingPart;
+    [SerializeField] Transform[] paButtonMPPos = null;
+    [SerializeField] Transform[] pbButtonMPPos = null;
+    Transform buttonMissingPartPos;
 
     [Space]
     [SerializeField] Floor[] playerAFloor = null;
@@ -209,7 +209,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         {
             floorsToOpen[i].Open();
         }
-
         player.Fall();
     }
     #endregion
@@ -252,12 +251,12 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         timerOn = false;
 
-        buttonMissingPart.gameObject.SetActive(true);
+        DroneController.Get().SendDrone(buttonMissingPartPos.position);
         uiManager.PuzzleInfoTextActiveState(false);
         currentCheckpoint++;
 
-        if (playingAsPA) buttonMissingPart = paButtonMP[currentCheckpoint];
-        else buttonMissingPart = pbButtonMP[currentCheckpoint];
+        if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
+        else buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
     }
     #endregion
 
@@ -267,13 +266,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         differences = new List<Interactable>();
         if (playingAsPA)
         {
-            buttonMissingPart = paButtonMP[currentCheckpoint];
+            buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
             foreach (Interactable difference in paDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorA;
         }
         else
         {
-            buttonMissingPart = pbButtonMP[currentCheckpoint];
+            buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorB;
         }
@@ -322,12 +321,10 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
             secondPhase = true;
             secondPhaseDoor.Open();
             SetUpCreateShapes();
-            Debug.Log("bbb");
         }
         else
         {
-            Debug.Log("aaaa");
-            buttonMissingPart.gameObject.SetActive(true);
+            DroneController.Get().SendDrone(buttonMissingPartPos.position);
         }
     }
     #endregion

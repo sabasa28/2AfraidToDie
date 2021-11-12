@@ -65,6 +65,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 341953918932120636}
+  pulserPrefab: {fileID: 7442719695371859645, guid: 3bb196b596bdb2a48b95cd375a9bc973,
+    type: 3}
+  pulserTransformations: {fileID: 0}
 --- !u!95 &6521076867597876873
 Animator:
   serializedVersion: 3
