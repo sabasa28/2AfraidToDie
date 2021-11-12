@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class Dialog : MonoBehaviour
 {
+    [SerializeField] TMP_Text titleText = null;
     [SerializeField] TMP_Text messageText = null;
     [SerializeField] GameObject buttonPrefab = null;
     [SerializeField] Transform buttonContainer = null;
 
+    public string Title { set { titleText.text = value; } get { return titleText.text; } }
     public string Message { set { messageText.text = value; } get { return messageText.text; } }
     public Dictionary<DialogManager.ButtonType, DialogButton> Buttons { private set; get; } = new Dictionary<DialogManager.ButtonType, DialogButton>();
 

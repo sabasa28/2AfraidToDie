@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIManager_Gameplay : MonoBehaviour
 {
     [Header("Timer")]
-    [SerializeField] TextMeshProUGUI timerText = null;
+    [SerializeField] TextMeshProUGUI timeText = null;
+    [SerializeField] Slider timeSlider = null;
 
     [Header("Dialogue")]
     [SerializeField] TextMeshProUGUI dialogueText = null;
@@ -17,6 +19,7 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] Animator puzzleInfoAnim = null;
     [SerializeField] TextMeshProUGUI puzzleInfoText = null;
     public string puzzleVariableName;
+    int differenceCount;
 
     [Header("Victory Screen")]
     [SerializeField] GameObject victoryScreen = null;
@@ -33,8 +36,10 @@ public class UIManager_Gameplay : MonoBehaviour
 
     void Awake()
     {
-        timerText.text = "";
+        timeText.text = "";
         dialogueText.text = "";
+
+        differenceCount = GameplayController.Get().DifferenceCount;
     }
 
     void OnDisable()
@@ -49,8 +54,20 @@ public class UIManager_Gameplay : MonoBehaviour
     void UpdateTimerText(float newTime, bool playNegativeFeedback)
     {
         if (newTime < 0.0f) newTime = 0.0f;
-        timerText.text = "Time: " + newTime.ToString("0.0");
-        if (playNegativeFeedback) timerAnim.SetTrigger("NegativeFeedback");
+        timeText.text = ToMinutes(newTime);
+
+        timeSlider.value = newTime / GameplayController.Get().TimerDuration;
+
+        //if (playNegativeFeedback) timerAnim.SetTrigger("NegativeFeedback");
+    }
+
+    string ToMinutes(float time)
+    {
+        int iTime = (int)time;
+        int minutes = iTime / 60;
+        int seconds = iTime % 60;
+
+        return minutes + ":" + seconds.ToString("00");
     }
     #endregion
 
@@ -65,29 +82,21 @@ public class UIManager_Gameplay : MonoBehaviour
     #endregion
 
     #region Puzzle Info
-    public void UpdatePuzzleInfoText(int newNum, bool positiveFeedback)
+    public void UpdatePuzzleInfoText(int newNumber, bool positiveFeedback)
     {
-        puzzleInfoText.text = puzzleVariableName + " " + newNum;
-        if (positiveFeedback) puzzleInfoAnim.SetTrigger("PositiveFeedback");
+        puzzleInfoText.text = newNumber + "/" + differenceCount;
+        //if (positiveFeedback) puzzleInfoAnim.SetTrigger("PositiveFeedback");
     }
-    public void PuzzleInfoTextActiveState(bool newState)
-    {
-        puzzleInfoText.gameObject.SetActive(newState);
-    }
+
+    public void PuzzleInfoTextActiveState(bool newState) => puzzleInfoText.gameObject.SetActive(newState);
     #endregion
 
     #region Victory Screen
-    void DisplayVictoryScreen()
-    {
-        victoryScreen.SetActive(true);
-    }
+    void DisplayVictoryScreen() => victoryScreen.SetActive(true);
     #endregion
 
     #region ButtonFunctions
-    public void GoToMainMenu()
-    {
-        OnGoToMainMenu?.Invoke();
-    }
+    public void GoToMainMenu() => OnGoToMainMenu?.Invoke();
     #endregion
 
     IEnumerator EraseTextWithTimer(TextMeshProUGUI text, float time)

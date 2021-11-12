@@ -11,8 +11,11 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     [SerializeField] Vector3 paInitialPosition = Vector3.zero;
 
     [SerializeField] bool playingAsPA;
+    bool titleScreenShown = false;
 
     GameplayController gameplayController;
+
+    public bool TitleScreenShown { get { return titleScreenShown; } }
 
     public string MainMenuScene { get { return MainMenuSceneName; } }
     public string GameplayScene { get { return GameplaySceneName; } }
@@ -21,6 +24,8 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     {
         NetworkManager.OnMatchBegun += SetPlayingAsPA;
         SceneManager.sceneLoaded += CheckLoadedScene;
+
+        TitleScreen.OnTitleScreenClosed += OnTitleScreenClosed;
         UIManager_MainMenu.OnExit += Exit;
         UIManager_Gameplay.OnGoToMainMenu += GoToMainMenu;
     }
@@ -29,6 +34,8 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     {
         NetworkManager.OnMatchBegun -= SetPlayingAsPA;
         SceneManager.sceneLoaded -= CheckLoadedScene;
+
+        TitleScreen.OnTitleScreenClosed -= OnTitleScreenClosed;
         UIManager_MainMenu.OnExit -= Exit;
         UIManager_Gameplay.OnGoToMainMenu -= GoToMainMenu;
     }
@@ -43,6 +50,8 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
             gameplayController.playingAsPA = playingAsPA;
         }
     }
+
+    void OnTitleScreenClosed() => titleScreenShown = true;
 
     #region Scene Flow
     void Exit() => Application.Quit();

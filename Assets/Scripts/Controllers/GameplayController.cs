@@ -51,7 +51,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] List<Difference> paDifferences = null;
     [SerializeField] List<Difference> pbDifferences = null;
-    
+    int differencesSelected = 0;
+    bool canSelectDifference = false;
+
     List<Interactable> differences;
 
     [Header("\"Create Shape\" puzzle")]
@@ -69,6 +71,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] Door secondPhaseDoorA;
     [SerializeField] Door secondPhaseDoorB;
     Door secondPhaseDoor;
+
+    public int DifferenceCount { get { return paDifferences.Count; } }
+    public float TimerDuration { get { return timerInitialDuration; } }
 
     public static event Action<float,bool> OnTimerUpdated;
     public static event Action OnLevelEnd;
@@ -141,6 +146,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         player.transform.position = GetPlayerSpawnPosition();
         timer = timerInitialDuration;
+        canSelectDifference = false;
         OnTimerUpdated?.Invoke(timer, false);
 
         switch (currentCheckpoint)
@@ -149,7 +155,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 differences.Clear();
                 if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
                 else foreach (Interactable difference in pbDifferences) differences.Add(difference);
-                uiManager.UpdatePuzzleInfoText(differences.Count, false);
+
+                differencesSelected = 0;
+                uiManager.UpdatePuzzleInfoText(differencesSelected, false);
                 break;
             case 1:
                 secondPhase = false;
@@ -217,10 +225,12 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #region Timer
     void StartTimer()
     {
-        Debug.Log("timer started");
         uiManager.puzzleVariableName = "Differences Left"; //Cuando tengamos varios puzzles esto se pondria en una variable que cambia segun el puzzle
-        uiManager.PuzzleInfoTextActiveState(true); //si el puzzle no tiene algo que mostrar se dejaria apagado
-        uiManager.UpdatePuzzleInfoText(differences.Count, false);
+        canSelectDifference = true;
+
+        differencesSelected = 0;
+        uiManager.UpdatePuzzleInfoText(differencesSelected, false);
+
         timerOn = true;
         StartCoroutine(Timer());
     }
@@ -251,9 +261,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void WinPuzzle()
     {
         timerOn = false;
+        canSelectDifference = false;
 
         buttonMissingPart.gameObject.SetActive(true);
-        uiManager.PuzzleInfoTextActiveState(false);
         currentCheckpoint++;
 
         if (playingAsPA) buttonMissingPart = paButtonMP[currentCheckpoint];
@@ -281,10 +291,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void CheckSelectedDifference(Difference selectedDifference)
     {
+        if (!canSelectDifference) return;
+
         if (differences.Contains(selectedDifference))
         {
             differences.Remove(selectedDifference);
-            uiManager.UpdatePuzzleInfoText(differences.Count, true);
+
+            differencesSelected++;
+            uiManager.UpdatePuzzleInfoText(differencesSelected, true);
 
             if (differences.Count <= 0) WinPuzzle();
         }
