@@ -13,8 +13,6 @@ public class ButtonMissingPart : MonoBehaviour
 
     public void ResetState()
     {
-        transform.position = origPos;
-        gameObject.SetActive(false);
-        transform.parent = null;
+        Destroy(gameObject);
     }
 }
