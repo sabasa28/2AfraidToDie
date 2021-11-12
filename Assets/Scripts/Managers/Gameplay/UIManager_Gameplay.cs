@@ -9,14 +9,15 @@ public class UIManager_Gameplay : MonoBehaviour
     [Header("Timer")]
     [SerializeField] TextMeshProUGUI timeText = null;
     [SerializeField] Slider timeSlider = null;
+    [SerializeField] Animator timerAnimator = null;
 
     [Header("Dialogue")]
     [SerializeField] TextMeshProUGUI dialogueText = null;
-    [SerializeField] Animator timerAnim = null;
     [SerializeField] float dialogueDuration = 5.0f;
 
     [Header("Puzzle Info")]
-    [SerializeField] Animator puzzleInfoAnim = null;
+    [SerializeField] Animator puzzleInfoAnimator = null;
+    [SerializeField] Animator differenceCounterAnimator = null;
     [SerializeField] TextMeshProUGUI puzzleInfoText = null;
     public string puzzleVariableName;
     int differenceCount;
@@ -58,7 +59,11 @@ public class UIManager_Gameplay : MonoBehaviour
 
         timeSlider.value = newTime / GameplayController.Get().TimerDuration;
 
-        //if (playNegativeFeedback) timerAnim.SetTrigger("NegativeFeedback");
+        if (playNegativeFeedback)
+        {
+            puzzleInfoAnimator.SetTrigger("OnFail");
+            timerAnimator.SetTrigger("OnFeedback");
+        }
     }
 
     string ToMinutes(float time)
@@ -85,7 +90,7 @@ public class UIManager_Gameplay : MonoBehaviour
     public void UpdatePuzzleInfoText(int newNumber, bool positiveFeedback)
     {
         puzzleInfoText.text = newNumber + "/" + differenceCount;
-        //if (positiveFeedback) puzzleInfoAnim.SetTrigger("PositiveFeedback");
+        if (positiveFeedback) differenceCounterAnimator.SetTrigger("OnFeedback");
     }
 
     public void PuzzleInfoTextActiveState(bool newState) => puzzleInfoText.gameObject.SetActive(newState);
