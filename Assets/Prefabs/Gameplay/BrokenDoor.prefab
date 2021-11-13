@@ -681,7 +681,6 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  missingPart: {fileID: 0}
   doorButton: {fileID: 3934806381409942747}
 --- !u!1001 &13503173761735051
 PrefabInstance:

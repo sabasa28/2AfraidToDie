@@ -6861,16 +6861,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f524cac4f2747b4fb11c694dd9b39b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lensFlareType: 2
-  saturation: 2
-  threshold: 1
-  flareIntensity: 2.5
-  bloomIntensity: 0.36
-  iterations: 50
-  blurSpread: 0.6
-  downsample: 6
-  useDirt: 1
-  screenDirt: {fileID: 0}
 --- !u!81 &755767372
 AudioListener:
   m_ObjectHideFlags: 0
@@ -15599,7 +15589,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1757319069
 GameObject:
@@ -18618,7 +18608,7 @@ PrefabInstance:
     - target: {fileID: 7297992417412057548, guid: c50c05dd94aff944a8cdf59774fd5060,
         type: 3}
       propertyPath: flightHeight
-      value: 19
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7697307347157581577, guid: c50c05dd94aff944a8cdf59774fd5060,
         type: 3}
@@ -18663,7 +18653,7 @@ PrefabInstance:
     - target: {fileID: 9056317711707537538, guid: c50c05dd94aff944a8cdf59774fd5060,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9056317711707537538, guid: c50c05dd94aff944a8cdf59774fd5060,
         type: 3}
@@ -19103,6 +19093,11 @@ PrefabInstance:
     - target: {fileID: 6991752990166169380, guid: 539c1d206b4eab649a54e540b9991689,
         type: 3}
       propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8453753327614819604, guid: 539c1d206b4eab649a54e540b9991689,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8521264283995834598, guid: 539c1d206b4eab649a54e540b9991689,
