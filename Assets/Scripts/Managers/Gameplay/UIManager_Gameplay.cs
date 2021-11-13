@@ -22,9 +22,11 @@ public class UIManager_Gameplay : MonoBehaviour
     public string puzzleVariableName;
     int differenceCount;
 
-    [Header("Victory Screen")]
+    [Header("Menues")]
+    [SerializeField] GameObject pauseMenu = null;
     [SerializeField] GameObject victoryScreen = null;
 
+    public static event Action<bool> OnPauseMenuStateSwitched;
     public static event Action OnGoToMainMenu;
 
     void OnEnable()
@@ -42,6 +44,8 @@ public class UIManager_Gameplay : MonoBehaviour
 
         differenceCount = GameplayController.Get().DifferenceCount;
     }
+
+    void Update() { if (Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
 
     void OnDisable()
     {
@@ -101,12 +105,21 @@ public class UIManager_Gameplay : MonoBehaviour
     #endregion
 
     #region ButtonFunctions
+    public void SetPauseMenuActive(bool state)
+    {
+        pauseMenu.SetActive(state);
+
+        OnPauseMenuStateSwitched?.Invoke(state);
+    }
+
     public void GoToMainMenu() => OnGoToMainMenu?.Invoke();
     #endregion
 
+    #region Coroutines
     IEnumerator EraseTextWithTimer(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
         text.text = "";
     }
+    #endregion
 }

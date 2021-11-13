@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -42,9 +43,12 @@ public class Door : MonoBehaviour
         animator.SetTrigger("Open");
         closeDoorTrigger.gameObject.SetActive(true);
 
-        if (isEntranceDoor) OnTimerTriggered?.Invoke();
+        if (isLocal)
+        {
+            OnDoorOpen?.Invoke(playerA, doorNumber);
 
-        if (isLocal) OnDoorOpen?.Invoke(playerA, doorNumber);
+            if (isEntranceDoor) OnTimerTriggered?.Invoke();
+        }
     } 
 
     public void Close(bool isLocal = true)

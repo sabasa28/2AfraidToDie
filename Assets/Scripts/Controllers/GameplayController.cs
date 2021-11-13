@@ -136,7 +136,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         player.movementController.SetCursorLockState(false);
         player.movementController.SetRotationActiveState(false);
-        player.movementController.setCharacterControllerActiveState(false);
+        player.movementController.SetCharacterControllerActiveState(false);
 
         OnLevelEnd?.Invoke();
     }
@@ -248,7 +248,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 OnTimerUpdated?.Invoke(timer, true);
 
                 timerOn = false;
-                Debug.Log("you lost");
                 OpenPlayersFloor();
             }
 

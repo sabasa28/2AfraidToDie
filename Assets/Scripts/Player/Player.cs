@@ -139,7 +139,7 @@ public class Player : MonoBehaviourPun
 
     public void Fall()
     {
-        movementController.setCharacterControllerActiveState(false);
+        movementController.SetCharacterControllerActiveState(false);
         animator.SetBool("Fall", true);
     }
 
@@ -147,6 +147,6 @@ public class Player : MonoBehaviourPun
     {
         animator.SetBool("Fall", false);
         RespawnAtCheckpoint();
-        movementController.setCharacterControllerActiveState(true);
+        movementController.SetCharacterControllerActiveState(true);
     }
 }
