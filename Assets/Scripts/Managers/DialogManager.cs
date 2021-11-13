@@ -41,13 +41,14 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
 
     public bool CoverActive { get { return cover.activeInHierarchy; } }
 
-    Dialog GenerateDialog(GameObject prefab, string message, ButtonData[] buttons)
+    Dialog GenerateDialog(GameObject prefab, string title, string message, ButtonData[] buttons)
     {
         cover.SetActive(true);
 
         Vector2 position = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Dialog newDialog = Instantiate(prefab, position, Quaternion.identity, dialogContainer).GetComponent<Dialog>();
 
+        newDialog.Title = title;
         newDialog.Message = message;
 
         foreach (ButtonData button in buttons) AddButtonToDialog(button, newDialog);
@@ -98,19 +99,19 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
         Destroy(menuObject);
     }
 
-    public Dialog DisplayMessageDialog(string message, string close, UnityAction onClose)
+    public Dialog DisplayMessageDialog(string title, string message, string close, UnityAction onClose)
     {
         ButtonData closeButton = new ButtonData(close, ButtonType.Close, onClose);
 
-        return GenerateDialog(defaultDialogPrefab, message, new ButtonData[] { closeButton });
+        return GenerateDialog(defaultDialogPrefab, title, message, new ButtonData[] { closeButton });
     }
 
-    public Dialog DisplayConfirmDialog(string message, string positive, UnityAction onPositive, string negative, UnityAction onNegative)
+    public Dialog DisplayConfirmDialog(string title, string message, string positive, UnityAction onPositive, string negative, UnityAction onNegative)
     {
         ButtonData positiveButton = new ButtonData(positive, ButtonType.Positive, onPositive);
         ButtonData negativeButton = new ButtonData(negative, ButtonType.Negative, onNegative);
 
-        return GenerateDialog(defaultDialogPrefab, message, new ButtonData[] { negativeButton, positiveButton });
+        return GenerateDialog(defaultDialogPrefab, title, message, new ButtonData[] { negativeButton, positiveButton });
     }
 
     public PromptDialog DisplayPromptDialog(string title, string message, string @continue, UnityAction<string> onContinue, string cancel, UnityAction onCancel)
@@ -120,8 +121,7 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
         ButtonData cancelButton = new ButtonData(cancel, ButtonType.Cancel, onCancel);
         ButtonData continueButton = new ButtonData(@continue, ButtonType.Continue, () => { onContinue(newDialog.InputField.text); });
 
-        newDialog = GenerateDialog(promptDialogPrefab, message, new ButtonData[] { cancelButton, continueButton }) as PromptDialog;
-        newDialog.Title = title;
+        newDialog = GenerateDialog(promptDialogPrefab, title, message, new ButtonData[] { cancelButton, continueButton }) as PromptDialog;
         return newDialog;
     }
 }

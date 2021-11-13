@@ -111,7 +111,14 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
                 int oldIndex = participantToggleTransforms.IndexOf(toggleTransform);
                 participantToggleTransforms[oldIndex] = null;
 
-                if (newPlayerIndex >= playerToggleTransforms.Count) playerToggleTransforms.Insert(newPlayerIndex, toggleTransform);
+                if (newPlayerIndex >= playerToggleTransforms.Count)
+                {
+                    for (int i = 0; i <= newPlayerIndex; i++)
+                    {
+                        if (i != newPlayerIndex) playerToggleTransforms.Add(null);
+                        else playerToggleTransforms.Add(toggleTransform);
+                    }
+                }
                 else playerToggleTransforms[newPlayerIndex] = toggleTransform;
 
                 toggleTransform.SetParent(playerContainers[newPlayerIndex]);
@@ -148,7 +155,14 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
             int oldIndex = oldToggleTransforms.IndexOf(toggleTransform);
             oldToggleTransforms[oldIndex] = null;
 
-            if (newParticipantIndex >= participantToggleTransforms.Count) participantToggleTransforms.Insert(newParticipantIndex, toggleTransform);
+            if (newParticipantIndex >= participantToggleTransforms.Count)
+            {
+                for (int i = 0; i <= newParticipantIndex; i++)
+                {
+                    if (i != newParticipantIndex) participantToggleTransforms.Add(null);
+                    else participantToggleTransforms.Add(toggleTransform);
+                }
+            }
             else participantToggleTransforms[newParticipantIndex] = toggleTransform;
 
             toggleTransform.SetParent(participantContainers[newParticipantIndex]);
@@ -188,6 +202,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
                     else participantToggles[i].interactable = false;
 
                     networkManager.GetPlayerIndex(player, out int playerIndex);
+                    Debug.Log("playerToggleTransforms.Count: " + playerToggleTransforms.Count);
                     MoveToggleToParticipants(playerToggleTransforms[playerIndex], i);
                 }
             }

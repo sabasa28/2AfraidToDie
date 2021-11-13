@@ -23,11 +23,14 @@ public class PlayerMovementController : MonoBehaviourPun
     [SerializeField] float gravityForce = 0.0f;
     [SerializeField] float groundCheckRadius = 0.0f;
 
+    bool canProcessInput = true;
     bool rotationActive = true;
     bool isGrounded;
     Vector3 velocity;
 
     void Awake() => characterController = GetComponent<CharacterController>();
+
+    void OnEnable() => UIManager_Gameplay.OnPauseMenuStateSwitched += OnPauseMenuStateSwitched;
 
     void Start()
     {
@@ -49,6 +52,8 @@ public class PlayerMovementController : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
+        if (canProcessInput)
+        {
         #region Mouse Input
         if (rotationActive)
         {
@@ -69,6 +74,7 @@ public class PlayerMovementController : MonoBehaviourPun
         movement = (inputX * transform.right + inputZ * transform.forward) * movementSpeed;
         if (ableToMove && characterController.enabled) characterController.Move(movement * Time.deltaTime);
         #endregion
+        }
 
         #region Physics
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, walkableLayer);
@@ -79,9 +85,17 @@ public class PlayerMovementController : MonoBehaviourPun
         #endregion
     }
 
+    void OnDisable() => UIManager_Gameplay.OnPauseMenuStateSwitched -= OnPauseMenuStateSwitched;
+
+    void OnPauseMenuStateSwitched(bool state)
+    {
+        canProcessInput = !state;
+        SetCursorLockState(!state);
+    }
+
     public void SetCursorLockState(bool isActive)
     {
-        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.Confined;
         Cursor.visible = !isActive;
     }
 
@@ -100,5 +114,5 @@ public class PlayerMovementController : MonoBehaviourPun
 
     public void SetRotationActiveState(bool isActive) => rotationActive = isActive;
 
-    public void setCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
+    public void SetCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
 }
