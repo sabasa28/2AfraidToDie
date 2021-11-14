@@ -64,17 +64,30 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         //Toggles
         playerToggleTransforms = new List<RectTransform>();
         participantToggleTransforms = new List<RectTransform>();
-        foreach (PlayerConnectionToggle toggle in playerConnectionToggles) playerToggleTransforms.Add(toggle.transform as RectTransform);
+        foreach (PlayerConnectionToggle toggle in playerConnectionToggles) if (toggle.TryGetComponent(out RectTransform rect)) playerToggleTransforms.Add(rect);
 
         //Room properties
+        //if (room.PlayerCount == 1)
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++) networkManager.SetRoomPropParticipantID(i, "");
+            for (int i = 0; i < room.MaxPlayers; i++) networkManager.SetRoomPropParticipantID(i, "");
         else
         {
-            for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+            //for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
+            //{
+            //    string key = networkManager.ParticipantName(i);
+            //    networkManager.SetRoomPropParticipantID(i, (string)room.CustomProperties[key]);
+            //}
+
+            for (int j = 0; j < room.PlayerCount; j++)
             {
-                string key = networkManager.ParticipantName(i);
-                networkManager.SetRoomPropParticipantID(i, (string)room.CustomProperties[key]);
+                networkManager.GetPlayerByIndex(j, out Photon.Realtime.Player player);
+                int participantIndex = (int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex];
+
+                if (participantIndex > -1)
+                {
+                    participantToggles[participantIndex].interactable = false;
+                    MoveToggleToParticipants(playerToggleTransforms[j], participantIndex);
+                }
             }
         }
 
@@ -157,7 +170,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
             if (newParticipantIndex >= participantToggleTransforms.Count)
             {
-                for (int i = 0; i <= newParticipantIndex; i++)
+                for (int i = participantToggleTransforms.Count; i <= newParticipantIndex; i++)
                 {
                     if (i != newParticipantIndex) participantToggleTransforms.Add(null);
                     else participantToggleTransforms.Add(toggleTransform);
@@ -202,7 +215,6 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
                     else participantToggles[i].interactable = false;
 
                     networkManager.GetPlayerIndex(player, out int playerIndex);
-                    Debug.Log("playerToggleTransforms.Count: " + playerToggleTransforms.Count);
                     MoveToggleToParticipants(playerToggleTransforms[playerIndex], i);
                 }
             }
