@@ -8,7 +8,15 @@ public class PromptDialog : Dialog
 
     public TMP_InputField InputField { get { return inputField; } }
 
-    void Start() => inputField.Select();
+    void Start()
+    {
+        inputField.Select();
+        CheckInputText();
+    }
 
-    public void CheckInputText(string text) => Buttons[DialogManager.ButtonType.Continue].Interactable = !string.IsNullOrEmpty(text);
+    void Update() { if (Input.GetButtonDown("Submit") && CanSubmit()) Buttons[DialogManager.ButtonType.Continue].Press(); }
+
+    bool CanSubmit() => !string.IsNullOrEmpty(inputField.text);
+
+    public void CheckInputText() => Buttons[DialogManager.ButtonType.Continue].Interactable = CanSubmit();
 }

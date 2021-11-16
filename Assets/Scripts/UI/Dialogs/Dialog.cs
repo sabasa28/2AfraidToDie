@@ -20,9 +20,9 @@ public class Dialog : MonoBehaviour
         GameObject newButtonGO = Instantiate(buttonPrefab, buttonContainer);
 
         newButtonGO.GetComponent<Button>().onClick.AddListener(action);
-
         DialogButton newButton = newButtonGO.GetComponent<DialogButton>();
         newButton.Text = text;
+
         Buttons.Add(type, newButton);
     }
 }
