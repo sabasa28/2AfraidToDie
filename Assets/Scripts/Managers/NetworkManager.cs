@@ -163,7 +163,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         return false;
     }
 
-    public string ParticipantName(int participantIndex) { return "Participant" + (char)('A' + participantIndex); }
+    public string ParticipantName(int participantIndex) => "Participant" + (char)('A' + participantIndex);
 
     public void SetRoomPropParticipantID(int participantIndex, string userID)
     {
@@ -223,12 +223,22 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     {
         bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
-        
-        if (PhotonNetwork.IsMasterClient && !loadingScene)
+
+        if (PhotonNetwork.IsMasterClient) LoadScene(GameManager.Get().GameplayScene);
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        if (PhotonNetwork.IsMasterClient)
         {
-            loadingScene = true;
-            PhotonNetwork.LoadLevel(GameManager.Get().GameplayScene);
+            if (!loadingScene)
+            {
+                loadingScene = true;
+                PhotonNetwork.LoadLevel(sceneName);
+            }
+            else Debug.LogError("Can not load scene: a scene is already being loaded");
         }
+        else Debug.LogError("Can not load scene: client is not master");
     }
 
     public void Disconnect()

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -65,7 +65,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     #region Scene Flow
     void Exit() => Application.Quit();
 
-    void GoToMainMenu() => SceneManager.LoadScene(MainMenuScene);
+    void GoToMainMenu() => NetworkManager.Get().LoadScene(MainMenuScene);
     #endregion
 
     IEnumerator DisconnectAfterSeconds(float seconds)

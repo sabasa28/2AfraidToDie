@@ -57,17 +57,18 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     List<Interactable> differences;
 
     [Header("\"Create Shape\" puzzle")]
-
     [SerializeField] ShapeBuilder shapeBuilder;
     public int shapeCorrect3dShape;
     public int shapeCorrectColor;
     public int shapeCorrectSymbol;
     int currentCode;
+
     [SerializeField] DeliveryMachine deliveryMachineA;
     [SerializeField] DeliveryMachine deliveryMachineB;
     [SerializeField] Phone phoneA;
     [SerializeField] Phone phoneB;
     bool secondPhase = false;
+
     [SerializeField] Door secondPhaseDoorA;
     [SerializeField] Door secondPhaseDoorB;
     Door secondPhaseDoor;
