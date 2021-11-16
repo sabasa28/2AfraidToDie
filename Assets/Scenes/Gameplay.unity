@@ -4841,8 +4841,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openAngle: 90
-  timeToOpenOrClose: 5
-  timeOpen: 2
+  timeToOpenOrClose: 2
+  timeOpen: 1
 --- !u!1 &452318003
 GameObject:
   m_ObjectHideFlags: 0
