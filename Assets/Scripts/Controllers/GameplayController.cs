@@ -224,7 +224,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #region Timer
     void StartTimer()
     {
-        uiManager.puzzleVariableName = "Differences Left"; //Cuando tengamos varios puzzles esto se pondria en una variable que cambia segun el puzzle
         canSelectDifference = true;
 
         differencesSelected = 0;
@@ -262,7 +261,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         canSelectDifference = false;
 
         DroneController.Get().SendDrone(buttonMissingPartPos.position);
-        uiManager.PuzzleInfoTextActiveState(false);
         currentCheckpoint++;
 
         if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];

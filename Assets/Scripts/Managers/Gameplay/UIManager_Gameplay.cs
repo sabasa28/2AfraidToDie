@@ -16,15 +16,15 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] float dialogueDuration = 5.0f;
 
     [Header("Puzzle Info")]
-    [SerializeField] Animator puzzleInfoAnimator = null;
+    [SerializeField] TextMeshProUGUI differenceCounterText = null;
     [SerializeField] Animator differenceCounterAnimator = null;
-    [SerializeField] TextMeshProUGUI puzzleInfoText = null;
-    public string puzzleVariableName;
+    [SerializeField] Animator puzzleInfoAnimator = null;
     int differenceCount;
 
     [Header("Menues")]
     [SerializeField] GameObject pauseMenu = null;
     [SerializeField] GameObject victoryScreen = null;
+    bool canPause = true;
 
     public static event Action<bool> OnPauseMenuStateSwitched;
     public static event Action OnGoToMainMenu;
@@ -45,7 +45,7 @@ public class UIManager_Gameplay : MonoBehaviour
         differenceCount = GameplayController.Get().DifferenceCount;
     }
 
-    void Update() { if (Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
+    void Update() { if (canPause && Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
 
     void OnDisable()
     {
@@ -93,18 +93,20 @@ public class UIManager_Gameplay : MonoBehaviour
     #region Puzzle Info
     public void UpdatePuzzleInfoText(int newNumber, bool positiveFeedback)
     {
-        puzzleInfoText.text = newNumber + "/" + differenceCount;
+        differenceCounterText.text = newNumber + "/" + differenceCount;
         if (positiveFeedback) differenceCounterAnimator.SetTrigger("OnFeedback");
     }
-
-    public void PuzzleInfoTextActiveState(bool newState) => puzzleInfoText.gameObject.SetActive(newState);
     #endregion
 
     #region Victory Screen
-    void DisplayVictoryScreen() => victoryScreen.SetActive(true);
+    void DisplayVictoryScreen()
+    {
+        canPause = false;
+        victoryScreen.SetActive(true);
+    }
     #endregion
 
-    #region ButtonFunctions
+    #region Button Functions
     public void SetPauseMenuActive(bool state)
     {
         pauseMenu.SetActive(state);

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
@@ -48,6 +50,8 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
+
+            StartCoroutine(DisconnectAfterSeconds(1.0f));
         }
         else if (scene.name == GameplayScene)
         {
@@ -63,4 +67,11 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
 
     void GoToMainMenu() => SceneManager.LoadScene(MainMenuScene);
     #endregion
+
+    IEnumerator DisconnectAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        NetworkManager.Get().Disconnect();
+    }
 }

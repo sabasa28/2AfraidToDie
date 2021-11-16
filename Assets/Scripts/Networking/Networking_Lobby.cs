@@ -72,12 +72,6 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
             for (int i = 0; i < room.MaxPlayers; i++) networkManager.SetRoomPropParticipantID(i, "");
         else
         {
-            //for (int i = 0; i < PhotonNetwork.CurrentRoom.MaxPlayers; i++)
-            //{
-            //    string key = networkManager.ParticipantName(i);
-            //    networkManager.SetRoomPropParticipantID(i, (string)room.CustomProperties[key]);
-            //}
-
             for (int j = 0; j < room.PlayerCount; j++)
             {
                 networkManager.GetPlayerByIndex(j, out Photon.Realtime.Player player);
@@ -255,7 +249,7 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         networkManager.SetRoomPropParticipantID(participantIndex, userID);
     }
 
-    public void DisconnectFromLobby() => networkManager.DisconnectFromRoom();
+    public void DisconnectFromLobby() => networkManager.Disconnect();
 
     #region Overrides
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable propertiesThatChanged) => UpdateParticipantProperties(propertiesThatChanged);

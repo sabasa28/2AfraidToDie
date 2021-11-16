@@ -231,12 +231,19 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         }
     }
 
-    public void DisconnectFromRoom()
+    public void Disconnect()
     {
-        Debug.Log("Leaving room...");
+        if (PhotonNetwork.InRoom)
+        {
+            if (currentRoom.PlayerCount > 1) PhotonNetwork.LeaveRoom();
+            else
+            {
+                Debug.Log("Closing room...");
+                currentRoom.IsOpen = false;
+            }
+        }
 
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
+        if (PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
     }
     #endregion
 
@@ -282,6 +289,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnLeftRoom()
     {
+        Debug.Log("Leaving room...");
+
         currentRoom = null;
         PlayersByID.Clear();
     }

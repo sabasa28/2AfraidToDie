@@ -15,6 +15,7 @@ public class UIManager_MainMenu : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
     [SerializeField] Button changeNameButton = null;
+    [SerializeField] Button startButton = null;
 
     [Header("Menues")]
     [SerializeField] Menu titleScreen = null;
@@ -52,6 +53,8 @@ public class UIManager_MainMenu : MonoBehaviour
             DisplayMenu(rootMenu);
         }
         else DisplayMenu(titleScreen);
+
+        startButton.onClick.AddListener(NetworkManager.Get().Disconnect);
     }
 
     void OnDisable()
