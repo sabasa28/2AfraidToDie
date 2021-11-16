@@ -15,4 +15,6 @@ public class DialogButton : MonoBehaviour
     public UnityAction OnPressed { private set; get; }
 
     void Awake() => button = GetComponent<Button>();
+
+    public void Press() => button.onClick.Invoke();
 }

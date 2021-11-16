@@ -8,6 +8,7 @@ public class PlayerMovementController : MonoBehaviourPun
     [SerializeField] Vector3 cameraInitialPosition = Vector3.zero;
     [SerializeField] Vector3 cameraInitialRotation = Vector3.zero;
     [HideInInspector] public Transform cameraTransform = null;
+    [SerializeField] Transform cameraHolder = null;
 
     float cameraRotationX;
 
@@ -22,17 +23,20 @@ public class PlayerMovementController : MonoBehaviourPun
     [SerializeField] float gravityForce = 0.0f;
     [SerializeField] float groundCheckRadius = 0.0f;
 
+    bool canProcessInput = true;
     bool rotationActive = true;
     bool isGrounded;
     Vector3 velocity;
 
     void Awake() => characterController = GetComponent<CharacterController>();
 
+    void OnEnable() => UIManager_Gameplay.OnPauseMenuStateSwitched += OnPauseMenuStateSwitched;
+
     void Start()
     {
         if (photonView.IsMine)
         {
-            cameraTransform.SetParent(transform);
+            cameraTransform.SetParent(cameraHolder);
             cameraTransform.localPosition = cameraInitialPosition;
             cameraTransform.localRotation = Quaternion.Euler(cameraInitialRotation);
         }
@@ -48,6 +52,8 @@ public class PlayerMovementController : MonoBehaviourPun
     {
         if (!photonView.IsMine) return;
 
+        if (canProcessInput)
+        {
         #region Mouse Input
         if (rotationActive)
         {
@@ -68,6 +74,7 @@ public class PlayerMovementController : MonoBehaviourPun
         movement = (inputX * transform.right + inputZ * transform.forward) * movementSpeed;
         if (ableToMove && characterController.enabled) characterController.Move(movement * Time.deltaTime);
         #endregion
+        }
 
         #region Physics
         isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, walkableLayer);
@@ -78,13 +85,34 @@ public class PlayerMovementController : MonoBehaviourPun
         #endregion
     }
 
+    void OnDisable() => UIManager_Gameplay.OnPauseMenuStateSwitched -= OnPauseMenuStateSwitched;
+
+    void OnPauseMenuStateSwitched(bool state)
+    {
+        canProcessInput = !state;
+        SetCursorLockState(!state);
+    }
+
     public void SetCursorLockState(bool isActive)
     {
-        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.lockState = isActive ? CursorLockMode.Locked : CursorLockMode.Confined;
         Cursor.visible = !isActive;
+    }
+
+    public void LockCameraLookingUp(bool locked)
+    {
+        rotationActive = !locked;
+        if (locked)
+        {
+            cameraTransform.localRotation = Quaternion.Euler(-90.0f, 0.0f, -90.0f);
+        }
+        else
+        {
+            cameraTransform.localRotation = Quaternion.Euler(cameraInitialRotation);
+        }
     }
 
     public void SetRotationActiveState(bool isActive) => rotationActive = isActive;
 
-    public void setCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
+    public void SetCharacterControllerActiveState(bool isActive) => characterController.enabled = isActive;
 }

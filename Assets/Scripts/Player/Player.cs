@@ -49,13 +49,6 @@ public class Player : MonoBehaviourPun
             hoveredInteractable.OnPlayerHovering();
 
             if (Input.GetButtonDown("Click") && hoveredInteractable != null) hoveredInteractable.OnClicked();
-            //{
-            //
-            //    //if (hoveredInteractable.CompareTag("Door Button")) hoveredInteractable.GetComponent<ButtonPressZone>().Press();
-            //    //else if (hoveredInteractable.CompareTag("Difference Object")) OnDifferenceObjectSelected?.Invoke(hoveredInteractable);
-            //    //else if (hoveredInteractable.CompareTag("Grabbable")) GrabObject(hoveredInteractable);
-            //    //else if (objectGrabbed && hoveredInteractable.CompareTag("IncompleteButton")) hoveredInteractable.GetComponent<IncompleteButton>().TryFixButtonWithObj(objectGrabbed.gameObject);
-            //}
         }
     }
 
@@ -113,8 +106,6 @@ public class Player : MonoBehaviourPun
         grabbable.transform.localPosition = GrabbedObjectPos;
 
         grabbedObject = grabbable;
-        //grabbedObject.SetGrabbedState(true);
-        //grabbedObject.transform.localPosition = GrabbedObjectPos;
     }
 
     void FixButton(DoorButton doorButton) { if (photonView.IsMine) doorButton.TryToFixButton(grabbedObject.gameObject); }
@@ -139,7 +130,7 @@ public class Player : MonoBehaviourPun
 
     public void Fall()
     {
-        movementController.setCharacterControllerActiveState(false);
+        movementController.SetCharacterControllerActiveState(false);
         animator.SetBool("Fall", true);
     }
 
@@ -147,6 +138,6 @@ public class Player : MonoBehaviourPun
     {
         animator.SetBool("Fall", false);
         RespawnAtCheckpoint();
-        movementController.setCharacterControllerActiveState(true);
+        movementController.SetCharacterControllerActiveState(true);
     }
 }

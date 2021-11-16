@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,10 +15,9 @@ public class UIManager_MainMenu : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
     [SerializeField] Button changeNameButton = null;
+    [SerializeField] Button startButton = null;
 
     [Header("Menues")]
-    [SerializeField] Menu defaultMenu = null;
-    [Space]
     [SerializeField] Menu titleScreen = null;
     [SerializeField] Menu rootMenu = null;
     [SerializeField] Menu roomOptionsMenu = null;
@@ -34,7 +34,7 @@ public class UIManager_MainMenu : MonoBehaviour
 
     void OnEnable()
     {
-        TitleScreen.OnTitleScreenClosed += () => titleScreen.gameObject.SetActive(false);
+        TitleScreen.OnTitleScreenClosed += CloseTitleScreen;
 
         NetworkManager.OnPlayerNameSet += OnPlayerNameSet;
         NetworkManager.OnRoomJoined += DisplayLobby;
@@ -45,10 +45,16 @@ public class UIManager_MainMenu : MonoBehaviour
 
     void Start()
     {
-        currentMenu = defaultMenu;
-        if (!currentMenu.gameObject.activeInHierarchy) currentMenu.gameObject.SetActive(true);
-
         versionText.text = "v" + Application.version;
+
+        if (GameManager.Get().TitleScreenShown)
+        {
+            nameText.text = nameDisplayPreText + PhotonNetwork.LocalPlayer.NickName;
+            DisplayMenu(rootMenu);
+        }
+        else DisplayMenu(titleScreen);
+
+        startButton.onClick.AddListener(NetworkManager.Get().Disconnect);
     }
 
     void OnDisable()
@@ -61,6 +67,8 @@ public class UIManager_MainMenu : MonoBehaviour
 
         Networking_Lobby.OnDisconnectedOnRoomClosed -= DisplayRoomOptionsMenu;
     }
+
+    void CloseTitleScreen() { if (titleScreen) titleScreen.gameObject.SetActive(false); }
 
     void DisplayRoomOptionsMenu() => DisplayMenu(roomOptionsMenu);
 
@@ -92,24 +100,24 @@ public class UIManager_MainMenu : MonoBehaviour
 
     void NotifyFail(NetworkManager.FailTypes failType, string failMessage)
     {
-        string message = "";
+        string title = "";
         switch (failType)
         {
             case NetworkManager.FailTypes.CreateRoomFail:
-                message = createRoomFailPreText + failMessage;
+                title = createRoomFailPreText;
                 break;
             case NetworkManager.FailTypes.JoinRoomFail:
-                message = joinRoomFailPreText + failMessage;
+                title = joinRoomFailPreText;
                 break;
             default: break;
         }
 
-        DialogManager.Get().DisplayMessageDialog(message, null, null);
+        DialogManager.Get().DisplayMessageDialog(title, failMessage, null, null);
     }
 
     public void DisplayMenu(Menu targetMenu)
     {
-        currentMenu.gameObject.SetActive(false);
+        if (currentMenu) currentMenu.gameObject.SetActive(false);
         targetMenu.gameObject.SetActive(true);
         currentMenu = targetMenu;
 

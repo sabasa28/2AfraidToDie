@@ -3,9 +3,20 @@ using UnityEngine;
 
 public class PromptDialog : Dialog
 {
-    [SerializeField] TMP_Text titleText = null;
+    [Header("Prompt Dialog")]
     [SerializeField] TMP_InputField inputField = null;
 
-    public string Title { set { titleText.text = value; } get { return titleText.text; } }
     public TMP_InputField InputField { get { return inputField; } }
+
+    void Start()
+    {
+        inputField.Select();
+        CheckInputText();
+    }
+
+    void Update() { if (Input.GetButtonDown("Submit") && CanSubmit()) Buttons[DialogManager.ButtonType.Continue].Press(); }
+
+    bool CanSubmit() => !string.IsNullOrEmpty(inputField.text);
+
+    public void CheckInputText() => Buttons[DialogManager.ButtonType.Continue].Interactable = CanSubmit();
 }

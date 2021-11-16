@@ -163,7 +163,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         return false;
     }
 
-    public string ParticipantName(int participantIndex) { return "Participant" + (char)('A' + participantIndex); }
+    public string ParticipantName(int participantIndex) => "Participant" + (char)('A' + participantIndex);
 
     public void SetRoomPropParticipantID(int participantIndex, string userID)
     {
@@ -223,20 +223,37 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     {
         bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
-        
-        if (PhotonNetwork.IsMasterClient && !loadingScene)
-        {
-            loadingScene = true;
-            PhotonNetwork.LoadLevel(GameManager.Get().GameplayScene);
-        }
+
+        if (PhotonNetwork.IsMasterClient) LoadScene(GameManager.Get().GameplayScene);
     }
 
-    public void DisconnectFromRoom()
+    public void LoadScene(string sceneName)
     {
-        Debug.Log("Leaving room...");
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (!loadingScene)
+            {
+                loadingScene = true;
+                PhotonNetwork.LoadLevel(sceneName);
+            }
+            else Debug.LogError("Can not load scene: a scene is already being loaded");
+        }
+        else Debug.LogError("Can not load scene: client is not master");
+    }
 
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
+    public void Disconnect()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            if (currentRoom.PlayerCount > 1) PhotonNetwork.LeaveRoom();
+            else
+            {
+                Debug.Log("Closing room...");
+                currentRoom.IsOpen = false;
+            }
+        }
+
+        if (PhotonNetwork.IsConnected) PhotonNetwork.Disconnect();
     }
     #endregion
 
@@ -282,6 +299,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnLeftRoom()
     {
+        Debug.Log("Leaving room...");
+
         currentRoom = null;
         PlayersByID.Clear();
     }

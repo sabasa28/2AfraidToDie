@@ -248,11 +248,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f64f8ffc0523414f8a17951903cc050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titleText: {fileID: 3991708170172699593}
   messageText: {fileID: 5834552932078164269}
   buttonPrefab: {fileID: 8536289084454232414, guid: 4ca31456ce24fd244adc65fd25cebee6,
     type: 3}
   buttonContainer: {fileID: 725609549061774754}
-  titleText: {fileID: 3991708170172699593}
   inputField: {fileID: 1731767265116070225}
 --- !u!1 &1731767264238591318
 GameObject:
@@ -592,7 +592,18 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7580882578812999296}
+        m_MethodName: CheckInputText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []

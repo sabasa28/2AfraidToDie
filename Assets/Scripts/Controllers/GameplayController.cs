@@ -31,9 +31,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     int currentDoor = 0;
 
     [Space]
-    [SerializeField] ButtonMissingPart[] paButtonMP = null;
-    [SerializeField] ButtonMissingPart[] pbButtonMP = null;
-    ButtonMissingPart buttonMissingPart;
+    [SerializeField] Transform[] paButtonMPPos = null;
+    [SerializeField] Transform[] pbButtonMPPos = null;
+    Transform buttonMissingPartPos;
 
     [Space]
     [SerializeField] Floor[] playerAFloor = null;
@@ -51,24 +51,30 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] List<Difference> paDifferences = null;
     [SerializeField] List<Difference> pbDifferences = null;
-    
+    int differencesSelected = 0;
+    bool canSelectDifference = false;
+
     List<Interactable> differences;
 
     [Header("\"Create Shape\" puzzle")]
-
     [SerializeField] ShapeBuilder shapeBuilder;
     public int shapeCorrect3dShape;
     public int shapeCorrectColor;
     public int shapeCorrectSymbol;
     int currentCode;
+
     [SerializeField] DeliveryMachine deliveryMachineA;
     [SerializeField] DeliveryMachine deliveryMachineB;
     [SerializeField] Phone phoneA;
     [SerializeField] Phone phoneB;
     bool secondPhase = false;
+
     [SerializeField] Door secondPhaseDoorA;
     [SerializeField] Door secondPhaseDoorB;
     Door secondPhaseDoor;
+
+    public int DifferenceCount { get { return paDifferences.Count; } }
+    public float TimerDuration { get { return timerInitialDuration; } }
 
     public static event Action<float,bool> OnTimerUpdated;
     public static event Action OnLevelEnd;
@@ -97,6 +103,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void Start()
     {
         player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
+        player = FindObjectOfType<Player>();
         player.RespawnAtCheckpoint = RespawnPlayer;
 
         doors = playingAsPA ? paDoors : pbDoors;
@@ -130,7 +137,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         player.movementController.SetCursorLockState(false);
         player.movementController.SetRotationActiveState(false);
-        player.movementController.setCharacterControllerActiveState(false);
+        player.movementController.SetCharacterControllerActiveState(false);
 
         OnLevelEnd?.Invoke();
     }
@@ -140,6 +147,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         player.transform.position = GetPlayerSpawnPosition();
         timer = timerInitialDuration;
+        canSelectDifference = false;
         OnTimerUpdated?.Invoke(timer, false);
 
         switch (currentCheckpoint)
@@ -148,7 +156,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 differences.Clear();
                 if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
                 else foreach (Interactable difference in pbDifferences) differences.Add(difference);
-                uiManager.UpdatePuzzleInfoText(differences.Count, false);
+
+                differencesSelected = 0;
+                uiManager.UpdatePuzzleInfoText(differencesSelected, false);
                 break;
             case 1:
                 secondPhase = false;
@@ -208,7 +218,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         {
             floorsToOpen[i].Open();
         }
-
         player.Fall();
     }
     #endregion
@@ -216,10 +225,11 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #region Timer
     void StartTimer()
     {
-        Debug.Log("timer started");
-        uiManager.puzzleVariableName = "Differences Left"; //Cuando tengamos varios puzzles esto se pondria en una variable que cambia segun el puzzle
-        uiManager.PuzzleInfoTextActiveState(true); //si el puzzle no tiene algo que mostrar se dejaria apagado
-        uiManager.UpdatePuzzleInfoText(differences.Count, false);
+        canSelectDifference = true;
+
+        differencesSelected = 0;
+        uiManager.UpdatePuzzleInfoText(differencesSelected, false);
+
         timerOn = true;
         StartCoroutine(Timer());
     }
@@ -237,7 +247,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 OnTimerUpdated?.Invoke(timer, true);
 
                 timerOn = false;
-                Debug.Log("you lost");
                 OpenPlayersFloor();
             }
 
@@ -250,13 +259,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void WinPuzzle()
     {
         timerOn = false;
+        canSelectDifference = false;
 
-        buttonMissingPart.gameObject.SetActive(true);
-        uiManager.PuzzleInfoTextActiveState(false);
+        DroneController.Get().SendDrone(buttonMissingPartPos.position);
         currentCheckpoint++;
 
-        if (playingAsPA) buttonMissingPart = paButtonMP[currentCheckpoint];
-        else buttonMissingPart = pbButtonMP[currentCheckpoint];
+        if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
+        else buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
     }
     #endregion
 
@@ -266,13 +275,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         differences = new List<Interactable>();
         if (playingAsPA)
         {
-            buttonMissingPart = paButtonMP[currentCheckpoint];
+            buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
             foreach (Interactable difference in paDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorA;
         }
         else
         {
-            buttonMissingPart = pbButtonMP[currentCheckpoint];
+            buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
             foreach (Interactable difference in pbDifferences) differences.Add(difference);
             secondPhaseDoor = secondPhaseDoorB;
         }
@@ -280,10 +289,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void CheckSelectedDifference(Difference selectedDifference)
     {
+        if (!canSelectDifference) return;
+
         if (differences.Contains(selectedDifference))
         {
             differences.Remove(selectedDifference);
-            uiManager.UpdatePuzzleInfoText(differences.Count, true);
+
+            differencesSelected++;
+            uiManager.UpdatePuzzleInfoText(differencesSelected, true);
 
             if (differences.Count <= 0) WinPuzzle();
         }
@@ -321,12 +334,10 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
             secondPhase = true;
             secondPhaseDoor.Open();
             SetUpCreateShapes();
-            Debug.Log("bbb");
         }
         else
         {
-            Debug.Log("aaaa");
-            buttonMissingPart.gameObject.SetActive(true);
+            DroneController.Get().SendDrone(buttonMissingPartPos.position);
         }
     }
     #endregion

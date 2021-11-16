@@ -26,7 +26,7 @@ public class DoorButton : MonoBehaviour
         ButtonMissingPart temp;
         insertedObject.TryGetComponent(out temp);
         
-        if (temp != missingPart) return;
+        if (temp == null) return;
         
         FixButton();
         temp.ResetState();

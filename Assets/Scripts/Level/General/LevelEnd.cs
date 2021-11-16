@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
@@ -7,7 +8,8 @@ public class LevelEnd : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!other.CompareTag("Player")) return;
+        if (!other.TryGetComponent(out PhotonView photonView) || !photonView.IsMine) return;
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 

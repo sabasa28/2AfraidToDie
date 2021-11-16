@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 4f7f14a2ba7dda04ca9e8364803b666c
+<<<<<<< HEAD:Assets/Animations.meta
+guid: 2c7f3edd290b38344b8b10088b3caabf
+=======
+guid: ae19898f8376f014b9bf0f422dcf6e6c
+>>>>>>> feature-assets-implementation:Assets/Art/Door.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

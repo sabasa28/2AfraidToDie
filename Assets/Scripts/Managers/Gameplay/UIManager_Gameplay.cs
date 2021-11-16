@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class UIManager_Gameplay : MonoBehaviour
 {
     [Header("Timer")]
-    [SerializeField] TextMeshProUGUI timerText = null;
+    [SerializeField] TextMeshProUGUI timeText = null;
+    [SerializeField] Slider timeSlider = null;
+    [SerializeField] Animator timerAnimator = null;
 
     [Header("Dialogue")]
     [SerializeField] TextMeshProUGUI dialogueText = null;
-    [SerializeField] Animator timerAnim = null;
     [SerializeField] float dialogueDuration = 5.0f;
 
     [Header("Puzzle Info")]
-    [SerializeField] Animator puzzleInfoAnim = null;
-    [SerializeField] TextMeshProUGUI puzzleInfoText = null;
-    public string puzzleVariableName;
+    [SerializeField] TextMeshProUGUI differenceCounterText = null;
+    [SerializeField] Animator differenceCounterAnimator = null;
+    [SerializeField] Animator puzzleInfoAnimator = null;
+    int differenceCount;
 
-    [Header("Victory Screen")]
+    [Header("Menues")]
+    [SerializeField] GameObject pauseMenu = null;
     [SerializeField] GameObject victoryScreen = null;
+    bool canPause = true;
 
+    public static event Action<bool> OnPauseMenuStateSwitched;
     public static event Action OnGoToMainMenu;
 
     void OnEnable()
@@ -33,9 +39,13 @@ public class UIManager_Gameplay : MonoBehaviour
 
     void Awake()
     {
-        timerText.text = "";
+        timeText.text = "";
         dialogueText.text = "";
+
+        differenceCount = GameplayController.Get().DifferenceCount;
     }
+
+    void Update() { if (canPause && Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
 
     void OnDisable()
     {
@@ -49,8 +59,24 @@ public class UIManager_Gameplay : MonoBehaviour
     void UpdateTimerText(float newTime, bool playNegativeFeedback)
     {
         if (newTime < 0.0f) newTime = 0.0f;
-        timerText.text = "Time: " + newTime.ToString("0.0");
-        if (playNegativeFeedback) timerAnim.SetTrigger("NegativeFeedback");
+        timeText.text = ToMinutes(newTime);
+
+        timeSlider.value = newTime / GameplayController.Get().TimerDuration;
+
+        if (playNegativeFeedback)
+        {
+            puzzleInfoAnimator.SetTrigger("OnFail");
+            timerAnimator.SetTrigger("OnFeedback");
+        }
+    }
+
+    string ToMinutes(float time)
+    {
+        int iTime = (int)time;
+        int minutes = iTime / 60;
+        int seconds = iTime % 60;
+
+        return minutes + ":" + seconds.ToString("00");
     }
     #endregion
 
@@ -65,34 +91,37 @@ public class UIManager_Gameplay : MonoBehaviour
     #endregion
 
     #region Puzzle Info
-    public void UpdatePuzzleInfoText(int newNum, bool positiveFeedback)
+    public void UpdatePuzzleInfoText(int newNumber, bool positiveFeedback)
     {
-        puzzleInfoText.text = puzzleVariableName + " " + newNum;
-        if (positiveFeedback) puzzleInfoAnim.SetTrigger("PositiveFeedback");
-    }
-    public void PuzzleInfoTextActiveState(bool newState)
-    {
-        puzzleInfoText.gameObject.SetActive(newState);
+        differenceCounterText.text = newNumber + "/" + differenceCount;
+        if (positiveFeedback) differenceCounterAnimator.SetTrigger("OnFeedback");
     }
     #endregion
 
     #region Victory Screen
     void DisplayVictoryScreen()
     {
+        canPause = false;
         victoryScreen.SetActive(true);
     }
     #endregion
 
-    #region ButtonFunctions
-    public void GoToMainMenu()
+    #region Button Functions
+    public void SetPauseMenuActive(bool state)
     {
-        OnGoToMainMenu?.Invoke();
+        pauseMenu.SetActive(state);
+
+        OnPauseMenuStateSwitched?.Invoke(state);
     }
+
+    public void GoToMainMenu() => OnGoToMainMenu?.Invoke();
     #endregion
 
+    #region Coroutines
     IEnumerator EraseTextWithTimer(TextMeshProUGUI text, float time)
     {
         yield return new WaitForSeconds(time);
         text.text = "";
     }
+    #endregion
 }
