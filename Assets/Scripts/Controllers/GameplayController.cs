@@ -36,8 +36,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     Transform buttonMissingPartPos;
 
     [Space]
-    [SerializeField] Floor[] playerAFloor = null;
-    [SerializeField] Floor[] playerBFloor = null;
+    [SerializeField] Floor[] playersFloor = null;
 
     [Header("Timer")]
     [SerializeField] float timerInitialDuration = 20.0f;
@@ -48,13 +47,20 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     const string AreDoorsUnlockedProp = "AreDoorsUnlocked";
 
+    [Header("PUZZLES")]
+    [SerializeField] FindTheDifferences[] puzzlesPrefabs;
+    List<FindTheDifferences> puzzles;
+    FindTheDifferences currentPuzzle;
+    [SerializeField] float spaceBetweenPuzzles;
+    [SerializeField] Transform puzzlesParent;
+    
     [Header("\"Spot the differences\" puzzle")]
     [SerializeField] List<Difference> paDifferences = null;
     [SerializeField] List<Difference> pbDifferences = null;
+    [SerializeField] int differencesAmount = 0;
     int differencesSelected = 0;
     bool canSelectDifference = false;
-
-    List<Interactable> differences;
+    bool initialSetDone = false;
 
     [Header("\"Create Shape\" puzzle")]
     [SerializeField] ShapeBuilder shapeBuilder;
@@ -102,15 +108,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void Start()
     {
+        InstantiatePuzzles();
         player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
-        player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player>(); //sacar eso creo
         player.RespawnAtCheckpoint = RespawnPlayer;
 
         doors = playingAsPA ? paDoors : pbDoors;
 
         SetUpAreDoorsUnlockedProp();
 
-        SetUpSpotTheDifferences();
+        SetUpSpotTheDifferences(puzzles[0]);
         SetUpCreateShapes();
 
         timer = timerInitialDuration;
@@ -153,11 +160,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         switch (currentCheckpoint)
         {
             case 0:
-                differences.Clear();
-                if (playingAsPA) foreach (Interactable difference in paDifferences) differences.Add(difference);
-                else foreach (Interactable difference in pbDifferences) differences.Add(difference);
-
-                differencesSelected = 0;
+                SetUpSpotTheDifferences(currentPuzzle);
                 uiManager.UpdatePuzzleInfoText(differencesSelected, false);
                 break;
             case 1:
@@ -197,7 +200,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
                 property.Add(AreDoorsUnlockedProp, areDoorsUnlocked);
                 PhotonNetwork.CurrentRoom.SetCustomProperties(property);
-
+                
                 return;
             }
         }
@@ -211,12 +214,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OpenPlayersFloor()
     {
-        Floor[] floorsToOpen = playerAFloor;
-        if (!playingAsPA) floorsToOpen = playerBFloor;
-
-        for (int i = 0; i < floorsToOpen.Length; i++)
+        for (int i = 0; i < playersFloor.Length; i++)
         {
-            floorsToOpen[i].Open();
+            playersFloor[i].Open();
         }
         player.Fall();
     }
@@ -256,6 +256,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Puzzles
+
+    void InstantiatePuzzles()
+    {
+        puzzles = new List<FindTheDifferences>();
+        for (int i = 0; i < puzzlesPrefabs.Length; i++)
+        {
+            puzzles.Add(Instantiate(puzzlesPrefabs[i], new Vector3(spaceBetweenPuzzles * i, 0.0f, 0.0f), Quaternion.identity, puzzlesParent));
+        }
+    }
+
     void WinPuzzle()
     {
         timerOn = false;
@@ -270,20 +280,53 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Spot the Differences
-    void SetUpSpotTheDifferences()
+    void SetUpSpotTheDifferences(FindTheDifferences findTheDifferences)
     {
-        differences = new List<Interactable>();
+        currentPuzzle = findTheDifferences;
+        currentPuzzle.SetSide(playingAsPA);
+
+        if (!initialSetDone)
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                SetRandomDifferences();
+            }
+        }
+        else
+        { 
+            SetRandomDifferences();
+        }
+    }
+
+    void SetRandomDifferences()
+    {
+        int numOfInteractables = currentPuzzle.GetInteractablesNumber();
+        int[] differencesIndices = new int[differencesAmount];
+        for (int i = 0; i < differencesAmount; i++)
+        {
+            differencesIndices[i] = UnityEngine.Random.Range(0, numOfInteractables);
+        }
+        photonView.RPC("SetDifferences", RpcTarget.All, differencesIndices);
+    }
+
+    void SetInteractablesAsDifferences(int[] differencesIndices)
+    {
+        initialSetDone = true;
+        differencesSelected = 0;
+        uiManager.UpdatePuzzleInfoText(differencesSelected, true);
+        for (int i = 0; i < differencesIndices.Length; i++)
+        {
+            currentPuzzle.SetDifference(differencesIndices[i]);
+        }
         if (playingAsPA)
         {
             buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
-            foreach (Interactable difference in paDifferences) differences.Add(difference);
-            secondPhaseDoor = secondPhaseDoorA;
+            secondPhaseDoor = secondPhaseDoorA; //esto se saca despues, es del segundo puzzle
         }
         else
         {
             buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
-            foreach (Interactable difference in pbDifferences) differences.Add(difference);
-            secondPhaseDoor = secondPhaseDoorB;
+            secondPhaseDoor = secondPhaseDoorB; //esto se saca despues, es del segundo puzzle
         }
     }
 
@@ -291,23 +334,19 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         if (!canSelectDifference) return;
 
-        if (differences.Contains(selectedDifference))
+        if (currentPuzzle.CheckInteractable(selectedDifference))
         {
-            differences.Remove(selectedDifference);
-
             differencesSelected++;
             uiManager.UpdatePuzzleInfoText(differencesSelected, true);
 
-            if (differences.Count <= 0) WinPuzzle();
+            if (currentPuzzle.GetDifferencesLeft() <= 0) WinPuzzle();
         }
         else OnPlayerMistake();
     }
 
     void OnPlayerMistake()
     {
-        timer -= timerMistakeDecrease;
-
-        OnTimerUpdated?.Invoke(timer, true);
+        photonView.RPC("DecreaseTimer", RpcTarget.All);
     }
     #endregion
 
@@ -343,6 +382,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region RPCs
+
+    [PunRPC]
+    void SetDifferences(int[] differences)
+    {
+        SetInteractablesAsDifferences(differences);
+    }
+
     [PunRPC]
     void OpenCurrentDoor()
     {
@@ -363,6 +409,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         Door[] playerDoors = playerA ? paDoors : pbDoors;
         playerDoors[doorNumber].Close(false);
+    }
+
+    [PunRPC]
+    void DecreaseTimer()
+    {
+        timer -= timerMistakeDecrease;
+
+        OnTimerUpdated?.Invoke(timer, true);
     }
     #endregion
 }
