@@ -46,11 +46,8 @@ public class DoorButton : MonoBehaviour
         door.Unlock();
     }
 
-    public void OpenDoor() => door.Open();
-
     public void CloseDoor()
     {
-        canBePressed = false;
         animator.SetTrigger("Press");
 
         door.Close();

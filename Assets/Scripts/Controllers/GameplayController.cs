@@ -212,12 +212,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void CloseDoorOnOtherPlayers(bool playerA, int doorNumber) => photonView.RPC("OnPlayerDoorClosed", RpcTarget.Others, playerA, doorNumber);
 
-    void OpenPlayersFloor()
+    void Lose()
     {
+        currentDoor--;
+        if (currentDoor < 0) currentDoor = 0;
+
         for (int i = 0; i < playersFloor.Length; i++)
         {
             playersFloor[i].Open();
         }
+
         player.Fall();
     }
     #endregion
@@ -247,7 +251,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 OnTimerUpdated?.Invoke(timer, true);
 
                 timerOn = false;
-                OpenPlayersFloor();
+                Lose();
             }
 
             yield return null;
