@@ -206,7 +206,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 return;
             }
         }
-        if (differencesSelected == differencesAmount);
         photonView.RPC("OpenCurrentDoor", RpcTarget.All);
     }
 
