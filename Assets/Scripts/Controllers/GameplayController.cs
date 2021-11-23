@@ -282,7 +282,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         timerOn = false;
         canSelectDifference = false;
 
-        currentDoor++;
         currentCheckpoint++;
 
         if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
@@ -399,6 +398,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void OpenCurrentDoor()
     {
         doors[currentDoor].Open();
+        currentDoor++;
         SetUpAreDoorsUnlockedProp();
     }
 
