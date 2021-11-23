@@ -29,6 +29,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     
     const int MaxPlayersPerRoom = 2;
 
+    public int PlayerCount { get { return currentRoom.PlayerCount; } }
     static public string PlayerPropParticipantIndex { set; get; } = "ParticipantIndex";
     static public string PlayerPrefsNameKey { private set; get; } = "PlayerName";
 

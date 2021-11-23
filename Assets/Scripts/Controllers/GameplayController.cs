@@ -11,6 +11,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     [SerializeField] UIManager_Gameplay uiManager = null;
     [SerializeField] DialogueManager dialogueManager = null;
+    NetworkManager networkManager;
     PhotonView photonView;
 
     Player player;
@@ -91,6 +92,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         base.Awake();
 
+        networkManager = NetworkManager.Get();
         photonView = GetComponent<PhotonView>();
     }
 
@@ -115,9 +117,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         player = FindObjectOfType<Player>(); //sacar eso creo
         player.RespawnAtCheckpoint = RespawnPlayer;
 
-        doors = playingAsPA ? paDoors : pbDoors;
-
-        SetUpAreDoorsUnlockedProp();
+        SetUpDoors();
 
         SetUpSpotTheDifferences(puzzles[0]);
         SetUpCreateShapes();
@@ -179,6 +179,18 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Room flow
+    void SetUpDoors()
+    {
+        doors = playingAsPA ? paDoors : pbDoors;
+        foreach (Door door in doors)
+        {
+            for (int i = 0; i < networkManager.PlayerCount; i++)
+                if (networkManager.GetPlayerByIndex(i, out Photon.Realtime.Player player)) door.PlayerScreens[i].PlayerName = player.NickName;
+        }
+
+        SetUpAreDoorsUnlockedProp();
+    }
+
     void SetUpAreDoorsUnlockedProp()
     {
         bool[] areDoorsUnlocked = new bool[PhotonNetwork.CurrentRoom.PlayerCount];
@@ -191,6 +203,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void UnlockDoor()
     {
+        networkManager.GetPlayerIndex(PhotonNetwork.LocalPlayer, out int playerIndex);
+        photonView.RPC("SetPlayerScreenOn", RpcTarget.All, playerIndex, true);
+
         int participantIndex = (int)PhotonNetwork.LocalPlayer.CustomProperties[NetworkManager.PlayerPropParticipantIndex];
         bool[] areDoorsUnlocked = (bool[])PhotonNetwork.CurrentRoom.CustomProperties[AreDoorsUnlockedProp];
         areDoorsUnlocked[participantIndex] = true;
@@ -386,12 +401,14 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region RPCs
-
     [PunRPC]
     void SetDifferences(int[] differences)
     {
         SetInteractablesAsDifferences(differences);
     }
+
+    [PunRPC]
+    void SetPlayerScreenOn(int playerIndex, bool on) => doors[currentDoor].PlayerScreens[playerIndex].On = on;
 
     [PunRPC]
     void OpenCurrentDoor()
