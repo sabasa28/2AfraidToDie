@@ -790,6 +790,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Button
       objectReference: {fileID: 0}
+    - target: {fileID: 3361279683625989796, guid: 0edde14287562c846b1decca5ab46c2c,
+        type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 2440127966400687415}
+    - target: {fileID: 3361279683625989796, guid: 0edde14287562c846b1decca5ab46c2c,
+        type: 3}
+      propertyPath: broken
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6093349958794349483, guid: 0edde14287562c846b1decca5ab46c2c,
         type: 3}
       propertyPath: m_LocalPosition.x
