@@ -99,7 +99,7 @@ public class UIManager_Gameplay : MonoBehaviour
     #endregion
 
     #region Victory Screen
-    void DisplayVictoryScreen()
+    void DisplayVictoryScreen(bool isMaster)
     {
         canPause = false;
         victoryScreen.SetActive(true);
