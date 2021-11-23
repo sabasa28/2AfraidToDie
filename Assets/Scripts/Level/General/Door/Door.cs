@@ -1,5 +1,4 @@
-﻿using Photon.Pun;
-using System;
+﻿using System;
 using UnityEngine;
 
 public class Door : MonoBehaviour
@@ -7,12 +6,15 @@ public class Door : MonoBehaviour
     [SerializeField] Animator animator = null;
     [SerializeField] DoorButton button = null;
     [SerializeField] GameObject closeDoorTrigger = null;
+    [SerializeField] PlayerScreen[] playerScreens = null;
 
     [Header("Door properties")]
     [SerializeField] bool playerA = true;
     [SerializeField] bool isEntranceDoor = true;
     [SerializeField] int doorNumber = 0;
     bool isOpen = false;
+
+    public PlayerScreen[] PlayerScreens { get { return playerScreens; } }
 
     public static event Action OnDoorUnlocked;
     public static event Action<bool, int> OnDoorOpen;
