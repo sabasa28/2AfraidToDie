@@ -60,4 +60,9 @@ public class Door : MonoBehaviour
 
         if (isLocal) OnDoorClosed?.Invoke(playerA, doorNumber);
     }
+
+    public void EnableButton()
+    {
+        button.canBePressed = true;
+    }
 }

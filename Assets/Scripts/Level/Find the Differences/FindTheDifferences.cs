@@ -22,10 +22,14 @@ public class FindTheDifferences : MonoBehaviour
         return interactablesParent.childCount;
     }
 
+    public void ClearDifferences()
+    {
+        differences.Clear();
+    }
+
     public void SetDifference(int differenceIndex)
     {
         Debug.Log(interactablesParent.GetChild(differenceIndex).name);
-        Debug.Log(interactablesParent.GetChild(differenceIndex).GetComponent<Difference>());
         Difference diff = interactablesParent.GetChild(differenceIndex).GetComponent<Difference>();
         differences.Add(diff);
     }

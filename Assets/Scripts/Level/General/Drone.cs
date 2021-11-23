@@ -48,4 +48,9 @@ public class Drone : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
+    public ButtonMissingPart GetPulser()
+    {
+        return pulser;
+    }
 }

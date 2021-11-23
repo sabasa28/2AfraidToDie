@@ -57,9 +57,9 @@ public class Player : MonoBehaviourPun
         if (!photonView.IsMine) return;
 
         RaycastHit hit;
-        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 20.0f, 1 << LayerMask.NameToLayer("Interactable"));
+        Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 20.0f, (1 << LayerMask.NameToLayer("Interactable")) | (1 << LayerMask.NameToLayer("Walls")));
 
-        if (hit.collider)
+        if (hit.collider && hit.collider.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             Interactable hitInteractable;
             hit.collider.TryGetComponent(out hitInteractable);

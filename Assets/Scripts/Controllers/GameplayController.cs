@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameplayController : MonoBehaviourSingleton<GameplayController>
 {
@@ -34,6 +35,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] Transform[] paButtonMPPos = null;
     [SerializeField] Transform[] pbButtonMPPos = null;
     Transform buttonMissingPartPos;
+    ButtonMissingPart currentButtonMP;
 
     [Space]
     [SerializeField] Floor[] playersFloor = null;
@@ -204,7 +206,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
                 return;
             }
         }
-
+        if (differencesSelected == differencesAmount);
         photonView.RPC("OpenCurrentDoor", RpcTarget.All);
     }
 
@@ -266,12 +268,17 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         }
     }
 
+    void SendPulserToPlayer()
+    {
+        currentButtonMP = DroneController.Get().SendDrone(buttonMissingPartPos.position);
+    }
+
     void WinPuzzle()
     {
         timerOn = false;
         canSelectDifference = false;
 
-        DroneController.Get().SendDrone(buttonMissingPartPos.position);
+        currentDoor++;
         currentCheckpoint++;
 
         if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
@@ -285,15 +292,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         currentPuzzle = findTheDifferences;
         currentPuzzle.SetSide(playingAsPA);
 
-        if (!initialSetDone)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (PhotonNetwork.IsMasterClient)
-            {
-                SetRandomDifferences();
-            }
-        }
-        else
-        { 
             SetRandomDifferences();
         }
     }
@@ -304,14 +304,16 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         int[] differencesIndices = new int[differencesAmount];
         for (int i = 0; i < differencesAmount; i++)
         {
-            differencesIndices[i] = UnityEngine.Random.Range(0, numOfInteractables);
+            int a = UnityEngine.Random.Range(0, numOfInteractables);
+            if (differencesIndices.Contains(a)) i--;
+            else differencesIndices[i] = a;
         }
         photonView.RPC("SetDifferences", RpcTarget.All, differencesIndices);
     }
 
     void SetInteractablesAsDifferences(int[] differencesIndices)
     {
-        initialSetDone = true;
+        currentPuzzle.ClearDifferences();
         differencesSelected = 0;
         uiManager.UpdatePuzzleInfoText(differencesSelected, true);
         for (int i = 0; i < differencesIndices.Length; i++)
@@ -339,7 +341,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
             differencesSelected++;
             uiManager.UpdatePuzzleInfoText(differencesSelected, true);
 
-            if (currentPuzzle.GetDifferencesLeft() <= 0) WinPuzzle();
+            if (currentPuzzle.GetDifferencesLeft() <= 0) SendPulserToPlayer();
         }
         else OnPlayerMistake();
     }
@@ -393,7 +395,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void OpenCurrentDoor()
     {
         doors[currentDoor].Open();
-        currentDoor++;
         SetUpAreDoorsUnlockedProp();
     }
 

@@ -6,7 +6,6 @@ public class DoorButton : MonoBehaviour
     [SerializeField] Door door = null;
     [SerializeField] ButtonPressZone pressZone = null;
 
-    [SerializeField] bool onlyOneUse = true;
     [SerializeField] bool broken = false;
     public bool canBePressed = true;
 

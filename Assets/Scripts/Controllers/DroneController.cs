@@ -7,7 +7,7 @@ public class DroneController : MonoBehaviourSingleton <DroneController>
     [SerializeField] Drone[] drones;
     [SerializeField] float flightHeight;
 
-    public void SendDrone(Vector3 positionToDeliver)
+    public ButtonMissingPart SendDrone(Vector3 positionToDeliver)
     {
         int availableDrone = 0;
         for (int i = 0; i < drones.Length; i++)
@@ -21,5 +21,6 @@ public class DroneController : MonoBehaviourSingleton <DroneController>
         drones[availableDrone].transform.parent.position = positionToDeliver + new Vector3 (0.0f, flightHeight);
         drones[availableDrone].gameObject.SetActive(true);
         drones[availableDrone].SetStartingMovement(Drone.MovementToDo.deliverPulser);
+        return drones[availableDrone].GetPulser();
     }
 }
