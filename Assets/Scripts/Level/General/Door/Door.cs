@@ -47,7 +47,7 @@ public class Door : MonoBehaviour
 
         if (isLocal)
         {
-            OnDoorOpen?.Invoke(playerA, doorNumber);
+            //OnDoorOpen?.Invoke(playerA, doorNumber);
 
             if (isEntranceDoor) OnTimerTriggered?.Invoke();
         }
@@ -60,7 +60,7 @@ public class Door : MonoBehaviour
         isOpen = false;
         animator.SetTrigger("Close");
 
-        if (isLocal) OnDoorClosed?.Invoke(playerA, doorNumber);
+        //if (isLocal) OnDoorClosed?.Invoke(playerA, doorNumber);
     }
 
     public void EnableButton() => button.canBePressed = true;
