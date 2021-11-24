@@ -35,6 +35,7 @@ public class Drone : MonoBehaviour
         pulser = Instantiate(pulserPrefab, transform);
         pulser.transform.localPosition = pulserTransformations.position;
         pulser.transform.localRotation = pulserTransformations.rotation;
+        pulser.transform.localScale = pulserTransformations.localScale;
         pulser.GetComponent<Rigidbody>().isKinematic = true;
     }
 
