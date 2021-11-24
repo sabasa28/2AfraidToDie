@@ -416,6 +416,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         doors[currentDoor].Open();
         currentDoor++;
         SetUpAreDoorsUnlockedProp();
+        if (differencesSelected == differencesAmount) WinPuzzle();
     }
 
     [PunRPC]
