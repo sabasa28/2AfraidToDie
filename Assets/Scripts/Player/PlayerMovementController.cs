@@ -29,13 +29,7 @@ public class PlayerMovementController : MonoBehaviourPun
     bool isGrounded;
     Vector3 velocity;
 
-    void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-        rigidBody = GetComponent<Rigidbody>();
-
-        rigidBody.useGravity = photonView.IsMine;
-    }
+    void Awake() => characterController = GetComponent<CharacterController>();
 
     void OnEnable() => UIManager_Gameplay.OnPauseMenuStateSwitched += OnPauseMenuStateSwitched;
 

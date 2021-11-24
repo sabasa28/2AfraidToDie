@@ -86,7 +86,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     public float TimerDuration { get { return timerInitialDuration; } }
 
     public static event Action<float,bool> OnTimerUpdated;
-    public static event Action<bool> OnLevelEnd;
+    public static event Action OnLevelEnd;
 
     public override void Awake()
     {
@@ -143,8 +143,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         player.movementController.SetCursorLockState(false);
         player.movementController.SetRotationActiveState(false);
         player.movementController.SetCharacterControllerActiveState(false);
-        
-        OnLevelEnd?.Invoke(PhotonNetwork.IsMasterClient);
+
+        OnLevelEnd?.Invoke();
     }
 
     #region Spawn
