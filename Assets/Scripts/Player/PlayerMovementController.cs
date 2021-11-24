@@ -16,7 +16,6 @@ public class PlayerMovementController : MonoBehaviourPun
     [SerializeField] float movementSpeed = 0.0f;
     [HideInInspector] public bool ableToMove = true;
     CharacterController characterController = null;
-    Rigidbody rigidBody = null;
 
     [Header("Physics")]
     [SerializeField] Transform groundCheck = null;
@@ -29,13 +28,7 @@ public class PlayerMovementController : MonoBehaviourPun
     bool isGrounded;
     Vector3 velocity;
 
-    void Awake()
-    {
-        characterController = GetComponent<CharacterController>();
-        rigidBody = GetComponent<Rigidbody>();
-
-        rigidBody.useGravity = photonView.IsMine;
-    }
+    void Awake() => characterController = GetComponent<CharacterController>();
 
     void OnEnable() => UIManager_Gameplay.OnPauseMenuStateSwitched += OnPauseMenuStateSwitched;
 
