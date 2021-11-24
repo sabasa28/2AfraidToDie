@@ -23,7 +23,8 @@ public class UIManager_Gameplay : MonoBehaviour
 
     [Header("Menues")]
     [SerializeField] GameObject pauseMenu = null;
-    [SerializeField] GameObject victoryScreen = null;
+    [SerializeField] GameObject controlsScreen = null;
+    [SerializeField] VictoryScreen victoryScreen = null;
     bool canPause = true;
 
     public static event Action<bool> OnPauseMenuStateSwitched;
@@ -35,6 +36,8 @@ public class UIManager_Gameplay : MonoBehaviour
         GameplayController.OnLevelEnd += DisplayVictoryScreen;
 
         DialogueManager.OnDialogueLinePlayed += UpdateDialogueText;
+
+        Door.OnDoorClosed += HideControlsScreen;
     }
 
     void Awake()
@@ -53,6 +56,8 @@ public class UIManager_Gameplay : MonoBehaviour
         GameplayController.OnLevelEnd -= DisplayVictoryScreen;
 
         DialogueManager.OnDialogueLinePlayed -= UpdateDialogueText;
+
+        Door.OnDoorClosed -= HideControlsScreen;
     }
 
     #region Timer
@@ -98,11 +103,13 @@ public class UIManager_Gameplay : MonoBehaviour
     }
     #endregion
 
-    #region Victory Screen
+    #region Screens
+    void HideControlsScreen() => controlsScreen.SetActive(false);
+
     void DisplayVictoryScreen(bool isMaster)
     {
         canPause = false;
-        victoryScreen.SetActive(true);
+        victoryScreen.Display(isMaster);
     }
     #endregion
 

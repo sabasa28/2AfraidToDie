@@ -99,8 +99,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void OnEnable()
     {
         Door.OnDoorUnlocked += UnlockDoor;
-        Door.OnDoorOpen += OpenDoorOnOtherPlayers;
-        Door.OnDoorClosed += CloseDoorOnOtherPlayers;
         Door.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
 
@@ -131,8 +129,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void OnDisable()
     {
         Door.OnDoorUnlocked -= UnlockDoor;
-        Door.OnDoorOpen -= OpenDoorOnOtherPlayers;
-        Door.OnDoorClosed -= CloseDoorOnOtherPlayers;
         Door.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
 
@@ -295,6 +291,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         timerOn = false;
         canSelectDifference = false;
+        player.movementController.rigidBody.useGravity = false;
+        player.movementController.rigidBody.constraints = RigidbodyConstraints.FreezePositionY;
 
         currentCheckpoint++;
 

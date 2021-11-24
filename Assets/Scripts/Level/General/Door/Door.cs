@@ -17,8 +17,8 @@ public class Door : MonoBehaviour
     public PlayerScreen[] PlayerScreens { get { return playerScreens; } }
 
     public static event Action OnDoorUnlocked;
-    public static event Action<bool, int> OnDoorOpen;
-    public static event Action<bool, int> OnDoorClosed;
+    public static event Action OnDoorOpen;
+    public static event Action OnDoorClosed;
     static public event Action OnTimerTriggered;
 
     void Start()
@@ -45,12 +45,7 @@ public class Door : MonoBehaviour
         animator.SetTrigger("Open");
         closeDoorTrigger.gameObject.SetActive(true);
 
-        if (isLocal)
-        {
-            //OnDoorOpen?.Invoke(playerA, doorNumber);
-
-            if (isEntranceDoor) OnTimerTriggered?.Invoke();
-        }
+        if (isLocal) if (isEntranceDoor) OnTimerTriggered?.Invoke();
     } 
 
     public void Close(bool isLocal = true)
@@ -60,7 +55,7 @@ public class Door : MonoBehaviour
         isOpen = false;
         animator.SetTrigger("Close");
 
-        //if (isLocal) OnDoorClosed?.Invoke(playerA, doorNumber);
+        if (isLocal) OnDoorClosed?.Invoke();
     }
 
     public void EnableButton() => button.canBePressed = true;

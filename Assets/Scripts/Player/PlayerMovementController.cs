@@ -14,9 +14,9 @@ public class PlayerMovementController : MonoBehaviourPun
 
     [Header("Player Controller")]
     [SerializeField] float movementSpeed = 0.0f;
+    [HideInInspector] public Rigidbody rigidBody = null;
     [HideInInspector] public bool ableToMove = true;
     CharacterController characterController = null;
-    Rigidbody rigidBody = null;
 
     [Header("Physics")]
     [SerializeField] Transform groundCheck = null;
