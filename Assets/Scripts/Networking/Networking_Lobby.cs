@@ -257,6 +257,9 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
 
     public void DisconnectFromLobby()
     {
+        foreach (Toggle toggle in participantToggles) toggle.isOn = false;
+        foreach (Toggle toggle in participantToggles) toggle.interactable = true;
+
         foreach (PlayerConnectionToggle toggle in playerConnectionToggles) Destroy(toggle.gameObject);
         playerConnectionToggles.Clear();
 

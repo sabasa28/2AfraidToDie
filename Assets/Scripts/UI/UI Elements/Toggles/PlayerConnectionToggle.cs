@@ -56,7 +56,6 @@ public class PlayerConnectionToggle : MonoBehaviourPunCallbacks
     {
         if (!changedProps.ContainsKey(NetworkManager.PlayerPropParticipantIndex)) return;
 
-        Debug.Log("PARTICIPANT OF PLAYER " + player.NickName + " CHANGED TO: " + (int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex]);
         MoveToContainer((int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex]);
     }
 
@@ -67,8 +66,6 @@ public class PlayerConnectionToggle : MonoBehaviourPunCallbacks
             Debug.LogError("Can not move to container: participant index is out of range.");
             return;
         }
-
-        if (player != null) Debug.Log("MOVING PLAYER " + player.NickName + " TO INDEX " + participantIndex);
 
         if (participantIndex == -1) rect.SetParent(playerContainer);
         else rect.SetParent(participantContainers[participantIndex]);
@@ -91,7 +88,6 @@ public class PlayerConnectionToggle : MonoBehaviourPunCallbacks
         player = connectedPlayer;
         participantIndex = (int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex];
 
-        Debug.Log("TURNING ON PLAYER " + player.NickName + " TO INDEX: " + participantIndex);
         MoveToContainer(participantIndex);
 
         OnValueChanged(toggle.isOn);

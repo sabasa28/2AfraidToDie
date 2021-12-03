@@ -54,7 +54,7 @@ public class UIManager_MainMenu : MonoBehaviour
         }
         else DisplayMenu(titleScreen);
 
-        startButton.onClick.AddListener(NetworkManager.Get().Disconnect);
+        //startButton.onClick.AddListener(NetworkManager.Get().Disconnect);
     }
 
     void OnDisable()
