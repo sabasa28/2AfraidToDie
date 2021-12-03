@@ -67,6 +67,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     void Start() => PhotonNetwork.AuthValues = new AuthenticationValues(Guid.NewGuid().ToString());
 
+    //void Update()
+    //{
+    //    Debug.Log("PARTICIPANT INDEX: " + PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex]);
+    //}
+
     public override void OnDisable()
     {
         base.OnDisable();
@@ -166,6 +171,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public string ParticipantName(int participantIndex) => "Participant" + (char)('A' + participantIndex);
 
+    #region Properties
     public void SetRoomPropParticipantID(int participantIndex, string userID)
     {
         ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
@@ -176,11 +182,14 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public void SetPlayerPropParticipantIndex(int participantIndex)
     {
+        Debug.Log("SETTING PARTICIPANT INDEX TO " + participantIndex);
+
         ExitGames.Client.Photon.Hashtable property = new ExitGames.Client.Photon.Hashtable();
         property.Add(PlayerPropParticipantIndex, participantIndex);
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(property);
     }
+    #endregion
 
     #region Main Menu
     void SetPlayerName(string name)
@@ -246,6 +255,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     {
         if (PhotonNetwork.InRoom)
         {
+            SetRoomPropParticipantID((int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex], "");
+            SetPlayerPropParticipantIndex(-1);
+
             if (currentRoom.PlayerCount > 1) PhotonNetwork.LeaveRoom();
             else
             {
@@ -308,7 +320,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => PlayersByID.Add(newPlayer.UserId, newPlayer);
 
-    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer) => PlayersByID.Remove(otherPlayer.UserId);
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
+        PlayersByID.Remove(otherPlayer.UserId);
+    }
 
     public override void OnDisconnected(DisconnectCause cause) => Debug.LogWarning($"Disconnected due to: { cause }");
 
