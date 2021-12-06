@@ -17,6 +17,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     [SerializeField] GameObject playerPrefab = null;
 
     bool joiningRoom = false;
+    bool settingUpParticipantIndex = false;
     bool creatingNewRoom = false;
     bool loadingScene = false;
     bool disconnecting = false;
@@ -42,7 +43,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     static public event Action OnRoomJoined;
     static public event Action<FailTypes, string> OnFail;
     static public event Action<bool> OnMatchBegun;
-    static public event Action<Player> OnPlayerSpawned;
 
     public override void Awake()
     {
@@ -131,7 +131,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     {
         foreach (Photon.Realtime.Player playerInRoom in currentRoom.Players.Values)
         {
-            if ((int)playerInRoom.CustomProperties[PlayerPropParticipantIndex] == participantIndex)
+            bool propertySet = playerInRoom.CustomProperties.ContainsKey(PlayerPropParticipantIndex);
+            if (propertySet && (int)playerInRoom.CustomProperties[PlayerPropParticipantIndex] == participantIndex)
             {
                 player = playerInRoom;
                 return true;
@@ -167,7 +168,19 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         return false;
     }
 
-    public string ParticipantName(int participantIndex) => "Participant" + (char)('A' + participantIndex);
+    public bool ParticipantName(int participantIndex, out string participantName)
+    {
+        if (participantIndex >= 0 && participantIndex < currentRoom.MaxPlayers)
+        {
+            participantName = "Participant" + (char)('A' + participantIndex);
+            return true;
+        }
+        else
+        {
+            participantName = "";
+            return false;
+        }
+    }
 
     #region Properties
     public void SetPlayerPropParticipantIndex(int participantIndex)
@@ -178,7 +191,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             return;
         }
 
-        Debug.Log("PLAYER PROPERTIES BEING SET: " + playerPropsBeingSet.Count);
         if (playerPropsBeingSet.Contains(PlayerPropParticipantIndex))
         {
             Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": property is already being set");
@@ -189,13 +201,17 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         property.Add(PlayerPropParticipantIndex, participantIndex);
 
         PhotonNetwork.LocalPlayer.SetCustomProperties(property);
-        Debug.Log("ADDING " + PlayerPropParticipantIndex);
         playerPropsBeingSet.Add(PlayerPropParticipantIndex);
     }
 
     public void SetRoomPropParticipantID(int participantIndex, string userID)
     {
-        string key = ParticipantName(participantIndex);
+        if (!ParticipantName(participantIndex, out string participantName))
+        {
+            Debug.Log("Can not set property: participant index is out of range");
+            return;
+        }
+        string key = participantName;
 
         if (!PhotonNetwork.IsConnected)
         {
@@ -289,9 +305,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         {
             if (PhotonNetwork.InRoom)
             {
-                SetRoomPropParticipantID((int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex], "");
-                SetPlayerPropParticipantIndex(-1);
-
                 if (currentRoom.PlayerCount > 1)
                 {
                     Debug.Log("Leaving room...");
@@ -324,16 +337,18 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     #region Server Connection
     public override void OnConnectedToMaster()
     {
+        base.OnConnectedToMaster();
+
         Debug.Log("Connected to Master");
 
-        SetPlayerPropParticipantIndex(-1);
-
-        //if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-        //else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
+        if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
+        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
     }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
+        base.OnDisconnected(cause);
+
         Debug.LogWarning($"Disconnected due to: { cause }");
         disconnecting = false;
     }
@@ -342,6 +357,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     #region Room Handling
     public override void OnCreatedRoom()
     {
+        base.OnCreatedRoom();
+
         Debug.Log("Client successfully created a new room");
 
         creatingNewRoom = false;
@@ -349,38 +366,52 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnJoinedRoom()
     {
+        base.OnJoinedRoom();
+
         Debug.Log("Client successfully joined a room");
 
         joiningRoom = false;
         currentRoom = PhotonNetwork.CurrentRoom;
+
+        SetPlayerPropParticipantIndex(-1);
+        settingUpParticipantIndex = true;
 
         for (int i = 0; i < currentRoom.PlayerCount; i++)
         {
             Photon.Realtime.Player player;
             if (GetPlayerByIndex(i, out player)) PlayersByID.Add(player.UserId, player);
         }
-
-        OnRoomJoined?.Invoke();
     }
 
     public override void OnLeftRoom()
     {
+        base.OnLeftRoom();
+
         Debug.Log("Client left room");
 
         currentRoom = null;
         PlayersByID.Clear();
     }
 
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer) => PlayersByID.Add(newPlayer.UserId, newPlayer);
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        PlayersByID.Add(newPlayer.UserId, newPlayer);
+    }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
+        base.OnPlayerLeftRoom(otherPlayer);
+
         SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
         PlayersByID.Remove(otherPlayer.UserId);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
+        base.OnCreateRoomFailed(returnCode, message);
+
         Debug.LogError($"Create room failed (code { returnCode }): { message }");
 
         OnFail?.Invoke(FailTypes.CreateRoomFail, message);
@@ -388,6 +419,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
+        base.OnJoinRandomFailed(returnCode, message);
+
         Debug.LogError($"Join room failed (code { returnCode }): { message }");
 
         OnFail?.Invoke(FailTypes.JoinRoomFail, message);
@@ -397,8 +430,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     #region Properties
     public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
     {
-        Debug.Log("PLAYER PROP CHANGED");
-        if (targetPlayer == PhotonNetwork.LocalPlayer)
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        if (targetPlayer.IsLocal)
         {
             bool propWasBeingSet = false;
             List<string> propsToRemove = new List<string>();
@@ -407,33 +441,30 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             {
                 if (changedProps.ContainsKey(key))
                 {
-                    Debug.Log(key + " WAS SET TO " + targetPlayer.CustomProperties[key]);
-
                     propWasBeingSet = true;
                     propsToRemove.Add(key);
                 }
             }
 
             if (propsToRemove.Count > 0)
-            {
-                foreach (string key in propsToRemove)
-                {
-                    Debug.Log("REMOVING " + key);
-                    playerPropsBeingSet.Remove(key);
-                }
-            }
+                foreach (string key in propsToRemove) playerPropsBeingSet.Remove(key);
 
             if (propWasBeingSet)
             {
                 if (disconnecting) PhotonNetwork.Disconnect();
-                else if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-                else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
+                else if (settingUpParticipantIndex && propsToRemove.Contains(PlayerPropParticipantIndex))
+                {
+                    settingUpParticipantIndex = false;
+                    OnRoomJoined?.Invoke();
+                }
             }
         }
     }
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+
         bool propWasBeingSet = false;
         List<string> propsToRemove = new List<string>();
 
@@ -449,12 +480,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         if (propsToRemove.Count > 0)
             foreach (string key in propsToRemove) roomPropsBeingSet.Remove(key);
 
-        if (propWasBeingSet)
-        {
-            if (disconnecting) PhotonNetwork.Disconnect();
-            else if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-            else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
-        }
+        if (propWasBeingSet && disconnecting) PhotonNetwork.Disconnect();
     }
     #endregion
     #endregion

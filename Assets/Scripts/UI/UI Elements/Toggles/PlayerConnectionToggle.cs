@@ -86,7 +86,9 @@ public class PlayerConnectionToggle : MonoBehaviourPunCallbacks
     {
         toggle.isOn = true;
         player = connectedPlayer;
-        participantIndex = (int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex];
+
+        bool participantIndexSet = player.CustomProperties.ContainsKey(NetworkManager.PlayerPropParticipantIndex);
+        participantIndex = participantIndexSet ? (int)player.CustomProperties[NetworkManager.PlayerPropParticipantIndex] : -1;
 
         MoveToContainer(participantIndex);
 

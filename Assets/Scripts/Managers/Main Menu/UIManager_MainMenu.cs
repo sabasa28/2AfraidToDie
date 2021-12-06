@@ -15,7 +15,6 @@ public class UIManager_MainMenu : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] Button returnButton = null;
     [SerializeField] Button changeNameButton = null;
-    [SerializeField] Button startButton = null;
 
     [Header("Menues")]
     [SerializeField] Menu titleScreen = null;
@@ -39,8 +38,6 @@ public class UIManager_MainMenu : MonoBehaviour
         NetworkManager.OnPlayerNameSet += OnPlayerNameSet;
         NetworkManager.OnRoomJoined += DisplayLobby;
         NetworkManager.OnFail += NotifyFail;
-
-        Networking_Lobby.OnDisconnectedOnRoomClosed += DisplayRoomOptionsMenu;
     }
 
     void Start()
@@ -53,8 +50,6 @@ public class UIManager_MainMenu : MonoBehaviour
             DisplayMenu(rootMenu);
         }
         else DisplayMenu(titleScreen);
-
-        //startButton.onClick.AddListener(NetworkManager.Get().Disconnect);
     }
 
     void OnDisable()
@@ -64,8 +59,6 @@ public class UIManager_MainMenu : MonoBehaviour
         NetworkManager.OnPlayerNameSet -= OnPlayerNameSet;
         NetworkManager.OnRoomJoined -= DisplayLobby;
         NetworkManager.OnFail -= NotifyFail;
-
-        Networking_Lobby.OnDisconnectedOnRoomClosed -= DisplayRoomOptionsMenu;
     }
 
     void CloseTitleScreen() { if (titleScreen) titleScreen.gameObject.SetActive(false); }
