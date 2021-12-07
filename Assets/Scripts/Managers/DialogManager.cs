@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class DialogManager : MonoBehaviourSingleton<DialogManager>
 {
@@ -84,20 +83,13 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
             }
         }
         
-        GameObject currentSelected = EventSystem.current.currentSelectedGameObject;
-        UnityAction action = () => CloseDialog(dialog.gameObject, currentSelected);
+        UnityAction action = () => CloseDialog(dialog);
         if (button.OnPressed != null) action += button.OnPressed;
 
         dialog.AddButton(text, action, button.Type);
     }
 
-    void CloseDialog(GameObject menuObject, GameObject firstSelected)
-    {
-        cover.SetActive(false);
-        EventSystem.current.SetSelectedGameObject(firstSelected);
-
-        Destroy(menuObject);
-    }
+    public Dialog DisplayButtonlessMessageDialog(string title, string message) => GenerateDialog(defaultDialogPrefab, title, message, new ButtonData[] {});
 
     public Dialog DisplayMessageDialog(string title, string message, string close, UnityAction onClose)
     {
@@ -123,5 +115,13 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
 
         newDialog = GenerateDialog(promptDialogPrefab, title, message, new ButtonData[] { cancelButton, continueButton }) as PromptDialog;
         return newDialog;
+    }
+
+    public void CloseDialog(Dialog dialog)
+    {
+        if (!dialog) Debug.LogError("Can not close dialog: dialog is null");
+
+        cover.SetActive(false);
+        Destroy(dialog.gameObject);
     }
 }

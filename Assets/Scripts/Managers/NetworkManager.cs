@@ -16,6 +16,18 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     [SerializeField] GameObject playerPrefab = null;
 
+    [Header("Messages")]
+    [SerializeField] string createRoomTitle = "";
+    [SerializeField] string createRoomMessage = "";
+    [SerializeField] string createRoomFailTitle = "";
+    [SerializeField] string existentRoomFailMessage = "";
+    [Space]
+    [SerializeField] string joinRoomTitle = "";
+    [SerializeField] string joinRoomMessage = "";
+    [SerializeField] string joinRoomFailTitle = "";
+    [SerializeField] string inexistentRoomFailMessage = "";
+    Dialog roomHandlingDialog;
+
     bool joiningRoom = false;
     bool settingUpParticipantIndex = false;
     bool creatingNewRoom = false;
@@ -24,6 +36,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
     string gameVersion;
     string handledRoomName;
+    DialogManager dialogManager;
 
     Room currentRoom;
     RoomOptions defaultRoomOptions;
@@ -41,7 +54,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     static public event Action<bool> OnNamePlayerPrefNotSet;
     static public event Action<string> OnPlayerNameSet;
     static public event Action OnRoomJoined;
-    static public event Action<FailTypes, string> OnFail;
     static public event Action<bool> OnMatchBegun;
 
     public override void Awake()
@@ -50,6 +62,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         gameVersion = Application.version;
         defaultRoomOptions = new RoomOptions{ PublishUserId = true, MaxPlayers = MaxPlayersPerRoom };
+        dialogManager = DialogManager.Get();
 
         PhotonNetwork.AutomaticallySyncScene = true;
     }
@@ -84,7 +97,318 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         Networking_Lobby.OnMatchCountdownFinished -= BeginMatch;
     }
 
-    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
+    #region Photon
+    #region Server Connection
+    void ConnectToPhoton()
+    {
+        PhotonNetwork.GameVersion = gameVersion;
+        PhotonNetwork.ConnectUsingSettings();
+    }
+
+    public void Disconnect()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Can not disconnect: client is already disconnected");
+            return;
+        }
+
+        if (playerPropsBeingSet.Count == 0 && roomPropsBeingSet.Count == 0)
+        {
+            if (PhotonNetwork.InRoom)
+            {
+                if (currentRoom.PlayerCount > 1)
+                {
+                    Debug.Log("Leaving room...");
+                    PhotonNetwork.LeaveRoom();
+                }
+                else
+                {
+                    Debug.Log("Closing room...");
+                    currentRoom.IsOpen = false;
+                }
+            }
+
+            PhotonNetwork.Disconnect();
+        }
+
+        disconnecting = true;
+        Debug.Log("Disconnecting...");
+    }
+    #endregion
+
+    #region Room Handling
+    void JoinRoom(string roomName)
+    {
+        if (!roomHandlingDialog) roomHandlingDialog = dialogManager.DisplayButtonlessMessageDialog(joinRoomTitle, joinRoomMessage);
+
+        handledRoomName = roomName;
+        joiningRoom = true;
+
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.Log("Joining room...");
+
+            PhotonNetwork.JoinRoom(roomName);
+        }
+        else ConnectToPhoton();
+    }
+
+    void CreateNewRoom(string roomName)
+    {
+        if (!roomHandlingDialog) roomHandlingDialog = dialogManager.DisplayButtonlessMessageDialog(createRoomTitle, createRoomMessage);
+
+        handledRoomName = roomName;
+        creatingNewRoom = true;
+
+        if (PhotonNetwork.IsConnectedAndReady)
+        {
+            Debug.Log("Creating new room...");
+
+            PhotonNetwork.CreateRoom(roomName, defaultRoomOptions);
+        }
+        else ConnectToPhoton();
+    }
+    #endregion
+
+    #region Properties
+    public void SetPlayerPropParticipantIndex(int participantIndex)
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": client is not connected");
+            return;
+        }
+
+        if (playerPropsBeingSet.Contains(PlayerPropParticipantIndex))
+        {
+            Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": property is already being set");
+            return;
+        }
+
+        Hashtable property = new Hashtable();
+        property.Add(PlayerPropParticipantIndex, participantIndex);
+
+        PhotonNetwork.LocalPlayer.SetCustomProperties(property);
+        playerPropsBeingSet.Add(PlayerPropParticipantIndex);
+    }
+
+    public void SetRoomPropParticipantID(int participantIndex, string userID)
+    {
+        if (!ParticipantName(participantIndex, out string participantName))
+        {
+            Debug.Log("Can not set property: participant index is out of range");
+            return;
+        }
+        string key = participantName;
+
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Can not set property " + key + ": client is not connected");
+            return;
+        }
+
+        if (roomPropsBeingSet.Contains(key))
+        {
+            Debug.Log("Can not set property " + key + ": property is already being set");
+            return;
+        }
+
+        Hashtable property = new Hashtable();
+        property.Add(key, userID);
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
+        roomPropsBeingSet.Add(key);
+    }
+    #endregion
+
+    #region Overrides
+    #region Server Connection
+    public override void OnConnectedToMaster()
+    {
+        base.OnConnectedToMaster();
+
+        Debug.Log("Connected to Master");
+
+        if (joiningRoom) JoinRoom(handledRoomName); //PhotonNetwork.JoinRoom(handledRoomName);
+        else if (creatingNewRoom) CreateNewRoom(handledRoomName); //PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
+    }
+
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+
+        Debug.LogWarning($"Disconnected due to: { cause }");
+        disconnecting = false;
+    }
+    #endregion
+
+    #region Room Handling
+    public override void OnCreatedRoom()
+    {
+        base.OnCreatedRoom();
+
+        Debug.Log("Client successfully created a new room");
+
+        creatingNewRoom = false;
+        if (roomHandlingDialog) dialogManager.CloseDialog(roomHandlingDialog);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+
+        Debug.Log("Client successfully joined a room");
+
+        joiningRoom = false;
+        currentRoom = PhotonNetwork.CurrentRoom;
+        if (roomHandlingDialog) dialogManager.CloseDialog(roomHandlingDialog);
+
+        SetPlayerPropParticipantIndex(-1);
+        settingUpParticipantIndex = true;
+
+        for (int i = 0; i < currentRoom.PlayerCount; i++)
+        {
+            Photon.Realtime.Player player;
+            if (GetPlayerByIndex(i, out player)) PlayersByID.Add(player.UserId, player);
+        }
+    }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+
+        Debug.Log("Client left room");
+
+        currentRoom = null;
+        PlayersByID.Clear();
+    }
+
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        PlayersByID.Add(newPlayer.UserId, newPlayer);
+    }
+
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
+        PlayersByID.Remove(otherPlayer.UserId);
+    }
+
+    public override void OnCreateRoomFailed(short returnCode, string message)
+    {
+        base.OnCreateRoomFailed(returnCode, message);
+
+        Debug.LogError($"Create room failed (code { returnCode }): { message }");
+
+        dialogManager.CloseDialog(roomHandlingDialog);
+
+        if (message == "A game with the specified id already exist.") message = existentRoomFailMessage;
+        NotifyFail(FailTypes.CreateRoomFail, message);
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRandomFailed(returnCode, message);
+
+        Debug.LogError($"Join room failed (code { returnCode }): { message }");
+
+        dialogManager.CloseDialog(roomHandlingDialog);
+
+        if (message == "Game does not exist") message = inexistentRoomFailMessage;
+        NotifyFail(FailTypes.JoinRoomFail, message);
+    }
+
+    void NotifyFail(FailTypes failType, string failMessage)
+    {
+        string title = "";
+        switch (failType)
+        {
+            case FailTypes.CreateRoomFail:
+                title = createRoomFailTitle;
+                break;
+            case FailTypes.JoinRoomFail:
+                title = joinRoomFailTitle;
+                break;
+            default: break;
+        }
+
+        DialogManager.Get().DisplayMessageDialog(title, failMessage, null, null);
+    }
+    #endregion
+
+    #region Properties
+    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
+    {
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+
+        if (targetPlayer.IsLocal)
+        {
+            bool propWasBeingSet = false;
+            List<string> propsToRemove = new List<string>();
+
+            foreach (string key in playerPropsBeingSet)
+            {
+                if (changedProps.ContainsKey(key))
+                {
+                    propWasBeingSet = true;
+                    propsToRemove.Add(key);
+                }
+            }
+
+            if (propsToRemove.Count > 0)
+                foreach (string key in propsToRemove) playerPropsBeingSet.Remove(key);
+
+            if (propWasBeingSet)
+            {
+                if (disconnecting) PhotonNetwork.Disconnect();
+                else if (settingUpParticipantIndex && propsToRemove.Contains(PlayerPropParticipantIndex))
+                {
+                    settingUpParticipantIndex = false;
+                    OnRoomJoined?.Invoke();
+                }
+            }
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+
+        bool propWasBeingSet = false;
+        List<string> propsToRemove = new List<string>();
+
+        foreach (string key in roomPropsBeingSet)
+        {
+            if (propertiesThatChanged.ContainsKey(key))
+            {
+                propWasBeingSet = true;
+                propsToRemove.Add(key);
+            }
+        }
+
+        if (propsToRemove.Count > 0)
+            foreach (string key in propsToRemove) roomPropsBeingSet.Remove(key);
+
+        if (propWasBeingSet && disconnecting) PhotonNetwork.Disconnect();
+    }
+    #endregion
+    #endregion
+    #endregion
+
+    #region Player Data
+    void SetPlayerName(string name)
+    {
+        PlayerPrefs.SetString(PlayerPrefsNameKey, name);
+        PlayerPrefs.Save();
+
+        PhotonNetwork.NickName = name;
+        OnPlayerNameSet?.Invoke(name);
+    }
 
     void VerifyPlayerName()
     {
@@ -181,96 +505,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             return false;
         }
     }
-
-    #region Properties
-    public void SetPlayerPropParticipantIndex(int participantIndex)
-    {
-        if (!PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": client is not connected");
-            return;
-        }
-
-        if (playerPropsBeingSet.Contains(PlayerPropParticipantIndex))
-        {
-            Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": property is already being set");
-            return;
-        }
-
-        Hashtable property = new Hashtable();
-        property.Add(PlayerPropParticipantIndex, participantIndex);
-
-        PhotonNetwork.LocalPlayer.SetCustomProperties(property);
-        playerPropsBeingSet.Add(PlayerPropParticipantIndex);
-    }
-
-    public void SetRoomPropParticipantID(int participantIndex, string userID)
-    {
-        if (!ParticipantName(participantIndex, out string participantName))
-        {
-            Debug.Log("Can not set property: participant index is out of range");
-            return;
-        }
-        string key = participantName;
-
-        if (!PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Can not set property " + key + ": client is not connected");
-            return;
-        }
-
-        if (roomPropsBeingSet.Contains(key))
-        {
-            Debug.Log("Can not set property " + key + ": property is already being set");
-            return;
-        }
-
-        Hashtable property = new Hashtable();
-        property.Add(key, userID);
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(property);
-        roomPropsBeingSet.Add(key);
-    }
     #endregion
 
-    #region Main Menu
-    void SetPlayerName(string name)
-    {
-        PlayerPrefs.SetString(PlayerPrefsNameKey, name);
-        PlayerPrefs.Save();
-
-        PhotonNetwork.NickName = name;
-        OnPlayerNameSet?.Invoke(name);
-    }
-
-    void ConnectToPhoton()
-    {
-        PhotonNetwork.GameVersion = gameVersion;
-        PhotonNetwork.ConnectUsingSettings();
-    }
-
-    void JoinRoom(string roomName)
-    {
-        Debug.Log("Joining room...");
-
-        handledRoomName = roomName;
-        joiningRoom = true;
-
-        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.JoinRoom(roomName);
-        else ConnectToPhoton();
-    }
-
-    void CreateNewRoom(string roomName)
-    {
-        Debug.Log("Creating new room...");
-
-        handledRoomName = roomName;
-        creatingNewRoom = true;
-
-        if (PhotonNetwork.IsConnectedAndReady) PhotonNetwork.CreateRoom(roomName, defaultRoomOptions);
-        else ConnectToPhoton();
-    }
-
+    #region Scene Flow
     void BeginMatch()
     {
         bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex] == 0;
@@ -293,36 +530,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         else Debug.LogError("Can not load scene: client is not master");
     }
 
-    public void Disconnect()
-    {
-        if (!PhotonNetwork.IsConnected)
-        {
-            Debug.Log("Can not disconnect: client is already disconnected");
-            return;
-        }
-
-        if (playerPropsBeingSet.Count == 0 && roomPropsBeingSet.Count == 0)
-        {
-            if (PhotonNetwork.InRoom)
-            {
-                if (currentRoom.PlayerCount > 1)
-                {
-                    Debug.Log("Leaving room...");
-                    PhotonNetwork.LeaveRoom();
-                }
-                else
-                {
-                    Debug.Log("Closing room...");
-                    currentRoom.IsOpen = false;
-                }
-            }
-
-            PhotonNetwork.Disconnect();
-        }
-
-        disconnecting = true;
-        Debug.Log("Disconnecting...");
-    }
+    void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
     #endregion
 
     #region Gameplay
@@ -331,157 +539,5 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         GameObject playerGO = PhotonNetwork.Instantiate(playerPrefab.name, position, rotation);
         return playerGO.GetComponent<Player>();
     }
-    #endregion
-
-    #region Overrides
-    #region Server Connection
-    public override void OnConnectedToMaster()
-    {
-        base.OnConnectedToMaster();
-
-        Debug.Log("Connected to Master");
-
-        if (joiningRoom) PhotonNetwork.JoinRoom(handledRoomName);
-        else if (creatingNewRoom) PhotonNetwork.CreateRoom(handledRoomName, defaultRoomOptions);
-    }
-
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        base.OnDisconnected(cause);
-
-        Debug.LogWarning($"Disconnected due to: { cause }");
-        disconnecting = false;
-    }
-    #endregion
-
-    #region Room Handling
-    public override void OnCreatedRoom()
-    {
-        base.OnCreatedRoom();
-
-        Debug.Log("Client successfully created a new room");
-
-        creatingNewRoom = false;
-    }
-
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-
-        Debug.Log("Client successfully joined a room");
-
-        joiningRoom = false;
-        currentRoom = PhotonNetwork.CurrentRoom;
-
-        SetPlayerPropParticipantIndex(-1);
-        settingUpParticipantIndex = true;
-
-        for (int i = 0; i < currentRoom.PlayerCount; i++)
-        {
-            Photon.Realtime.Player player;
-            if (GetPlayerByIndex(i, out player)) PlayersByID.Add(player.UserId, player);
-        }
-    }
-
-    public override void OnLeftRoom()
-    {
-        base.OnLeftRoom();
-
-        Debug.Log("Client left room");
-
-        currentRoom = null;
-        PlayersByID.Clear();
-    }
-
-    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
-    {
-        base.OnPlayerEnteredRoom(newPlayer);
-
-        PlayersByID.Add(newPlayer.UserId, newPlayer);
-    }
-
-    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
-    {
-        base.OnPlayerLeftRoom(otherPlayer);
-
-        SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
-        PlayersByID.Remove(otherPlayer.UserId);
-    }
-
-    public override void OnCreateRoomFailed(short returnCode, string message)
-    {
-        base.OnCreateRoomFailed(returnCode, message);
-
-        Debug.LogError($"Create room failed (code { returnCode }): { message }");
-
-        OnFail?.Invoke(FailTypes.CreateRoomFail, message);
-    }
-
-    public override void OnJoinRoomFailed(short returnCode, string message)
-    {
-        base.OnJoinRandomFailed(returnCode, message);
-
-        Debug.LogError($"Join room failed (code { returnCode }): { message }");
-
-        OnFail?.Invoke(FailTypes.JoinRoomFail, message);
-    }
-    #endregion
-
-    #region Properties
-    public override void OnPlayerPropertiesUpdate(Photon.Realtime.Player targetPlayer, Hashtable changedProps)
-    {
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-
-        if (targetPlayer.IsLocal)
-        {
-            bool propWasBeingSet = false;
-            List<string> propsToRemove = new List<string>();
-
-            foreach (string key in playerPropsBeingSet)
-            {
-                if (changedProps.ContainsKey(key))
-                {
-                    propWasBeingSet = true;
-                    propsToRemove.Add(key);
-                }
-            }
-
-            if (propsToRemove.Count > 0)
-                foreach (string key in propsToRemove) playerPropsBeingSet.Remove(key);
-
-            if (propWasBeingSet)
-            {
-                if (disconnecting) PhotonNetwork.Disconnect();
-                else if (settingUpParticipantIndex && propsToRemove.Contains(PlayerPropParticipantIndex))
-                {
-                    settingUpParticipantIndex = false;
-                    OnRoomJoined?.Invoke();
-                }
-            }
-        }
-    }
-
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
-    {
-        base.OnRoomPropertiesUpdate(propertiesThatChanged);
-
-        bool propWasBeingSet = false;
-        List<string> propsToRemove = new List<string>();
-
-        foreach (string key in roomPropsBeingSet)
-        {
-            if (propertiesThatChanged.ContainsKey(key))
-            {
-                propWasBeingSet = true;
-                propsToRemove.Add(key);
-            }
-        }
-
-        if (propsToRemove.Count > 0)
-            foreach (string key in propsToRemove) roomPropsBeingSet.Remove(key);
-
-        if (propWasBeingSet && disconnecting) PhotonNetwork.Disconnect();
-    }
-    #endregion
     #endregion
 }

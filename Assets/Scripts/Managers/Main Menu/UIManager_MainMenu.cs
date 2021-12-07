@@ -23,8 +23,6 @@ public class UIManager_MainMenu : MonoBehaviour
     [SerializeField] Menu lobby = null;
 
     [Header("Texts")]
-    [SerializeField] string createRoomFailPreText = "Error al crear show: ";
-    [SerializeField] string joinRoomFailPreText = "Error al unirse a show: ";
     [SerializeField] string nameDisplayPreText = "Participante:     ";
 
     Menu currentMenu;
@@ -37,7 +35,6 @@ public class UIManager_MainMenu : MonoBehaviour
 
         NetworkManager.OnPlayerNameSet += OnPlayerNameSet;
         NetworkManager.OnRoomJoined += DisplayLobby;
-        NetworkManager.OnFail += NotifyFail;
     }
 
     void Start()
@@ -58,7 +55,6 @@ public class UIManager_MainMenu : MonoBehaviour
 
         NetworkManager.OnPlayerNameSet -= OnPlayerNameSet;
         NetworkManager.OnRoomJoined -= DisplayLobby;
-        NetworkManager.OnFail -= NotifyFail;
     }
 
     void CloseTitleScreen() { if (titleScreen) titleScreen.gameObject.SetActive(false); }
@@ -89,23 +85,6 @@ public class UIManager_MainMenu : MonoBehaviour
         returnButton.onClick.AddListener(() => { DisplayMenu(targetMenu); });
 
         returnButton.gameObject.SetActive(true);
-    }
-
-    void NotifyFail(NetworkManager.FailTypes failType, string failMessage)
-    {
-        string title = "";
-        switch (failType)
-        {
-            case NetworkManager.FailTypes.CreateRoomFail:
-                title = createRoomFailPreText;
-                break;
-            case NetworkManager.FailTypes.JoinRoomFail:
-                title = joinRoomFailPreText;
-                break;
-            default: break;
-        }
-
-        DialogManager.Get().DisplayMessageDialog(title, failMessage, null, null);
     }
 
     public void DisplayMenu(Menu targetMenu)

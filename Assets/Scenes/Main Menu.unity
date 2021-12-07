@@ -3149,6 +3149,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3260774284471188422, guid: 385ead46d687a4a49a88704d71bdd7dc,
     type: 3}
+  createRoomTitle: Creando show
+  createRoomMessage: "El show est\xE1 siendo creado..."
+  createRoomFailTitle: Error al crear el show
+  existentRoomFailMessage: "El nombre del show ya est\xE1 siendo usado."
+  joinRoomTitle: "Uni\xE9ndose a show"
+  joinRoomMessage: "Te est\xE1s uniendo al show..."
+  joinRoomFailTitle: Error al unirse al show
+  inexistentRoomFailMessage: El show no existe.
 --- !u!1001 &1251772960
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4051,8 +4059,6 @@ MonoBehaviour:
   rootMenu: {fileID: 812450191}
   roomOptionsMenu: {fileID: 34191449}
   lobby: {fileID: 1905718436}
-  createRoomFailPreText: 'Error al crear show: '
-  joinRoomFailPreText: 'Error al unirse a show: '
   nameDisplayPreText: 'Participante:     '
 --- !u!1 &1432860561
 GameObject:
