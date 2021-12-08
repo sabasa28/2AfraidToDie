@@ -3155,6 +3155,9 @@ MonoBehaviour:
   joinRoomMessage: "Te est\xE1s uniendo al show..."
   joinRoomFailTitle: Error al unirse al show
   inexistentRoomFailMessage: El show no existe.
+  otherPlayerDisconnectionTitle: Jugador desconectado
+  otherPlayerDisconnectionMessage: "El otro jugador se ha desconectado. Volviendo
+    al men\xFA principal..."
 --- !u!1001 &1251772960
 PrefabInstance:
   m_ObjectHideFlags: 0

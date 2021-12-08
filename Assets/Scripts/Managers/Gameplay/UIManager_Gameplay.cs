@@ -31,8 +31,6 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] Button returnToMainMenuButton = null;
     [SerializeField] Button victoryMainMenuButton = null;
 
-    public static event Action<bool> OnPauseMenuStateSwitched;
-
     void OnEnable()
     {
         GameplayController.OnTimerUpdated += UpdateTimerText;
@@ -53,7 +51,7 @@ public class UIManager_Gameplay : MonoBehaviour
 
         differenceCount = GameplayController.Get().DifferenceCount;
     }
-
+    
     void Update() { if (canPause && Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
 
     void OnDisable()
@@ -123,8 +121,7 @@ public class UIManager_Gameplay : MonoBehaviour
     public void SetPauseMenuActive(bool state)
     {
         pauseMenu.SetActive(state);
-
-        OnPauseMenuStateSwitched?.Invoke(state);
+        GameManager.Get().ControlMode = state ? GameManager.ControlModes.UI : GameManager.ControlModes.Gameplay;
     }
     #endregion
 

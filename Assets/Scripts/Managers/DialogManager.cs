@@ -38,10 +38,20 @@ public class DialogManager : PersistentMonoBehaviourSingleton<DialogManager>
     [SerializeField] string defaultContinue = "";
     [SerializeField] string defaultCancel = "";
 
+    GameManager gameManager;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        gameManager = GameManager.Get();
+    }
+
     public bool CoverActive { get { return cover.activeInHierarchy; } }
 
     Dialog GenerateDialog(GameObject prefab, string title, string message, ButtonData[] buttons)
     {
+        if (gameManager.ControlMode != GameManager.ControlModes.UI) gameManager.ControlMode = GameManager.ControlModes.UI;
         cover.SetActive(true);
 
         Vector2 position = new Vector2(Screen.width / 2f, Screen.height / 2f);

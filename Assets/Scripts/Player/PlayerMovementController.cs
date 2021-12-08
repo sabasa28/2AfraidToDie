@@ -37,7 +37,7 @@ public class PlayerMovementController : MonoBehaviourPun
         rigidBody.useGravity = photonView.IsMine;
     }
 
-    void OnEnable() => UIManager_Gameplay.OnPauseMenuStateSwitched += OnPauseMenuStateSwitched;
+    void OnEnable() => GameManager.OnControlModeChanged += OnControlModeChanged;
 
     void Start()
     {
@@ -92,12 +92,14 @@ public class PlayerMovementController : MonoBehaviourPun
         #endregion
     }
 
-    void OnDisable() => UIManager_Gameplay.OnPauseMenuStateSwitched -= OnPauseMenuStateSwitched;
+    void OnDisable() => GameManager.OnControlModeChanged -= OnControlModeChanged;
 
-    void OnPauseMenuStateSwitched(bool state)
+    void OnControlModeChanged(GameManager.ControlModes controlMode)
     {
-        canProcessInput = !state;
-        SetCursorLockState(!state);
+        bool inGameplay = controlMode == GameManager.ControlModes.Gameplay;
+
+        canProcessInput = inGameplay;
+        SetCursorLockState(inGameplay);
     }
 
     public void SetCursorLockState(bool isActive)

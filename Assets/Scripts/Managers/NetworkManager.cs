@@ -4,6 +4,7 @@ using Photon.Realtime;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
@@ -26,6 +27,9 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     [SerializeField] string joinRoomMessage = "";
     [SerializeField] string joinRoomFailTitle = "";
     [SerializeField] string inexistentRoomFailMessage = "";
+    [Space]
+    [SerializeField] string otherPlayerDisconnectionTitle = "";
+    [SerializeField] string otherPlayerDisconnectionMessage = "";
     Dialog roomHandlingDialog;
 
     bool joiningRoom = false;
@@ -324,6 +328,12 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
         PlayersByID.Remove(otherPlayer.UserId);
+
+        if (SceneManager.GetActiveScene().name == gameManager.GameplayScene && otherPlayer != PhotonNetwork.LocalPlayer && gameManager.InGameplay)
+        {
+            UnityAction onClose = LeaveRoom;
+            dialogManager.DisplayMessageDialog(otherPlayerDisconnectionTitle, otherPlayerDisconnectionMessage, null, onClose);
+        }
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
