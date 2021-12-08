@@ -167,7 +167,8 @@ public class Networking_Lobby : MonoBehaviourPunCallbacks
         foreach (PlayerConnectionToggle toggle in playerConnectionToggles) Destroy(toggle.gameObject);
         playerConnectionToggles.Clear();
 
-        networkManager.Disconnect();
+        //networkManager.Disconnect();
+        networkManager.LeaveRoom();
     }
 
     #region Overrides

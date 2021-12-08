@@ -29,7 +29,6 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
 
         TitleScreen.OnTitleScreenClosed += OnTitleScreenClosed;
         UIManager_MainMenu.OnExit += Exit;
-        UIManager_Gameplay.OnGoToMainMenu += GoToMainMenu;
     }
 
     void OnDisable()
@@ -39,7 +38,6 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
 
         TitleScreen.OnTitleScreenClosed -= OnTitleScreenClosed;
         UIManager_MainMenu.OnExit -= Exit;
-        UIManager_Gameplay.OnGoToMainMenu -= GoToMainMenu;
     }
 
     void SetPlayingAsPA(bool _playingAsPA) => playingAsPA = _playingAsPA;
@@ -51,7 +49,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
 
-            StartCoroutine(DisconnectAfterSeconds(1.0f));
+            //StartCoroutine(DisconnectAfterSeconds(1.0f));
         }
         else if (scene.name == GameplayScene)
         {
@@ -64,14 +62,12 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
 
     #region Scene Flow
     void Exit() => Application.Quit();
-
-    void GoToMainMenu() => NetworkManager.Get().LoadScene(MainMenuScene);
     #endregion
 
-    IEnumerator DisconnectAfterSeconds(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-
-        NetworkManager.Get().Disconnect();
-    }
+    //IEnumerator DisconnectAfterSeconds(float seconds)
+    //{
+    //    yield return new WaitForSeconds(seconds);
+    //
+    //    NetworkManager.Get().Disconnect();
+    //}
 }

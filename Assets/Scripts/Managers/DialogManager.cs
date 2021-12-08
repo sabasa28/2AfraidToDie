@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class DialogManager : MonoBehaviourSingleton<DialogManager>
+public class DialogManager : PersistentMonoBehaviourSingleton<DialogManager>
 {
     public class ButtonData
     {
@@ -26,10 +26,10 @@ public class DialogManager : MonoBehaviourSingleton<DialogManager>
         Cancel
     }
 
-    [SerializeField] GameObject cover = null;
     [SerializeField] GameObject defaultDialogPrefab = null;
     [SerializeField] GameObject promptDialogPrefab = null;
     [SerializeField] Transform dialogContainer = null;
+    [SerializeField] GameObject cover = null;
 
     [Header("Default Button Texts")]
     [SerializeField] string defaultPositive = "";

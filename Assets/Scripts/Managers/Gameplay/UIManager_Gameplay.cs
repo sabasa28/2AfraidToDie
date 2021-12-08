@@ -24,11 +24,14 @@ public class UIManager_Gameplay : MonoBehaviour
     [Header("Menues")]
     [SerializeField] GameObject pauseMenu = null;
     [SerializeField] GameObject controlsScreen = null;
-    [SerializeField] VictoryScreen victoryScreen = null;
+    [SerializeField] GameObject victoryScreen = null;
     bool canPause = true;
 
+    [Header("Buttons")]
+    [SerializeField] Button returnToMainMenuButton = null;
+    [SerializeField] Button victoryMainMenuButton = null;
+
     public static event Action<bool> OnPauseMenuStateSwitched;
-    public static event Action OnGoToMainMenu;
 
     void OnEnable()
     {
@@ -44,6 +47,9 @@ public class UIManager_Gameplay : MonoBehaviour
     {
         timeText.text = "";
         dialogueText.text = "";
+
+        returnToMainMenuButton.onClick.AddListener(NetworkManager.Get().LeaveRoom);
+        victoryMainMenuButton.onClick.AddListener(NetworkManager.Get().LeaveRoom);
 
         differenceCount = GameplayController.Get().DifferenceCount;
     }
@@ -106,10 +112,10 @@ public class UIManager_Gameplay : MonoBehaviour
     #region Screens
     void HideControlsScreen() => controlsScreen.SetActive(false);
 
-    void DisplayVictoryScreen(bool isMaster)
+    void DisplayVictoryScreen()
     {
         canPause = false;
-        victoryScreen.Display(isMaster);
+        victoryScreen.SetActive(true);
     }
     #endregion
 
@@ -120,8 +126,6 @@ public class UIManager_Gameplay : MonoBehaviour
 
         OnPauseMenuStateSwitched?.Invoke(state);
     }
-
-    public void GoToMainMenu() => OnGoToMainMenu?.Invoke();
     #endregion
 
     #region Coroutines

@@ -32,10 +32,12 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     bool settingUpParticipantIndex = false;
     bool creatingNewRoom = false;
     bool loadingScene = false;
+    bool leavingRoom = false;
     bool disconnecting = false;
 
     string gameVersion;
     string handledRoomName;
+    GameManager gameManager;
     DialogManager dialogManager;
 
     Room currentRoom;
@@ -62,6 +64,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         gameVersion = Application.version;
         defaultRoomOptions = new RoomOptions{ PublishUserId = true, MaxPlayers = MaxPlayersPerRoom };
+        gameManager = GameManager.Get();
         dialogManager = DialogManager.Get();
 
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -132,8 +135,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             PhotonNetwork.Disconnect();
         }
 
-        disconnecting = true;
-        Debug.Log("Disconnecting...");
+        if (!disconnecting)
+        {
+            disconnecting = true;
+            Debug.Log("Disconnecting...");
+        }
     }
     #endregion
 
@@ -148,7 +154,6 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         if (PhotonNetwork.IsConnectedAndReady)
         {
             Debug.Log("Joining room...");
-
             PhotonNetwork.JoinRoom(roomName);
         }
         else ConnectToPhoton();
@@ -164,10 +169,31 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         if (PhotonNetwork.IsConnectedAndReady)
         {
             Debug.Log("Creating new room...");
-
             PhotonNetwork.CreateRoom(roomName, defaultRoomOptions);
         }
         else ConnectToPhoton();
+    }
+
+    public void LeaveRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            Debug.Log("Can not leave room: client is not connected");
+            return;
+        }
+        else if (!PhotonNetwork.InRoom)
+        {
+            Debug.Log("Can not leave room: client is not in a room");
+            return;
+        }
+
+        if (playerPropsBeingSet.Count == 0 && roomPropsBeingSet.Count == 0) PhotonNetwork.LeaveRoom();
+
+        if (!leavingRoom)
+        {
+            leavingRoom = true;
+            Debug.Log("Leaving room...");
+        }
     }
     #endregion
 
@@ -179,8 +205,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": client is not connected");
             return;
         }
-
-        if (playerPropsBeingSet.Contains(PlayerPropParticipantIndex))
+        else if (playerPropsBeingSet.Contains(PlayerPropParticipantIndex))
         {
             Debug.Log("Can not set property " + PlayerPropParticipantIndex + ": property is already being set");
             return;
@@ -207,8 +232,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
             Debug.Log("Can not set property " + key + ": client is not connected");
             return;
         }
-
-        if (roomPropsBeingSet.Contains(key))
+        else if (roomPropsBeingSet.Contains(key))
         {
             Debug.Log("Can not set property " + key + ": property is already being set");
             return;
@@ -280,8 +304,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
         Debug.Log("Client left room");
 
+        leavingRoom = false;
         currentRoom = null;
         PlayersByID.Clear();
+
+        if (SceneManager.GetActiveScene().name == gameManager.GameplayScene) LoadScene(gameManager.MainMenuScene);
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -365,7 +392,8 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
 
             if (propWasBeingSet)
             {
-                if (disconnecting) PhotonNetwork.Disconnect();
+                if (disconnecting) Disconnect();
+                else if (leavingRoom) LeaveRoom();
                 else if (settingUpParticipantIndex && propsToRemove.Contains(PlayerPropParticipantIndex))
                 {
                     settingUpParticipantIndex = false;
@@ -394,7 +422,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         if (propsToRemove.Count > 0)
             foreach (string key in propsToRemove) roomPropsBeingSet.Remove(key);
 
-        if (propWasBeingSet && disconnecting) PhotonNetwork.Disconnect();
+        if (propWasBeingSet)
+        {
+            if (disconnecting) Disconnect();
+            else if (leavingRoom) LeaveRoom();
+        }
     }
     #endregion
     #endregion
@@ -513,21 +545,23 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         bool playingAsPA = (int)PhotonNetwork.LocalPlayer.CustomProperties[PlayerPropParticipantIndex] == 0;
         OnMatchBegun?.Invoke(playingAsPA);
 
-        if (PhotonNetwork.IsMasterClient) LoadScene(GameManager.Get().GameplayScene);
+        if (PhotonNetwork.IsMasterClient) LoadScene(gameManager.GameplayScene);
     }
 
     public void LoadScene(string sceneName)
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
         {
-            if (!loadingScene)
-            {
-                loadingScene = true;
-                PhotonNetwork.LoadLevel(sceneName);
-            }
-            else Debug.LogError("Can not load scene: a scene is already being loaded");
+            Debug.LogError("Can not load scene: client is not master");
+            return;
         }
-        else Debug.LogError("Can not load scene: client is not master");
+
+        if (!loadingScene)
+        {
+            loadingScene = true;
+            PhotonNetwork.LoadLevel(sceneName);
+        }
+        else Debug.LogError("Can not load scene: a scene is already being loaded");
     }
 
     void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
