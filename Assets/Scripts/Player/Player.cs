@@ -108,7 +108,7 @@ public class Player : MonoBehaviourPun
         grabbedObject = grabbable;
     }
 
-    void FixButton(DoorButton doorButton) { if (photonView.IsMine) doorButton.TryToFixButton(grabbedObject.gameObject); }
+    void FixButton(DoorButton doorButton) { if (photonView.IsMine && grabbedObject) doorButton.TryToFixButton(grabbedObject.gameObject); }
 
     void DeliverShape(DeliveryMachine deliveryMachine)
     {
