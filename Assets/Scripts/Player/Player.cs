@@ -55,6 +55,11 @@ public class Player : MonoBehaviourPun
     void FixedUpdate()
     {
         if (!photonView.IsMine) return;
+        else if (GameplayController.Get().OnPause)
+        {
+            hoveredInteractable = null;
+            return;
+        }
 
         RaycastHit hit;
         Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, 20.0f, (1 << LayerMask.NameToLayer("Interactable")) | (1 << LayerMask.NameToLayer("Walls")));

@@ -31,6 +31,8 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] Button returnToMainMenuButton = null;
     [SerializeField] Button victoryMainMenuButton = null;
 
+    static public event Action<bool> OnPauseToggled;
+
     void OnEnable()
     {
         GameplayController.OnTimerUpdated += UpdateTimerText;
@@ -122,6 +124,8 @@ public class UIManager_Gameplay : MonoBehaviour
     {
         pauseMenu.SetActive(state);
         GameManager.Get().ControlMode = state ? GameManager.ControlModes.UI : GameManager.ControlModes.Gameplay;
+
+        OnPauseToggled?.Invoke(state);
     }
     #endregion
 

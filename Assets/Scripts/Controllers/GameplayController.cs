@@ -82,6 +82,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [SerializeField] Door secondPhaseDoorB;
     Door secondPhaseDoor;
 
+    public bool OnPause { private set; get; }
     public int DifferenceCount { get { return paDifferences.Count; } }
     public float TimerDuration { get { return timerInitialDuration; } }
 
@@ -98,6 +99,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnEnable()
     {
+        UIManager_Gameplay.OnPauseToggled += TogglePause;
         Player.OnRespawn += RespawnPlayer;
 
         Door.OnDoorUnlocked += UnlockDoor;
@@ -114,7 +116,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         InstantiatePuzzles();
         player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
-        //player = FindObjectOfType<Player>(); //sacar eso creo
 
         SetUpDoors();
 
@@ -129,6 +130,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnDisable()
     {
+        UIManager_Gameplay.OnPauseToggled -= TogglePause;
         Player.OnRespawn -= RespawnPlayer;
 
         Door.OnDoorUnlocked -= UnlockDoor;
@@ -140,6 +142,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         CodeBar.UpdatePuzzleProgress -= UpdateCSProgress;
         Phone.OnCorrectNumberInserted -= UpdateCSProgress;
     }
+
+    void TogglePause(bool onPause) => OnPause = onPause;
 
     void ProcessLevelEnd()
     {
@@ -276,7 +280,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #endregion
 
     #region Puzzles
-
     void InstantiatePuzzles()
     {
         puzzles = new List<FindTheDifferences>();
