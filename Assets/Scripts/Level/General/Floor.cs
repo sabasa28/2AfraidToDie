@@ -14,7 +14,6 @@ public class Floor : MonoBehaviour
     }
     IEnumerator OpenAndClose()
     {
-        Debug.Log(Time.time);
         float timer = timeToOpenOrClose;
         Vector3 origRot = transform.rotation.eulerAngles;
         while (timer >= 0)
@@ -23,18 +22,15 @@ public class Floor : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(openAngle, origRot.y, origRot.z)), 1 - timer / timeToOpenOrClose);
             yield return null;
         }
-        Debug.Log(Time.time);
         yield return new WaitForSeconds(timeOpen);
         origRot = transform.rotation.eulerAngles;
         timer = timeToOpenOrClose;
-        Debug.Log(Time.time);
         while (timer >= 0)
         {
             timer -= Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(new Vector3(0, origRot.y, origRot.z)), 1 - timer / timeToOpenOrClose);
             yield return null;
         }
-        Debug.Log(Time.time);
     }
 
 }

@@ -18,6 +18,7 @@ public class PlayerScreen : MonoBehaviour
             on = value;
             screenRenderer.material = on ? onMaterial : offMaterial;
         }
+
         get { return on; }
     }
 

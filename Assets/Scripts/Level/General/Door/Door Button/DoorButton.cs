@@ -14,21 +14,28 @@ public class DoorButton : MonoBehaviour
 
     static public event Action OnDoorUnlocked;
 
-    void OnEnable() => Player.OnFixingButton += TryToFixButton;
+    void OnEnable()
+    {
+        Player.OnFixingButton += TryToFixButton;
+        Player.OnRespawn += ResetPressZone;
+    }
 
     void Start() { if (broken) pressZone.gameObject.SetActive(false); }
 
-    void OnDisable() => Player.OnFixingButton -= TryToFixButton;
+    void OnDisable()
+    {
+        Player.OnFixingButton -= TryToFixButton;
+        Player.OnRespawn -= ResetPressZone;
+    }
+
+    void ResetPressZone() { if (!door.IsEntranceDoor && pressZone.gameObject.activeInHierarchy) pressZone.gameObject.SetActive(false); }
 
     public void TryToFixButton(GameObject insertedObject)
     {
-        ButtonMissingPart temp;
-        insertedObject.TryGetComponent(out temp);
-        
-        if (temp == null) return;
+        if (!insertedObject.TryGetComponent(out ButtonMissingPart missingPart)) return;
         
         FixButton();
-        temp.ResetState();
+        missingPart.ResetState();
     }
 
     public void FixButton()

@@ -19,8 +19,8 @@ public class Player : MonoBehaviourPun
 
     [SerializeField] Interactable hoveredInteractable;
 
-    public Action RespawnAtCheckpoint;
     public static event Action<GameObject> OnFixingButton;
+    public static event Action OnRespawn;
 
     void Awake()
     {
@@ -136,8 +136,10 @@ public class Player : MonoBehaviourPun
 
     public void Respawn()
     {
-        animator.SetBool("Fall", false);
-        RespawnAtCheckpoint();
         movementController.SetCharacterControllerActiveState(true);
+        if (grabbedObject) Destroy(grabbedObject.gameObject);
+        animator.SetBool("Fall", false);
+
+        if (photonView.IsMine) OnRespawn?.Invoke();
     }
 }

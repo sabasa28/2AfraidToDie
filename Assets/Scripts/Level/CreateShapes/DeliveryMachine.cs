@@ -65,9 +65,6 @@ public class DeliveryMachine : MonoBehaviour
         shapeSymbol = shapeSymbol * 3 + arbitraryConst;
 
         string asString = shape3D.ToString() + shapeColor.ToString() + shapeSymbol.ToString();
-
-        Debug.Log(asString);
-
         char[] asCharArray = asString.ToCharArray();
 
         for (int i = 0; i < Mathf.Floor(asCharArray.Length/2.0f); i++)
@@ -77,7 +74,6 @@ public class DeliveryMachine : MonoBehaviour
             asCharArray[asCharArray.Length - 1 - i] = temp;
         }
         asString = new string(asCharArray);
-        Debug.Log(asString);
 
         for (int i = 0; i < Mathf.Floor(asCharArray.Length-1); i+=2)
         {
@@ -88,7 +84,6 @@ public class DeliveryMachine : MonoBehaviour
 
         asString = new string(asCharArray);
         int resultantCode = int.Parse(asString);
-        Debug.Log(resultantCode);
         return resultantCode;
     }
 }

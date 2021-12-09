@@ -14,6 +14,7 @@ public class Door : MonoBehaviour
     [SerializeField] int doorNumber = 0;
     bool isOpen = false;
 
+    public bool IsEntranceDoor { get { return isEntranceDoor; } }
     public PlayerScreen[] PlayerScreens { get { return playerScreens; } }
 
     public static event Action OnDoorUnlocked;
@@ -26,6 +27,8 @@ public class Door : MonoBehaviour
         if (isOpen) animator.SetTrigger("Open");
         else animator.SetTrigger("Close");
     }
+
+    void ResetPlayerScreens() { foreach (PlayerScreen screen in playerScreens) screen.On = false; }
 
     public void SwitchState()
     {
@@ -54,6 +57,7 @@ public class Door : MonoBehaviour
 
         isOpen = false;
         animator.SetTrigger("Close");
+        ResetPlayerScreens();
 
         if (isLocal) OnDoorClosed?.Invoke();
     }

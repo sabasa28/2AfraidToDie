@@ -98,6 +98,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnEnable()
     {
+        Player.OnRespawn += RespawnPlayer;
+
         Door.OnDoorUnlocked += UnlockDoor;
         Door.OnTimerTriggered += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
@@ -112,8 +114,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         InstantiatePuzzles();
         player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
-        player = FindObjectOfType<Player>(); //sacar eso creo
-        player.RespawnAtCheckpoint = RespawnPlayer;
+        //player = FindObjectOfType<Player>(); //sacar eso creo
 
         SetUpDoors();
 
@@ -128,6 +129,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void OnDisable()
     {
+        Player.OnRespawn -= RespawnPlayer;
+
         Door.OnDoorUnlocked -= UnlockDoor;
         Door.OnTimerTriggered -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
@@ -150,6 +153,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #region Spawn
     void RespawnPlayer()
     {
+        Debug.Log("PLAYER POSITION: " + GetPlayerSpawnPosition());
         player.transform.position = GetPlayerSpawnPosition();
         timer = timerInitialDuration;
         canSelectDifference = false;
