@@ -39,24 +39,37 @@ public class FindTheDifferences : MonoBehaviour
     public void ClearDifferences()
     {
         differences.Clear();
-        if (PhotonNetwork.IsMasterClient)
-        {
-            foreach (Difference diff in posibleDifferences)
-            {
-                diff.SetTransformAsDifference(false);
-            }
-        }
+        if (PhotonNetwork.IsMasterClient)                               //ya no es necesario creo
+        {                                                               //ya no es necesario creo
+            foreach (Difference diff in posibleDifferences)             //ya no es necesario creo
+            {                                                           //ya no es necesario creo
+                diff.SetTransformAsDifference(false);                   //ya no es necesario creo
+            }                                                           //ya no es necesario creo
+        }                                                               //ya no es necesario creo
     }
 
-    public void SetDifference(int differenceIndex)
+    public void SetDifferences(int[] differenceIndex, bool[] baseDifferencesState)
     {
-        Debug.Log(posibleDifferences[differenceIndex].gameObject.name);
-        Difference diff = posibleDifferences[differenceIndex];
         if (PhotonNetwork.IsMasterClient)
         {
-            diff.SetTransformAsDifference(true);
+            for (int i = 0; i < differenceIndex.Length; i++)
+            {
+                baseDifferencesState[differenceIndex[i]] = !baseDifferencesState[differenceIndex[i]];
+            }
         }
-        differences.Add(diff);
+
+        for (int i = 0; i < differenceIndex.Length; i++)
+        {
+            Difference diff = posibleDifferences[differenceIndex[i]];
+            Debug.Log(diff.name);
+            differences.Add(diff);
+        }
+
+        for (int i = 0; i < posibleDifferences.Count; i++)
+        {
+            posibleDifferences[i].SetTransformAsDifference(baseDifferencesState[i]);
+        }
+ 
     }
 
     public bool CheckInteractable(Difference interactableToTest)
