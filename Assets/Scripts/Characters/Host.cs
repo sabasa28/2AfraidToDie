@@ -9,6 +9,7 @@ public class Host : MonoBehaviour
     [SerializeField] float timeLeftForTimeDialogue = 60.0f;
     [SerializeField] float buttonDialogueInterval = 20.0f;
     bool timeDialoguePlayed = false;
+    bool checkForButtonDialogue = false;
 
     void Awake() => dialogueCharacter.Initialize();
 
@@ -20,7 +21,7 @@ public class Host : MonoBehaviour
         GameplayController.OnAllDifferencesSelected += StartCheckingForButtonDialogue;
         GameplayController.OnLevelEnd += () => dialogueCharacter.PlayRandomDialogue("Victory");
 
-        Door.OnExitDoorOpen += StopCheckingForButtonDialogue;
+        Door.OnExitDoorUnlocked += StopCheckingForButtonDialogue;
     }
 
     void Start() => dialogueCharacter.PlayDialogue("Introduction", 0);
@@ -33,7 +34,7 @@ public class Host : MonoBehaviour
         GameplayController.OnAllDifferencesSelected -= StartCheckingForButtonDialogue;
         GameplayController.OnLevelEnd -= () => dialogueCharacter.PlayRandomDialogue("Victory");
 
-        Door.OnExitDoorOpen += StopCheckingForButtonDialogue;
+        Door.OnExitDoorUnlocked += StopCheckingForButtonDialogue;
     }
 
     void CheckTimerForTimeDialogue(float newTime)
@@ -45,15 +46,19 @@ public class Host : MonoBehaviour
         }
     }
 
-    void StartCheckingForButtonDialogue() => StartCoroutine(CheckForButtonDialogue());
+    void StartCheckingForButtonDialogue()
+    {
+        checkForButtonDialogue = true;
+        StartCoroutine(CheckForButtonDialogue());
+    }
 
-    void StopCheckingForButtonDialogue() => StopCoroutine(CheckForButtonDialogue());
+    void StopCheckingForButtonDialogue() => checkForButtonDialogue = false;
 
     IEnumerator CheckForButtonDialogue()
     {
         float timer = buttonDialogueInterval;
 
-        while (true)
+        while (checkForButtonDialogue)
         {
             timer -= Time.deltaTime;
 

@@ -12262,7 +12262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueCharacter: {fileID: 11400000, guid: bd8bfe7c9b61b4c47a05e27a3f8c940b, type: 2}
   timeLeftForTimeDialogue: 30
-  buttonDialogueInterval: 30
+  buttonDialogueInterval: 20
 --- !u!1 &1171200876
 GameObject:
   m_ObjectHideFlags: 0

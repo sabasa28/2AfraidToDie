@@ -160,7 +160,7 @@ MonoBehaviour:
   - {fileID: 7919149774585350973}
   - {fileID: 2542252449918460972}
   playerA: 1
-  isEntranceDoor: 1
+  isEntranceDoor: 0
   doorNumber: 0
 --- !u!1 &5727871930998822095
 GameObject:
