@@ -68,7 +68,9 @@ public class DialogueCharacterSO : ScriptableObject
         }
 
         AudioClip clip = list.audioClips[index];
-        DialogueListsByName[listName].SetLastRandomClipPlayed(clip);
+        list.lastRandomClipPlayed = clip;
+        DialogueListsByName[listName] = list;
+
         audioManager.PlayDialogue(clip);
     }
 }
