@@ -29,6 +29,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
     public bool InGameplay { get { return inGameplay; } }
     public string MainMenuScene { get { return mainMenuSceneName; } }
     public string GameplayScene { get { return gameplaySceneName; } }
+    public string CurrentScene { get { return SceneManager.GetActiveScene().name; } }
     public ControlModes ControlMode
     {
         set
@@ -55,6 +56,7 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
         get { return controlMode; }
     }
 
+    static public event Action<string> OnSceneLoaded;
     static public event Action<ControlModes> OnControlModeChanged;
 
     void OnEnable()
@@ -92,6 +94,8 @@ public class GameManager : PersistentMonoBehaviourSingleton<GameManager>
             gameplayController = GameplayController.Get();
             gameplayController.playingAsPA = playingAsPA;
         }
+
+        OnSceneLoaded?.Invoke(scene.name);
     }
 
     void OnTitleScreenClosed() => titleScreenShown = true;

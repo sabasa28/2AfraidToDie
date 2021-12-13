@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class FlareUpdater : MonoBehaviour
 {
@@ -7,8 +6,9 @@ public class FlareUpdater : MonoBehaviour
 
     void Update()
     {
-        float ratio = Mathf.Sqrt(Vector3.Distance(transform.position, Camera.main.transform.position));
+        float ratio = 0.0f;
+        if (Camera.main) ratio = Mathf.Sqrt(Vector3.Distance(transform.position, Camera.main.transform.position));
 
-        GetComponent<LensFlare>().brightness = size / ratio;
+        if (TryGetComponent(out LensFlare lensFlare)) lensFlare.brightness = size / ratio;
     }
 }

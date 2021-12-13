@@ -15,7 +15,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         JoinRoomFail
     }
 
-    [SerializeField] GameObject playerPrefab = null;
+    //[SerializeField] GameObject playerPrefab = null;
 
     [Header("Messages")]
     [SerializeField] string createRoomTitle = "";
@@ -312,7 +312,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         currentRoom = null;
         PlayersByID.Clear();
 
-        if (SceneManager.GetActiveScene().name == gameManager.GameplayScene) LoadScene(gameManager.MainMenuScene);
+        if (gameManager.CurrentScene == gameManager.GameplayScene) LoadScene(gameManager.MainMenuScene);
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
@@ -329,7 +329,7 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
         SetRoomPropParticipantID((int)otherPlayer.CustomProperties[PlayerPropParticipantIndex], "");
         PlayersByID.Remove(otherPlayer.UserId);
 
-        if (SceneManager.GetActiveScene().name == gameManager.GameplayScene && otherPlayer != PhotonNetwork.LocalPlayer && gameManager.InGameplay)
+        if (gameManager.CurrentScene == gameManager.GameplayScene && otherPlayer != PhotonNetwork.LocalPlayer && gameManager.InGameplay)
         {
             UnityAction onClose = LeaveRoom;
             dialogManager.DisplayMessageDialog(otherPlayerDisconnectionTitle, otherPlayerDisconnectionMessage, null, onClose);
@@ -577,11 +577,11 @@ public class NetworkManager : PersistentMBPunCallbacksSingleton<NetworkManager>
     void OnLevelLoaded(Scene scene, LoadSceneMode mode) => loadingScene = false;
     #endregion
 
-    #region Gameplay
-    public Player SpawnPlayer(Vector3 position, Quaternion rotation)
-    {
-        GameObject playerGO = PhotonNetwork.Instantiate(playerPrefab.name, position, rotation);
-        return playerGO.GetComponent<Player>();
-    }
-    #endregion
+    //#region Gameplay
+    //public Player SpawnPlayer(Vector3 position, Quaternion rotation)
+    //{
+    //    GameObject playerGO = PhotonNetwork.Instantiate(playerPrefab.name, position, rotation);
+    //    return playerGO.GetComponent<Player>();
+    //}
+    //#endregion
 }

@@ -15,30 +15,30 @@ MonoBehaviour:
   dialogueLists:
   - name: Button press
     audioClips:
-    - {fileID: 8300000, guid: 8a2b637f8beac6643b8d2d02ef25b596, type: 3}
-    - {fileID: 8300000, guid: bcb1a2902050bd74fa5cec1747e1e904, type: 3}
+    - {fileID: 8300000, guid: 28de5f8d836f53644a59bf6bfdba3cc2, type: 3}
+    - {fileID: 8300000, guid: b63e810e378aa2f40a5f957a2636c447, type: 3}
   - name: Guess
     audioClips:
-    - {fileID: 8300000, guid: 0cc918d6ef1e8374580cf52463d51d97, type: 3}
-    - {fileID: 8300000, guid: 09188bcdaa3476240b8c96258f0786ac, type: 3}
-    - {fileID: 8300000, guid: ef1121507667fc24d9d95c23622b377e, type: 3}
-    - {fileID: 8300000, guid: 84ef09221d44a484a90c2c258579301e, type: 3}
+    - {fileID: 8300000, guid: 0f65c0db71fe8714c9d87525f6307308, type: 3}
+    - {fileID: 8300000, guid: 0141125c3103bfe4a930e231e70bc8b0, type: 3}
+    - {fileID: 8300000, guid: 8e1cf8751cadf10478afe55f09f3f1ce, type: 3}
+    - {fileID: 8300000, guid: d77df92409b0a324bb648d5298eb8f9e, type: 3}
   - name: Introduction
     audioClips:
-    - {fileID: 8300000, guid: f0d1f90ca35cca24c83222f99eb625fa, type: 3}
-  - name: Little time left
+    - {fileID: 8300000, guid: 6a517757434eaef45b6b58d93a37d9bd, type: 3}
+  - name: Running out of time
     audioClips:
-    - {fileID: 8300000, guid: 55dcf6bd5041d5449ba013cbf9824cac, type: 3}
-    - {fileID: 8300000, guid: 7bf341f9558ea7344b69821e830986a2, type: 3}
-    - {fileID: 8300000, guid: b992e0b2aec7ecd46846ae4839b49851, type: 3}
-    - {fileID: 8300000, guid: f905f6446e0bc774da5f31a651573e4b, type: 3}
+    - {fileID: 8300000, guid: 0f45875a4cca3614e974e07ec345b935, type: 3}
+    - {fileID: 8300000, guid: d1d57f2186d5cf8449dc86cf4ebab780, type: 3}
+    - {fileID: 8300000, guid: 48d123c202b3ea3459aa55e51153f6da, type: 3}
+    - {fileID: 8300000, guid: e47d9bf3c8313674a81fc3bdd180a1bc, type: 3}
   - name: Mistake
     audioClips:
-    - {fileID: 8300000, guid: 326efe6af026f004ab48ffdb84b4076c, type: 3}
-    - {fileID: 8300000, guid: cc01c39fd0588a74bbe8cb543b3fd857, type: 3}
-    - {fileID: 8300000, guid: a51c9ba0c796630429ef2f391e82ac28, type: 3}
-    - {fileID: 8300000, guid: 6e701fc6368137b4e93c53046cd060c0, type: 3}
-    - {fileID: 8300000, guid: a5e908f11aa783d4a87790860c9d554b, type: 3}
+    - {fileID: 8300000, guid: 1a215d927d3d0ba4d98ffb197cb75794, type: 3}
+    - {fileID: 8300000, guid: 4d58862ea67906c44b3bd60d370622eb, type: 3}
+    - {fileID: 8300000, guid: c4fa20ddf5fb51740a90c81cadb8011a, type: 3}
+    - {fileID: 8300000, guid: 27dfb2c51de658849bcdbee2161ca353, type: 3}
+    - {fileID: 8300000, guid: 051a8659a9b72f34fb7c5a10d0d1f635, type: 3}
   - name: Victory
     audioClips:
-    - {fileID: 8300000, guid: 7090dd9d85cc23e43af63089868461f4, type: 3}
+    - {fileID: 8300000, guid: 09b64fbbb69f31141b67b4b959502218, type: 3}

@@ -61,6 +61,7 @@ public class DialogManager : PersistentMonoBehaviourSingleton<DialogManager>
         newDialog.Message = message;
 
         foreach (ButtonData button in buttons) AddButtonToDialog(button, newDialog);
+        gameManager.ControlMode = GameManager.ControlModes.UI;
 
         return newDialog;
     }
@@ -133,5 +134,7 @@ public class DialogManager : PersistentMonoBehaviourSingleton<DialogManager>
 
         cover.SetActive(false);
         Destroy(dialog.gameObject);
+
+        if (gameManager.CurrentScene == gameManager.GameplayScene) gameManager.ControlMode = GameManager.ControlModes.Gameplay;
     }
 }

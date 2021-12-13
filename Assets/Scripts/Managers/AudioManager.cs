@@ -29,34 +29,52 @@ public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
     [SerializeField] bool soundOn = true;
     [SerializeField] bool musicOn = true;
 
+    GameManager gameManager;
+
     public bool SoundOn { set { soundOn = value; } get { return soundOn; } }
     public bool MusicOn { set { musicOn = value; } get { return musicOn; } }
 
-    //void OnEnable() => SceneManager.sceneLoaded += PlayMusicOnNewScene;
-
-    //void OnDisable() => SceneManager.sceneLoaded -= PlayMusicOnNewScene;
-
-    void PlayMusicOnNewScene(Scene scene, LoadSceneMode mode)
+    public override void Awake()
     {
-        Songs song;
+        base.Awake();
 
-        switch (scene.name)
-        {
-            case "Main Menu":
-                song = Songs.MainMenu;
-                break;
-            case "Gameplay":
-                song = Songs.Gameplay;
-                break;
-            default:
-                song = 0;
-                break;
-        }
+        gameManager = GameManager.Get();
+    }
+
+    void OnEnable()
+    {
+        GameManager.OnSceneLoaded -= StopSFXOnNewScene;
+        //SceneManager.sceneLoaded += PlayMusicOnNewScene;
+    }
+
+    void OnDisable()
+    {
+        GameManager.OnSceneLoaded += StopSFXOnNewScene;
+        //SceneManager.sceneLoaded -= PlayMusicOnNewScene;
+    }
+
+    void StopSFXOnNewScene(string sceneName) { if (sfxAudioSource.isPlaying) sfxAudioSource.Stop(); }
+
+    void PlayMusicOnNewScene(string sceneName)
+    {
+        Songs song = 0;
+
+        if (sceneName == gameManager.MainMenuScene) song = Songs.MainMenu;
+        else if (sceneName == gameManager.GameplayScene) song = Songs.Gameplay;
 
         PlayMusic(song);
     }
 
-    public void PlaySFX(AudioClip sfx) { if (soundOn) AudioSource.PlayClipAtPoint(sfx, Vector3.zero); }
+    public void PlaySFX(AudioClip sfx)
+    {
+        if (soundOn)
+        {
+            if (sfxAudioSource.isPlaying) sfxAudioSource.Stop();
+
+            sfxAudioSource.clip = sfx;
+            sfxAudioSource.Play();
+        }
+    }
 
     public void PlayMusic(Songs song)
     {

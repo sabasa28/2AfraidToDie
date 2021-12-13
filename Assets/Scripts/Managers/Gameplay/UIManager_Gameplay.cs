@@ -31,11 +31,14 @@ public class UIManager_Gameplay : MonoBehaviour
     [SerializeField] Button returnToMainMenuButton = null;
     [SerializeField] Button victoryMainMenuButton = null;
 
+    NetworkManager networkManager;
+
     static public event Action<bool> OnPauseToggled;
 
     void OnEnable()
     {
         GameplayController.OnTimerUpdated += UpdateTimerText;
+        GameplayController.OnPlayerMistake += NegativeFeedback;
         GameplayController.OnLevelEnd += DisplayVictoryScreen;
 
         DialogueManager.OnDialogueLinePlayed += UpdateDialogueText;
@@ -48,8 +51,9 @@ public class UIManager_Gameplay : MonoBehaviour
         timeText.text = "";
         dialogueText.text = "";
 
-        returnToMainMenuButton.onClick.AddListener(NetworkManager.Get().LeaveRoom);
-        victoryMainMenuButton.onClick.AddListener(NetworkManager.Get().LeaveRoom);
+        networkManager = NetworkManager.Get();
+        returnToMainMenuButton.onClick.AddListener(networkManager.LeaveRoom);
+        victoryMainMenuButton.onClick.AddListener(networkManager.LeaveRoom);
 
         differenceCount = GameplayController.Get().DifferenceCount;
     }
@@ -59,6 +63,7 @@ public class UIManager_Gameplay : MonoBehaviour
     void OnDisable()
     {
         GameplayController.OnTimerUpdated -= UpdateTimerText;
+        GameplayController.OnPlayerMistake -= NegativeFeedback;
         GameplayController.OnLevelEnd -= DisplayVictoryScreen;
 
         DialogueManager.OnDialogueLinePlayed -= UpdateDialogueText;
@@ -67,18 +72,16 @@ public class UIManager_Gameplay : MonoBehaviour
     }
 
     #region Timer
-    void UpdateTimerText(float newTime, bool playNegativeFeedback)
+    void UpdateTimerText(float newTime)
     {
-        if (newTime < 0.0f) newTime = 0.0f;
+        if (newTime <= 0.0f)
+        {
+            newTime = 0.0f;
+            NegativeFeedback();
+        }
         timeText.text = ToMinutes(newTime);
 
         timeSlider.value = newTime / GameplayController.Get().TimerDuration;
-
-        if (playNegativeFeedback)
-        {
-            puzzleInfoAnimator.SetTrigger("OnFail");
-            timerAnimator.SetTrigger("OnFeedback");
-        }
     }
 
     string ToMinutes(float time)
@@ -88,6 +91,14 @@ public class UIManager_Gameplay : MonoBehaviour
         int seconds = iTime % 60;
 
         return minutes + ":" + seconds.ToString("00");
+    }
+    #endregion
+
+    #region Timer
+    void NegativeFeedback()
+    {
+        puzzleInfoAnimator.SetTrigger("OnFail");
+        timerAnimator.SetTrigger("OnFeedback");
     }
     #endregion
 

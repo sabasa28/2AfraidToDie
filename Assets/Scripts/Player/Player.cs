@@ -1,16 +1,15 @@
-﻿using Photon.Pun;
-using System;
+﻿using System;
 using UnityEngine;
 
-public class Player : MonoBehaviourPun
+public class Player : MonoBehaviour
 {
     //----------
     // PA = Player A
     // PB = Player B
     //----------
 
-    [SerializeField] Vector3 GrabbedObjectPos;
     public PlayerMovementController movementController = null;
+    [SerializeField] Vector3 GrabbedObjectPos;
     [HideInInspector] Transform cameraTransform = null;
 
     Grabbable grabbedObject = null;
@@ -26,11 +25,11 @@ public class Player : MonoBehaviourPun
     {
         animator = GetComponent<Animator>();
 
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             cameraTransform = GameObject.Find("Main Camera").transform;
             movementController.cameraTransform = cameraTransform;
-        }
+        //}
     }
 
     void OnEnable()
@@ -54,8 +53,8 @@ public class Player : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        if (!photonView.IsMine) return;
-        else if (GameplayController.Get().OnPause)
+        //if (!photonView.IsMine) return;
+        /*else */if (GameplayController.Get().OnPause)
         {
             hoveredInteractable = null;
             return;
@@ -104,7 +103,7 @@ public class Player : MonoBehaviourPun
 
     void GrabObject(Grabbable grabbable)
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         grabbable.OnPlayerHovering();
         grabbable.transform.parent = cameraTransform;
@@ -113,7 +112,7 @@ public class Player : MonoBehaviourPun
         grabbedObject = grabbable;
     }
 
-    void FixButton(DoorButton doorButton) { if (photonView.IsMine && grabbedObject) doorButton.TryToFixButton(grabbedObject.gameObject); }
+    void FixButton(DoorButton doorButton) { if (/*photonView.IsMine && */grabbedObject) doorButton.TryToFixButton(grabbedObject.gameObject); }
 
     void DeliverShape(DeliveryMachine deliveryMachine)
     {
@@ -145,6 +144,6 @@ public class Player : MonoBehaviourPun
         if (grabbedObject) Destroy(grabbedObject.gameObject);
         animator.SetBool("Fall", false);
 
-        if (photonView.IsMine) OnRespawn?.Invoke();
+        /*if (photonView.IsMine) */OnRespawn?.Invoke();
     }
 }

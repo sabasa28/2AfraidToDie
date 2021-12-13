@@ -14,6 +14,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     NetworkManager networkManager;
     PhotonView photonView;
 
+    [SerializeField] GameObject playerPrefab;
     Player player;
 
     [Header("Spawn")]
@@ -86,7 +87,11 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     public int DifferenceCount { get { return paDifferences.Count; } }
     public float TimerDuration { get { return timerInitialDuration; } }
 
-    public static event Action<float,bool> OnTimerUpdated;
+    public static event Action<float> OnTimerUpdated;
+    public static event Action OnPlayerMistake;
+    public static event Action OnPlayerGuess;
+    public static event Action OnAllDifferencesSelected;
+    public static event Action OnPuzzleWon;
     public static event Action OnLevelEnd;
 
     public override void Awake()
@@ -115,7 +120,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     void Start()
     {
         InstantiatePuzzles();
-        player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
+        //player = NetworkManager.Get().SpawnPlayer(GetPlayerSpawnPosition(), Quaternion.identity);
+        player = Instantiate(playerPrefab, GetPlayerSpawnPosition(), Quaternion.identity).GetComponent<Player>();
 
         SetUpDoors();
 
@@ -123,7 +129,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         SetUpCreateShapes();
 
         timer = timerInitialDuration;
-        OnTimerUpdated?.Invoke(timer, false);
+        OnTimerUpdated?.Invoke(timer);
 
         dialogueManager.PlayDialogueLine(dialogueManager.categories[(int)DialogueManager.DialogueCategories.PuzzleIntructions].lines[0]);
     }
@@ -157,11 +163,13 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     #region Spawn
     void RespawnPlayer()
     {
-        Debug.Log("PLAYER POSITION: " + GetPlayerSpawnPosition());
+        player.movementController.characterController.enabled = false;
         player.transform.position = GetPlayerSpawnPosition();
+        player.movementController.characterController.enabled = true;
+
         timer = timerInitialDuration;
         canSelectDifference = false;
-        OnTimerUpdated?.Invoke(timer, false);
+        OnTimerUpdated?.Invoke(timer);
 
         switch (currentCheckpoint)
         {
@@ -264,12 +272,10 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         while (timerOn)
         {
             timer -= Time.deltaTime;
-            OnTimerUpdated?.Invoke(timer, false);
+            OnTimerUpdated?.Invoke(timer);
 
             if (timer <= 0.0f)
             {
-                OnTimerUpdated?.Invoke(timer, true);
-
                 timerOn = false;
                 Lose();
             }
@@ -305,6 +311,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
         if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
         else buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
+
+        OnPuzzleWon?.Invoke();
     }
     #endregion
 
@@ -363,14 +371,22 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
             differencesSelected++;
             uiManager.UpdatePuzzleInfoText(differencesSelected, true);
 
-            if (currentPuzzle.GetDifferencesLeft() <= 0) SendPulserToPlayer();
+            OnPlayerGuess?.Invoke();
+
+            if (currentPuzzle.GetDifferencesLeft() <= 0)
+            {
+                SendPulserToPlayer();
+                OnAllDifferencesSelected?.Invoke();
+            }
         }
-        else OnPlayerMistake();
+        else OnMistake();
     }
 
-    void OnPlayerMistake()
+    void OnMistake()
     {
         photonView.RPC("DecreaseTimer", RpcTarget.All);
+
+        OnPlayerMistake?.Invoke();
     }
     #endregion
 
@@ -439,11 +455,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     }
 
     [PunRPC]
-    void DecreaseTimer()
-    {
-        timer -= timerMistakeDecrease;
-
-        OnTimerUpdated?.Invoke(timer, true);
-    }
+    void DecreaseTimer() => timer -= timerMistakeDecrease;
     #endregion
 }

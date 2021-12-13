@@ -1,22 +1,21 @@
-﻿using Photon.Pun;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviourPun
+public class PlayerMovementController : MonoBehaviour
 {
     [Header("Camera")]
     [SerializeField] float cameraSpeed = 0.0f;
     [SerializeField] Vector3 cameraInitialPosition = Vector3.zero;
     [SerializeField] Vector3 cameraInitialRotation = Vector3.zero;
-    [HideInInspector] public Transform cameraTransform = null;
     [SerializeField] Transform cameraHolder = null;
+    [HideInInspector] public Transform cameraTransform = null;
 
     float cameraRotationX;
 
     [Header("Player Controller")]
     [SerializeField] float movementSpeed = 0.0f;
+    [HideInInspector] public CharacterController characterController = null;
     [HideInInspector] public Rigidbody rigidBody = null;
     [HideInInspector] public bool ableToMove = true;
-    CharacterController characterController = null;
 
     [Header("Physics")]
     [SerializeField] Transform groundCheck = null;
@@ -34,19 +33,19 @@ public class PlayerMovementController : MonoBehaviourPun
         characterController = GetComponent<CharacterController>();
         rigidBody = GetComponent<Rigidbody>();
 
-        rigidBody.useGravity = photonView.IsMine;
+        //rigidBody.useGravity = photonView.IsMine;
     }
 
     void OnEnable() => GameManager.OnControlModeChanged += OnControlModeChanged;
 
     void Start()
     {
-        if (photonView.IsMine)
-        {
+        //if (photonView.IsMine)
+        //{
             cameraTransform.SetParent(cameraHolder);
             cameraTransform.localPosition = cameraInitialPosition;
             cameraTransform.localRotation = Quaternion.Euler(cameraInitialRotation);
-        }
+        //}
 
         characterController.enabled = true;
 
@@ -57,7 +56,7 @@ public class PlayerMovementController : MonoBehaviourPun
 
     void Update()
     {
-        if (!photonView.IsMine) return;
+        //if (!photonView.IsMine) return;
 
         if (canProcessInput)
         {
