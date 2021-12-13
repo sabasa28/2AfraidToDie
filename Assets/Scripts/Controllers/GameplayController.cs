@@ -309,6 +309,8 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
         currentCheckpoint++;
 
+        SetUpSpotTheDifferences(puzzles[currentCheckpoint]);
+
         if (playingAsPA) buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
         else buttonMissingPartPos = pbButtonMPPos[currentCheckpoint];
 
@@ -332,24 +334,29 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         int numOfInteractables = currentPuzzle.GetInteractablesNumber();
         int[] differencesIndices = new int[differencesAmount];
+        bool[] baseStateOfObjects = new bool[numOfInteractables];
         for (int i = 0; i < differencesAmount; i++)
         {
             int a = UnityEngine.Random.Range(0, numOfInteractables);
             if (differencesIndices.Contains(a)) i--;
             else differencesIndices[i] = a;
         }
-        photonView.RPC("SetDifferences", RpcTarget.All, differencesIndices);
+        for (int i = 0; i < baseStateOfObjects.Length; i++)
+        {
+            baseStateOfObjects[i] = UnityEngine.Random.Range(0, 2) == 1? true : false;
+            Debug.Log(baseStateOfObjects[i]);
+        }
+        photonView.RPC("SetDifferences", RpcTarget.All, differencesIndices, baseStateOfObjects);
     }
 
-    void SetInteractablesAsDifferences(int[] differencesIndices)
+    void SetInteractablesAsDifferences(int[] differencesIndices, bool[] baseStateOfObjs)
     {
         currentPuzzle.ClearDifferences();
         differencesSelected = 0;
         uiManager.UpdatePuzzleInfoText(differencesSelected, true);
-        for (int i = 0; i < differencesIndices.Length; i++)
-        {
-            currentPuzzle.SetDifference(differencesIndices[i]);
-        }
+        
+        currentPuzzle.SetDifferences(differencesIndices, baseStateOfObjs);
+        
         if (playingAsPA)
         {
             buttonMissingPartPos = paButtonMPPos[currentCheckpoint];
@@ -423,9 +430,9 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     #region RPCs
     [PunRPC]
-    void SetDifferences(int[] differences)
+    void SetDifferences(int[] differences, bool[] baseStateOfObjs)
     {
-        SetInteractablesAsDifferences(differences);
+        SetInteractablesAsDifferences(differences, baseStateOfObjs);
     }
 
     [PunRPC]
