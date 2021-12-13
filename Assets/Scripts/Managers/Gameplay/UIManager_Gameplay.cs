@@ -58,7 +58,14 @@ public class UIManager_Gameplay : MonoBehaviour
         differenceCount = GameplayController.Get().DifferenceCount;
     }
     
-    void Update() { if (canPause && Input.GetButtonUp("Pause")) SetPauseMenuActive(!pauseMenu.activeInHierarchy); }
+    void Update()
+    {
+        if (canPause && Input.GetButtonUp("Pause"))
+        {
+            SetPauseMenuActive(!pauseMenu.activeInHierarchy);
+            AudioManager.Get().PlayUISFX(AudioManager.UISFXs.Click);
+        }
+    }
 
     void OnDisable()
     {

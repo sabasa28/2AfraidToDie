@@ -14,4 +14,6 @@ public class MatchCountdownTimer : MonoBehaviour
     public void StopCountdown() => animator.SetTrigger("Stop countdown");
 
     public void FinishCountdown() => OnCountdownFinished?.Invoke();
+
+    public void Tick() => AudioManager.Get().PlayUISFX(AudioManager.UISFXs.CountdownTick);
 }

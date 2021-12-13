@@ -3,12 +3,17 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ParticipantToggle : MonoBehaviour, IPointerUpHandler
+public class ParticipantToggle : Clickable, IPointerUpHandler
 {
     [SerializeField] UnityEvent OnClick;
     Toggle toggle;
 
-    void Awake() => toggle = GetComponent<Toggle>();
+    protected override void Awake()
+    {
+        base.Awake();
+
+        toggle = GetComponent<Toggle>();
+    }
 
     public void OnPointerUp(PointerEventData eventData)
     {

@@ -14,18 +14,25 @@ public class Door : MonoBehaviour
     [SerializeField] int doorNumber = 0;
     bool isOpen = false;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource = null;
+    [Space]
+    [SerializeField] AudioClip openCloseSFX;
+
     public bool IsEntranceDoor { get { return isEntranceDoor; } }
     public PlayerScreen[] PlayerScreens { get { return playerScreens; } }
 
     public static event Action OnDoorUnlocked;
     public static event Action OnExitDoorUnlocked;
+    static public event Action OnEntranceDoorOpen;
     public static event Action OnDoorClosed;
-    static public event Action OnTimerTriggered;
 
     void Start()
     {
         if (isOpen) animator.SetTrigger("Open");
         else animator.SetTrigger("Close");
+
+        audioSource.clip = openCloseSFX;
     }
 
     void ResetPlayerScreens() { foreach (PlayerScreen screen in playerScreens) screen.On = false; }
@@ -52,7 +59,9 @@ public class Door : MonoBehaviour
         animator.SetTrigger("Open");
         closeDoorTrigger.gameObject.SetActive(true);
 
-        if (isLocal && isEntranceDoor) OnTimerTriggered?.Invoke();
+        audioSource.Play();
+
+        if (isLocal && isEntranceDoor) OnEntranceDoorOpen?.Invoke();
     } 
 
     public void Close(bool isLocal = true)
@@ -62,6 +71,8 @@ public class Door : MonoBehaviour
         isOpen = false;
         animator.SetTrigger("Close");
         ResetPlayerScreens();
+
+        audioSource.Play();
 
         if (isLocal) OnDoorClosed?.Invoke();
     }

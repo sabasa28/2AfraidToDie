@@ -18,8 +18,8 @@ public class Host : MonoBehaviour
         GameplayController.OnTimerUpdated += CheckTimerForTimeDialogue;
         GameplayController.OnPlayerMistake += () => dialogueCharacter.PlayRandomDialogue("Mistake");
         GameplayController.OnPlayerGuess += () => dialogueCharacter.PlayRandomDialogue("Guess");
+        GameplayController.OnAllDifferencesSelected += () => dialogueCharacter.PlayRandomDialogue("Victory");
         GameplayController.OnAllDifferencesSelected += StartCheckingForButtonDialogue;
-        GameplayController.OnLevelEnd += () => dialogueCharacter.PlayRandomDialogue("Victory");
 
         Door.OnExitDoorUnlocked += StopCheckingForButtonDialogue;
     }
@@ -31,8 +31,8 @@ public class Host : MonoBehaviour
         GameplayController.OnTimerUpdated -= CheckTimerForTimeDialogue;
         GameplayController.OnPlayerMistake -= () => dialogueCharacter.PlayRandomDialogue("Mistake");
         GameplayController.OnPlayerGuess -= () => dialogueCharacter.PlayRandomDialogue("Guess");
+        GameplayController.OnAllDifferencesSelected -= () => dialogueCharacter.PlayRandomDialogue("Victory");
         GameplayController.OnAllDifferencesSelected -= StartCheckingForButtonDialogue;
-        GameplayController.OnLevelEnd -= () => dialogueCharacter.PlayRandomDialogue("Victory");
 
         Door.OnExitDoorUnlocked += StopCheckingForButtonDialogue;
     }

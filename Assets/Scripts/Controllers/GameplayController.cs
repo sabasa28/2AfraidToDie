@@ -108,7 +108,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         Player.OnRespawn += RespawnPlayer;
 
         Door.OnDoorUnlocked += UnlockDoor;
-        Door.OnTimerTriggered += StartTimer;
+        Door.OnEntranceDoorOpen += StartTimer;
         LevelEnd.OnLevelEndReached += ProcessLevelEnd;
 
         Difference.OnSelected += CheckSelectedDifference;
@@ -140,7 +140,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         Player.OnRespawn -= RespawnPlayer;
 
         Door.OnDoorUnlocked -= UnlockDoor;
-        Door.OnTimerTriggered -= StartTimer;
+        Door.OnEntranceDoorOpen -= StartTimer;
         LevelEnd.OnLevelEndReached -= ProcessLevelEnd;
 
         Difference.OnSelected -= CheckSelectedDifference;

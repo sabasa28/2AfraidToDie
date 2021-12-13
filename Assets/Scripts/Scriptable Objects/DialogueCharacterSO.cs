@@ -20,12 +20,13 @@ public class DialogueCharacterSO : ScriptableObject
 
     [SerializeField] DialogueList[] dialogueLists;
 
-    public Dictionary<string, DialogueList> DialogueListsByName { private set; get; } = new Dictionary<string, DialogueList>();
+    public Dictionary<string, DialogueList> DialogueListsByName { private set; get; }
 
     public void Initialize()
     {
         audioManager = AudioManager.Get();
 
+        DialogueListsByName = new Dictionary<string, DialogueList>();
         foreach (DialogueList list in dialogueLists) DialogueListsByName.Add(list.name, list);
     }
 
@@ -42,7 +43,7 @@ public class DialogueCharacterSO : ScriptableObject
             return;
         }
 
-        audioManager.PlaySFX(DialogueListsByName[listName].audioClips[index]);
+        audioManager.PlayDialogue(DialogueListsByName[listName].audioClips[index]);
     }
 
     public void PlayRandomDialogue(string listName)
@@ -68,6 +69,6 @@ public class DialogueCharacterSO : ScriptableObject
 
         AudioClip clip = list.audioClips[index];
         DialogueListsByName[listName].SetLastRandomClipPlayed(clip);
-        audioManager.PlaySFX(clip);
+        audioManager.PlayDialogue(clip);
     }
 }

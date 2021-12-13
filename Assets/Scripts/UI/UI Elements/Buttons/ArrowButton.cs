@@ -1,8 +1,7 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ArrowButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ArrowButton : Clickable, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] GameObject arrowContainer = null;
     [SerializeField] GameObject leftArrow = null;
@@ -14,8 +13,10 @@ public class ArrowButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     RectTransform leftArrowRT;
     RectTransform rightArrowRT;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         rectTransform = GetComponent<RectTransform>();
         leftArrowRT = leftArrow.GetComponent<RectTransform>();
         rightArrowRT = rightArrow.GetComponent<RectTransform>();

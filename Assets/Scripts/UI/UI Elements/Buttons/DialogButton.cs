@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class DialogButton : MonoBehaviour
+public class DialogButton : Clickable
 {
     [SerializeField] TMP_Text text = null;
     Button button;
@@ -14,7 +14,12 @@ public class DialogButton : MonoBehaviour
     public DialogManager.ButtonType Type { private set; get; }
     public UnityAction OnPressed { private set; get; }
 
-    void Awake() => button = GetComponent<Button>();
+    protected override void Awake()
+    {
+        base.Awake();
+
+        button = GetComponent<Button>();
+    }
 
     public void Press() => button.onClick.Invoke();
 }

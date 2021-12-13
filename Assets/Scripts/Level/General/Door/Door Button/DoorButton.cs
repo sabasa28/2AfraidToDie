@@ -12,6 +12,11 @@ public class DoorButton : MonoBehaviour
     [SerializeField] Animator animator = null;
     [SerializeField] ButtonMissingPart missingPart = null;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource = null;
+    [Space]
+    [SerializeField] AudioClip pressSFX = null;
+
     static public event Action OnDoorUnlocked;
 
     void OnEnable()
@@ -20,7 +25,12 @@ public class DoorButton : MonoBehaviour
         Player.OnRespawn += ResetPressZone;
     }
 
-    void Start() { if (broken) pressZone.gameObject.SetActive(false); }
+    void Start()
+    {
+        if (broken) pressZone.gameObject.SetActive(false);
+
+        audioSource.clip = pressSFX;
+    }
 
     void OnDisable()
     {
@@ -48,6 +58,8 @@ public class DoorButton : MonoBehaviour
     {
         canBePressed = false;
         animator.SetTrigger("Press");
+
+        audioSource.Play();
 
         door.Unlock();
     }
