@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cuero_rojo
-  m_Shader: {fileID: 4800000, guid: 6b3836530fa04b04f87f9c708094d464, type: 3}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -75,4 +75,3 @@ Material:
     m_Colors:
     - _Color: {r: 0.3490566, g: 0.031283367, b: 0.031283367, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []

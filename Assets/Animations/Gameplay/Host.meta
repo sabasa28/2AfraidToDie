@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Art/Gameplay/Puzzles.meta
+guid: 0fe13c6d9b3a0ac4a9e416ccdce83bd2
+=======
 guid: a6ffae2d6cefb8f408eb52b44e085c75
+>>>>>>> 09fdd423d63da7db2e5426e7aeafde4aa9665822:Assets/Animations/Gameplay/Host.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
