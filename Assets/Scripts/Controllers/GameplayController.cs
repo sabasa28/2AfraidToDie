@@ -92,6 +92,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     public static event Action OnAllDifferencesSelected;
     public static event Action OnPuzzleWon;
     public static event Action OnLevelEnd;
+    public static event Action<int> OnRoomCompleted;
 
     public override void Awake()
     {
@@ -440,6 +441,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     {
         doors[currentDoor].Open();
         currentDoor++;
+        OnRoomCompleted(currentDoor);
         SetUpAreDoorsUnlockedProp();
         if (differencesSelected == differencesAmount) WinPuzzle();
     }
