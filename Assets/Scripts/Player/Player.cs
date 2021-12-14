@@ -146,4 +146,8 @@ public class Player : MonoBehaviour
 
         /*if (photonView.IsMine) */OnRespawn?.Invoke();
     }
+    public void SetAbleToMove(bool isAbleToMove)
+    {
+        movementController.ableToMove = isAbleToMove;
+    }
 }
