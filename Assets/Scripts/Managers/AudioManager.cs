@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
 {
@@ -43,11 +44,15 @@ public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
     [SerializeField, Range(0.0f, 1.0f)] float soundBaseVolume = 1.0f;
     [SerializeField, Range(0.0f, 1.0f)] float musicBaseVolume = 1.0f;
 
+    bool playingDialogue = false;
     GameManager gameManager;
 
     public bool SoundOn { set { soundOn = value; } get { return soundOn; } }
     public bool MusicOn { set { musicOn = value; } get { return musicOn; } }
     public Songs CurrentSong { private set; get; }
+
+    static public event Action<DialogueCharacterSO.Dialogue> OnDialoguePlayed;
+    static public event Action OnDialogueStopped;
 
     public override void Awake()
     {
@@ -70,6 +75,15 @@ public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
         musicAudioSource.volume = musicBaseVolume;
 
         foreach (AudioSource source in sfxAudioSources) source.volume = soundBaseVolume;
+    }
+
+    void Update()
+    {
+        if (playingDialogue && !sfxAudioSources[(int)SFXAudioSources.Dialogue].isPlaying)
+        {
+            playingDialogue = false;
+            OnDialogueStopped?.Invoke();
+        }
     }
 
     void OnDisable()
@@ -128,7 +142,7 @@ public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
         source.Play();
     }
 
-    public void PlayDialogue(AudioClip dialogue)
+    public void PlayDialogue(DialogueCharacterSO.Dialogue dialogue)
     {
         if (!soundOn) return;
 
@@ -136,9 +150,12 @@ public class AudioManager : PersistentMonoBehaviourSingleton<AudioManager>
 
         do source.Stop();
         while (source.isPlaying);
+        OnDialogueStopped?.Invoke();
 
-        source.clip = dialogue;
+        source.clip = dialogue.audioClip;
         source.Play();
+        playingDialogue = true;
+        OnDialoguePlayed?.Invoke(dialogue);
     }
 
     public void PlayMusic(Songs song)

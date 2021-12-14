@@ -13,7 +13,6 @@ public class UIManager_Gameplay : MonoBehaviour
 
     [Header("Dialogue")]
     [SerializeField] TextMeshProUGUI dialogueText = null;
-    [SerializeField] float dialogueDuration = 5.0f;
 
     [Header("Puzzle Info")]
     [SerializeField] TextMeshProUGUI differenceCounterText = null;
@@ -37,11 +36,12 @@ public class UIManager_Gameplay : MonoBehaviour
 
     void OnEnable()
     {
+        AudioManager.OnDialoguePlayed += DisplayDialogueSubtitle;
+        AudioManager.OnDialogueStopped += EraseDialogueSubtitle;
+
         GameplayController.OnTimerUpdated += UpdateTimerText;
         GameplayController.OnPlayerMistake += NegativeFeedback;
         GameplayController.OnLevelEnd += DisplayVictoryScreen;
-
-        DialogueManager.OnDialogueLinePlayed += UpdateDialogueText;
 
         Door.OnDoorClosed += HideControlsScreen;
     }
@@ -69,11 +69,12 @@ public class UIManager_Gameplay : MonoBehaviour
 
     void OnDisable()
     {
+        AudioManager.OnDialoguePlayed -= DisplayDialogueSubtitle;
+        AudioManager.OnDialogueStopped -= EraseDialogueSubtitle;
+
         GameplayController.OnTimerUpdated -= UpdateTimerText;
         GameplayController.OnPlayerMistake -= NegativeFeedback;
         GameplayController.OnLevelEnd -= DisplayVictoryScreen;
-
-        DialogueManager.OnDialogueLinePlayed -= UpdateDialogueText;
 
         Door.OnDoorClosed -= HideControlsScreen;
     }
@@ -110,12 +111,16 @@ public class UIManager_Gameplay : MonoBehaviour
     #endregion
 
     #region Dialogue
-    void UpdateDialogueText(DialogueManager.Characters character, string line)
+    void DisplayDialogueSubtitle(DialogueCharacterSO.Dialogue dialogue)
     {
-        string text = character.ToString() + ": " + line;
-        dialogueText.text = text;
+        dialogueText.text = dialogue.subtitle;
+        dialogueText.gameObject.SetActive(true);
+    }
 
-        StartCoroutine(EraseTextWithTimer(dialogueText, dialogueDuration));
+    void EraseDialogueSubtitle()
+    {
+        dialogueText.gameObject.SetActive(false);
+        dialogueText.text = "";
     }
     #endregion
 

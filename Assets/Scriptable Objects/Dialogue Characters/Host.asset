@@ -14,31 +14,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueLists:
   - name: Button press
-    audioClips:
-    - {fileID: 8300000, guid: 28de5f8d836f53644a59bf6bfdba3cc2, type: 3}
-    - {fileID: 8300000, guid: b63e810e378aa2f40a5f957a2636c447, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 28de5f8d836f53644a59bf6bfdba3cc2, type: 3}
+      subtitle: "\xBFQu\xE9 nunca hab\xEDas visto un bot\xF3n?"
+    - audioClip: {fileID: 8300000, guid: b63e810e378aa2f40a5f957a2636c447, type: 3}
+      subtitle: "Eeh... esto no es parte del juego, \xA1aprieta el bot\xF3n!"
+    lastRandomClipPlayed: {fileID: 0}
   - name: Guess
-    audioClips:
-    - {fileID: 8300000, guid: 0f65c0db71fe8714c9d87525f6307308, type: 3}
-    - {fileID: 8300000, guid: 0141125c3103bfe4a930e231e70bc8b0, type: 3}
-    - {fileID: 8300000, guid: 8e1cf8751cadf10478afe55f09f3f1ce, type: 3}
-    - {fileID: 8300000, guid: d77df92409b0a324bb648d5298eb8f9e, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 0f65c0db71fe8714c9d87525f6307308, type: 3}
+      subtitle: Ya era hora...
+    - audioClip: {fileID: 8300000, guid: 0141125c3103bfe4a930e231e70bc8b0, type: 3}
+      subtitle: "No te emociones, que todav\xEDa no ganaste."
+    - audioClip: {fileID: 8300000, guid: 8e1cf8751cadf10478afe55f09f3f1ce, type: 3}
+      subtitle: "Esa la hab\xEDa visto yo... hace diez minutos."
+    - audioClip: {fileID: 8300000, guid: d77df92409b0a324bb648d5298eb8f9e, type: 3}
+      subtitle: "Esa diferencia la podr\xEDa haber encontrado una planta."
+    lastRandomClipPlayed: {fileID: 0}
   - name: Introduction
-    audioClips:
-    - {fileID: 8300000, guid: 6a517757434eaef45b6b58d93a37d9bd, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 6a517757434eaef45b6b58d93a37d9bd, type: 3}
+      subtitle: "Bienvenidos, queridos televidentes, a una nueva edici\xF3n de su
+        programa favorito. En esta ocasi\xF3n, veremos a dos participantes humanos
+        entrar a habitaciones casi id\xE9nticas y tratar de encontrar las diferencias
+        entre ellas \xBFPodr\xE1n hacerlo... o demostrar\xE1n nuevamente la incompetencia
+        humana?"
+    lastRandomClipPlayed: {fileID: 0}
   - name: Running out of time
-    audioClips:
-    - {fileID: 8300000, guid: 0f45875a4cca3614e974e07ec345b935, type: 3}
-    - {fileID: 8300000, guid: d1d57f2186d5cf8449dc86cf4ebab780, type: 3}
-    - {fileID: 8300000, guid: 48d123c202b3ea3459aa55e51153f6da, type: 3}
-    - {fileID: 8300000, guid: e47d9bf3c8313674a81fc3bdd180a1bc, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 0f45875a4cca3614e974e07ec345b935, type: 3}
+      subtitle: "Se est\xE1 agotando el tiempo... y mi paciencia."
+    - audioClip: {fileID: 8300000, guid: d1d57f2186d5cf8449dc86cf4ebab780, type: 3}
+      subtitle: "\xBFNo est\xE1s mirando el reloj? \xA1Queda poco tiempo!"
+    - audioClip: {fileID: 8300000, guid: 48d123c202b3ea3459aa55e51153f6da, type: 3}
+      subtitle: Queda poco tiempo...
+    - audioClip: {fileID: 8300000, guid: e47d9bf3c8313674a81fc3bdd180a1bc, type: 3}
+      subtitle: Tic... tac... tic... tac...
+    lastRandomClipPlayed: {fileID: 0}
   - name: Mistake
-    audioClips:
-    - {fileID: 8300000, guid: 1a215d927d3d0ba4d98ffb197cb75794, type: 3}
-    - {fileID: 8300000, guid: 4d58862ea67906c44b3bd60d370622eb, type: 3}
-    - {fileID: 8300000, guid: c4fa20ddf5fb51740a90c81cadb8011a, type: 3}
-    - {fileID: 8300000, guid: 27dfb2c51de658849bcdbee2161ca353, type: 3}
-    - {fileID: 8300000, guid: 051a8659a9b72f34fb7c5a10d0d1f635, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 1a215d927d3d0ba4d98ffb197cb75794, type: 3}
+      subtitle: "Fr\xEDo..."
+    - audioClip: {fileID: 8300000, guid: 4d58862ea67906c44b3bd60d370622eb, type: 3}
+      subtitle: "Creo que te est\xE1s equivocando."
+    - audioClip: {fileID: 8300000, guid: c4fa20ddf5fb51740a90c81cadb8011a, type: 3}
+      subtitle: Evidentemente, esa no es una diferencia.
+    - audioClip: {fileID: 8300000, guid: 27dfb2c51de658849bcdbee2161ca353, type: 3}
+      subtitle: "Si tu idea es fracasar, lo est\xE1s logrando."
+    - audioClip: {fileID: 8300000, guid: 051a8659a9b72f34fb7c5a10d0d1f635, type: 3}
+      subtitle: Mmm.... nop.
+    lastRandomClipPlayed: {fileID: 0}
   - name: Victory
-    audioClips:
-    - {fileID: 8300000, guid: 09b64fbbb69f31141b67b4b959502218, type: 3}
+    dialogues:
+    - audioClip: {fileID: 8300000, guid: 09b64fbbb69f31141b67b4b959502218, type: 3}
+      subtitle: "\xA1Felicitaciones, encontraste todas las diferencias! Nada mal...
+        para un humano. Pero todav\xEDa quedan m\xE1s salas que completar."
+    lastRandomClipPlayed: {fileID: 0}
