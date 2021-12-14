@@ -513,7 +513,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4722544134363755433, guid: 70e01c9deb5c1654592c8e153687611c, type: 3}
+  m_Mesh: {fileID: 4722544134363755433, guid: 9563ea1515c404848859e08a6d029973, type: 3}
 --- !u!114 &3078855245141139424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ MonoBehaviour:
   clickFadeDuration: 0.5
   active: 1
   posB: {x: 168, y: 335, z: -738}
-  rotB: {x: 0, y: 176.599, z: -90.00001}
+  rotB: {x: 0, y: 0, z: 0}
 --- !u!1 &1569052330520404706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2539,7 +2539,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2139622711980459370, guid: 70e01c9deb5c1654592c8e153687611c, type: 3}
+  m_Mesh: {fileID: 2139622711980459370, guid: 2f9b34db0e604ac4597710aa191e028f, type: 3}
 --- !u!114 &6284816196710886074
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2557,7 +2557,7 @@ MonoBehaviour:
   clickFadeDuration: 0.5
   active: 1
   posB: {x: 526, y: 229, z: -126}
-  rotB: {x: 0, y: 90, z: 0}
+  rotB: {x: 0, y: 270, z: 0}
 --- !u!1 &7141707734115089391
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,7 +2805,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -6938172986419142552, guid: 70e01c9deb5c1654592c8e153687611c, type: 3}
+  m_Mesh: {fileID: -6938172986419142552, guid: 6122e01a0a49e6e489e6cf312c33b7e6, type: 3}
 --- !u!114 &8352824015596545005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2918,7 +2918,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: -6938172986419142552, guid: 70e01c9deb5c1654592c8e153687611c, type: 3}
+  m_Mesh: {fileID: -6938172986419142552, guid: 6122e01a0a49e6e489e6cf312c33b7e6, type: 3}
 --- !u!114 &8321661649165341890
 MonoBehaviour:
   m_ObjectHideFlags: 0
