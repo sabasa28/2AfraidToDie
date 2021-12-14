@@ -17,6 +17,10 @@ public class Host : MonoBehaviour
     [SerializeField] Animator GfxAnimator;
     int currentStopPoint = 0;
 
+    [Header("Cinematic")]
+    [SerializeField] Vector3 positionInCinematic;
+    [SerializeField] Transform cameraPivot;
+    [SerializeField] GameObject cinematicCamera;
 
     void Awake() => dialogueCharacter.Initialize();
 
@@ -25,7 +29,7 @@ public class Host : MonoBehaviour
         GameplayController.OnTimerUpdated += CheckTimerForTimeDialogue;
         GameplayController.OnPlayerMistake += () => dialogueCharacter.PlayRandomDialogue("Mistake");
         GameplayController.OnPlayerGuess += () => dialogueCharacter.PlayRandomDialogue("Guess");
-        GameplayController.OnAllDifferencesSelected += () => dialogueCharacter.PlayRandomDialogue("Victory");
+        GameplayController.OnAllDifferencesSelected += () => dialogueCharacter.PlayRandomDialogue("Guess");
         GameplayController.OnAllDifferencesSelected += StartCheckingForButtonDialogue;
         GameplayController.OnRoomCompleted += AdvanceToNextStop;
 
@@ -39,7 +43,7 @@ public class Host : MonoBehaviour
         GameplayController.OnTimerUpdated -= CheckTimerForTimeDialogue;
         GameplayController.OnPlayerMistake -= () => dialogueCharacter.PlayRandomDialogue("Mistake");
         GameplayController.OnPlayerGuess -= () => dialogueCharacter.PlayRandomDialogue("Guess");
-        GameplayController.OnAllDifferencesSelected -= () => dialogueCharacter.PlayRandomDialogue("Victory");
+        GameplayController.OnAllDifferencesSelected -= () => dialogueCharacter.PlayRandomDialogue("Guess");
         GameplayController.OnAllDifferencesSelected -= StartCheckingForButtonDialogue;
         GameplayController.OnRoomCompleted -= AdvanceToNextStop;
 
@@ -89,25 +93,44 @@ public class Host : MonoBehaviour
 
     public void AdvanceToNextStop(int door)
     {
+        Vector3 posToGoTo;
+        
         if (door <= currentStopPoint) return;
         currentStopPoint++;
-        StartCoroutine(AdvanceAndStop());
+
+        if (currentStopPoint > stopPoints.Length - 1)
+        {
+            posToGoTo = positionInCinematic;
+        }
+        else posToGoTo = new Vector3(stopPoints[currentStopPoint], transform.position.y, transform.position.z);
+        
+        StartCoroutine(AdvanceAndStop(posToGoTo));
     }
 
-    IEnumerator AdvanceAndStop()
+    IEnumerator AdvanceAndStop(Vector3 posToAdvanceTo)
     {
         GfxAnimator.SetBool("Advance", true);
         yield return new WaitForSeconds(0.5f);
         Vector3 startingPos = transform.position;
         float t = 0;
-        while (transform.position.x > stopPoints[currentStopPoint])
+        while (transform.position != posToAdvanceTo)
         {
-            transform.position = Vector3.Lerp(startingPos, new Vector3(stopPoints[currentStopPoint],startingPos.y,startingPos.z), t);
+            transform.position = Vector3.Lerp(startingPos, posToAdvanceTo, t);
             t += Time.deltaTime * movementSpeed;
             if (t > 1.0f) t = 1.0f;
             yield return null;
         }
         GfxAnimator.SetBool("Advance", false);
+        if (currentStopPoint > stopPoints.Length - 1)
+        {
+            GfxAnimator.SetBool("Cinematic",true);
+            yield return new WaitForSeconds(2);
+            dialogueCharacter.PlayRandomDialogue("Victory");
+            Camera.main.gameObject.SetActive(false);
+            cinematicCamera.SetActive(true);
+            yield return new WaitForSeconds(8);
+            GameplayController.Get().ProcessLevelEnd();
+        }
     }
 
     #endregion

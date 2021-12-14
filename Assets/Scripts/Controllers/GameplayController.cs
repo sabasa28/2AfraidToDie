@@ -149,7 +149,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
     void TogglePause(bool onPause) => OnPause = onPause;
 
-    void ProcessLevelEnd()
+    public void ProcessLevelEnd()
     {
         player.movementController.SetCursorLockState(false);
         player.movementController.SetRotationActiveState(false);
@@ -442,6 +442,7 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
         doors[currentDoor].Open();
         currentDoor++;
         OnRoomCompleted(currentDoor);
+        if (currentDoor >= doors.Length) player.SetAbleToMove(false);
         SetUpAreDoorsUnlockedProp();
         if (differencesSelected == differencesAmount) WinPuzzle();
     }
