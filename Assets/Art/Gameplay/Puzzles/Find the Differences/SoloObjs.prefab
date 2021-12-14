@@ -1522,7 +1522,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  posB: {x: 0, y: 0, z: 0}
+  posB: {x: 3.08, y: 0, z: 0}
   rotB: {x: 0, y: 0, z: 0}
 --- !u!1 &4936864317671877005
 GameObject:
@@ -1635,7 +1635,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  posB: {x: 0, y: 0, z: 0}
+  posB: {x: 3.08, y: 0, z: 0}
   rotB: {x: 0, y: 0, z: 0}
 --- !u!1 &5467294413510940955
 GameObject:
@@ -1975,7 +1975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5873603242934011561}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1587, y: 57.000015, z: -2672}
+  m_LocalPosition: {x: 1651, y: 57.000015, z: -2672}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7518656172785049941}
@@ -2073,9 +2073,9 @@ GameObject:
   - component: {fileID: 4850490992558785350}
   - component: {fileID: 941939416540399593}
   - component: {fileID: 9210954509150167455}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SillaGamer_low
-  m_TagString: Untagged
+  m_TagString: Difference Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2936,7 +2936,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  posB: {x: 0, y: 0, z: 0}
+  posB: {x: 3.08, y: 0, z: 0}
   rotB: {x: 0, y: 0, z: 0}
 --- !u!1 &7674689362353020623
 GameObject:
@@ -3049,7 +3049,7 @@ MonoBehaviour:
   clickFadeAlpha: 1
   clickFadeDuration: 0.5
   active: 1
-  posB: {x: 0, y: 0, z: 0}
+  posB: {x: 3.08, y: 0, z: 0}
   rotB: {x: 0, y: 0, z: 0}
 --- !u!1 &8326925318700026240
 GameObject:
