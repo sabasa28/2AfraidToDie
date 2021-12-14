@@ -10,7 +10,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
     [HideInInspector] public bool playingAsPA;
 
     [SerializeField] UIManager_Gameplay uiManager = null;
-    [SerializeField] DialogueManager dialogueManager = null;
     NetworkManager networkManager;
     PhotonView photonView;
 
@@ -131,8 +130,6 @@ public class GameplayController : MonoBehaviourSingleton<GameplayController>
 
         timer = timerInitialDuration;
         OnTimerUpdated?.Invoke(timer);
-
-        dialogueManager.PlayDialogueLine(dialogueManager.categories[(int)DialogueManager.DialogueCategories.PuzzleIntructions].lines[0]);
     }
 
     void OnDisable()

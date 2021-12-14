@@ -6,14 +6,19 @@ using UnityEngine;
 public class DialogueCharacterSO : ScriptableObject
 {
     [Serializable]
+    public struct Dialogue
+    {
+        public AudioClip audioClip;
+        [TextArea] public string subtitle;
+    }
+
+    [Serializable]
     public struct DialogueList
     {
         public string name;
 
-        public AudioClip[] audioClips;
+        public Dialogue[] dialogues;
         [HideInInspector] public AudioClip lastRandomClipPlayed;
-
-        public void SetLastRandomClipPlayed(AudioClip clip) => lastRandomClipPlayed = clip;
     }
 
     AudioManager audioManager;
@@ -37,13 +42,13 @@ public class DialogueCharacterSO : ScriptableObject
             Debug.LogError("Can not play dialogue: the given list does not exist");
             return;
         }
-        else if (index < 0 || index >= DialogueListsByName[listName].audioClips.Length)
+        else if (index < 0 || index >= DialogueListsByName[listName].dialogues.Length)
         {
             Debug.LogError("Can not play dialogue: index is out of range");
             return;
         }
 
-        audioManager.PlayDialogue(DialogueListsByName[listName].audioClips[index]);
+        audioManager.PlayDialogue(DialogueListsByName[listName].dialogues[index]);
     }
 
     public void PlayRandomDialogue(string listName)
@@ -57,20 +62,20 @@ public class DialogueCharacterSO : ScriptableObject
         int index = 0;
         DialogueList list = DialogueListsByName[listName];
 
-        if (list.audioClips.Length > 1)
+        if (list.dialogues.Length > 1)
         {
             if (list.lastRandomClipPlayed)
             {
-                do index = UnityEngine.Random.Range(0, list.audioClips.Length);
-                while (list.audioClips[index] == list.lastRandomClipPlayed);
+                do index = UnityEngine.Random.Range(0, list.dialogues.Length);
+                while (list.dialogues[index].audioClip == list.lastRandomClipPlayed);
             }
-            else index = UnityEngine.Random.Range(0, list.audioClips.Length);
+            else index = UnityEngine.Random.Range(0, list.dialogues.Length);
         }
 
-        AudioClip clip = list.audioClips[index];
-        list.lastRandomClipPlayed = clip;
+        Dialogue dialogue = list.dialogues[index];
+        list.lastRandomClipPlayed = dialogue.audioClip;
         DialogueListsByName[listName] = list;
 
-        audioManager.PlayDialogue(clip);
+        audioManager.PlayDialogue(dialogue);
     }
 }
